@@ -1,0 +1,4 @@
+{"run_id": "S1-B2-s0007", "t_s": 61.02, "source": "generator", "metric": "latency_ms", "value": 23.4, "host": "laptop", "traffic_id": "call", "profile": "video_call", "true_class": "multimedia_conferencing", "direction": "up"}
+{"run_id": "S1-B2-s0007", "t_s": 62.0, "source": "generator", "metric": "throughput_kbit", "value": 91250.0, "host": "desktop", "traffic_id": "download", "profile": "bulk_download", "true_class": "high_throughput_data", "direction": "down"}
+{"run_id": "S1-B2-s0007", "t_s": 62.0, "source": "cake", "metric": "queue_delay_ms", "value": 4.8, "tin": "best_effort", "direction": "down"}
+{"run_id": "S1-B2-s0007", "t_s": 62.0, "source": "system", "metric": "cpu_percent", "value": 3.1, "component": "cake"}

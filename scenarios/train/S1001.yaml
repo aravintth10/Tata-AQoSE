@@ -1,0 +1,54 @@
+schema_version: 1
+id: S1001
+name: 'training mix 1: voice_call, web_browsing, bulk_download, voice_call, voice_call'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 10000
+  up_kbit: 2000
+  delay_ms: 60
+  loss_pct: 0.1
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-voice-call
+  host: desktop
+  profile: voice_call
+  start_s: 4.1
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-web-browsing
+  host: tv1
+  profile: web_browsing
+  start_s: 10.5
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t2-bulk-download
+  host: laptop
+  profile: bulk_download
+  start_s: 8.4
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-voice-call
+  host: desktop
+  profile: voice_call
+  start_s: 6.8
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-voice-call
+  host: laptop
+  profile: voice_call
+  start_s: 1.8
+  stop_s: null
+  params:
+    ip_version: 6
+events: []
+primary_metrics:
+- latency_ms

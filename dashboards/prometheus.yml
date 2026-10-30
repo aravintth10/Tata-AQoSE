@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 1s
+  evaluation_interval: 1s
+
+scrape_configs:
+  # aqos-exporter, which follows the current run's metrics.jsonl. When it is
+  # not running, `up{job="aqos"}` is 0: the dashboard's alert panel (chunk
+  # 5E) shows that instead of an empty graph.
+  - job_name: aqos
+    static_configs:
+      - targets: ["127.0.0.1:9108"]

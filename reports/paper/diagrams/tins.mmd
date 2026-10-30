@@ -1,0 +1,22 @@
+flowchart LR
+    IN(["All traffic of the home<br/>100 Mbit/s line"]) --> SH["CAKE shaper<br/>95 Mbit/s, so the queue<br/>stays in the router"]
+    SH --> MK{"conntrack mark<br/>set by AQoSE"}
+    MK -->|"mark 4: voice calls,<br/>games, cloud games"| V["VOICE tin<br/>priority up to 25%<br/>23.75 Mbit/s"]
+    MK -->|"mark 3: video calls,<br/>streaming"| VI["VIDEO tin<br/>priority up to 50%<br/>47.5 Mbit/s"]
+    MK -->|"mark 2 or none:<br/>web, downloads"| BE["BEST EFFORT tin<br/>up to 100%<br/>95 Mbit/s"]
+    MK -->|"mark 1: backups,<br/>peer-to-peer"| BU["BULK tin<br/>kept at least 6.25%<br/>5.9 Mbit/s"]
+    V --> F1["Inside every tin:<br/>fair between devices,<br/>then between each<br/>device's connections"]
+    VI --> F1
+    BE --> F1
+    BU --> F1
+    F1 --> OUT(["Line to the internet<br/>queue delay a few ms"])
+    classDef ends fill:#5242c4,stroke:#5242c4,color:#ffffff
+    classDef v fill:#1d3557,stroke:#1d3557,color:#ffffff
+    classDef vi fill:#457b9d,stroke:#457b9d,color:#ffffff
+    classDef be fill:#a8c5da,stroke:#457b9d,color:#171a2b
+    classDef bu fill:#dde8f0,stroke:#457b9d,color:#171a2b
+    class IN,OUT ends
+    class V v
+    class VI vi
+    class BE be
+    class BU bu

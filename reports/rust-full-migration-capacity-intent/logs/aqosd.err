@@ -1,0 +1,2 @@
+aqosd-rs: ML service is lgbm-v2-b3f691d8, deciding by expected_damage
+aqosd-rs: {"cpu_s":0.633030614,"decision_rule":"expected_damage","extractor":{"overflows":0,"packets":16,"untracked":0},"flows":{"errors":0,"flow_gone":0,"held":0,"held_back":0,"improved":1,"labelled":2,"mismatch":0,"over_cap":0,"rate_changes":8,"rechecks":0,"records":2,"refused":0,"regressed":1,"rejected":0,"relabelled":0,"rolled_back":1,"service_busy":0,"service_down":0,"timeouts":0,"triggers":6,"unchanged":6,"watched":4,"windows":68},"model_version":"lgbm-v2-b3f691d8","shield":{"ok":9,"rate_step":1}}

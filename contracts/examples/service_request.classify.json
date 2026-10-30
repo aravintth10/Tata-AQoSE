@@ -1,0 +1,37 @@
+{
+  "op": "classify",
+  "id": 412,
+  "record": {
+    "schema_version": 1,
+    "flow_id": "3fa9c1d2e4b50761",
+    "host_id": "a1b2c3d4e5f60718",
+    "kind": "initial",
+    "ts_ns": 41250000000,
+    "ip_version": 4,
+    "protocol": 17,
+    "src_port": 51820,
+    "dst_port": 3478,
+    "pkt_sizes": [
+      128,
+      -112,
+      1100,
+      1100,
+      -980,
+      1100,
+      -1012,
+      1100
+    ],
+    "pkt_gaps_us": [
+      18400,
+      2100,
+      310,
+      19800,
+      420,
+      20100,
+      380
+    ],
+    "window": null
+  },
+  "previous_tin": null,
+  "leased_classes": []
+}

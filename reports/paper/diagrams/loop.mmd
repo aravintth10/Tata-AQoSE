@@ -1,0 +1,26 @@
+flowchart TD
+    N(["New connection"]) --> P["Packets 1 to 8 reach the extractor"]
+    P --> R1["Initial record:<br/>sizes, gaps, ports, protocol"]
+    R1 --> C["Classify: 259 trees, about 6 µs"]
+    C --> D["Decide: lowest expected damage,<br/>Voice bar, demotion bar, bulk guard"]
+    D --> S{{"Shield"}}
+    S -->|"accept"| M["Write the mark, read it back"]
+    S -.->|"reject"| U(["Unchanged"])
+    M --> W["Every second: conntrack counters<br/>give a window of 9 statistics"]
+    W --> E{{"2 or more statistics outside<br/>the class's 5th to 95th percentile?"}}
+    E -->|"no"| Q{{"Routine recheck due?<br/>random, 30 to 60 s"}}
+    Q -->|"no"| W
+    Q -->|"yes"| R2
+    E -->|"yes"| K{{"Outside long enough?<br/>2 s in Voice or Video,<br/>about 6 s in Best Effort or Bulk"}}
+    K -->|"not yet"| W
+    K -->|"yes"| R2["Window record: classify again"]
+    R2 --> C2{{"Same tin as now?"}}
+    C2 -->|"yes"| B["Back off: 5 s, doubling to 40 s"]
+    B --> W
+    C2 -->|"no"| S
+    M -.->|"promoted into Voice or Video"| V{{"10 s later:<br/>tin delay worse in both windows?"}}
+    V -->|"yes"| X["Undo the promotion,<br/>no new promotion for 60 s"]
+    X --> S
+    V -->|"no"| W
+    classDef ends fill:#5242c4,stroke:#5242c4,color:#ffffff
+    class N ends

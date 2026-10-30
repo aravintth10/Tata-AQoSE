@@ -1,0 +1,7 @@
+{
+  "id": 413,
+  "ok": true,
+  "model_version": "rf-2026-10-09-a",
+  "decision_rule": "expected_damage",
+  "ready": true
+}

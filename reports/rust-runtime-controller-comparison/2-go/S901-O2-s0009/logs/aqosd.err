@@ -1,0 +1,2 @@
+aqosd: ML service is lgbm-v2-b3f691d8, deciding by expected_damage
+aqosd: 0 rate changes; 2 flows seen, 2 labelled, 0 rejected by the shield, 0 over the cap, 0 without an answer (0 timeouts, 0 down, 0 busy, 0 refused), 0 ended first, 0 mismatches, 0 errors; extractor read 16 packets, 0 overflows, 0 flows untracked

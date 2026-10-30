@@ -1,0 +1,9 @@
+apiVersion: 1
+providers:
+  - name: aqos
+    type: file
+    disableDeletion: true
+    allowUiUpdates: false
+    updateIntervalSeconds: 10
+    options:
+      path: /etc/grafana/provisioning/dashboards

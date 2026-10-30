@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "classes": {
+    "telephony": { "dscp": "EF", "tin": "voice" },
+    "realtime_interactive": { "dscp": "CS4", "tin": "voice" },
+    "multimedia_conferencing": { "dscp": "AF41", "tin": "video" },
+    "multimedia_streaming": { "dscp": "AF31", "tin": "video" },
+    "standard": { "dscp": "CS0", "tin": "best_effort" },
+    "high_throughput_data": { "dscp": "AF11", "tin": "best_effort" },
+    "low_priority_data": { "dscp": "CS1", "tin": "bulk" }
+  },
+  "tins": {
+    "voice": { "dscp": "EF" },
+    "video": { "dscp": "AF31" },
+    "best_effort": { "dscp": "CS0" },
+    "bulk": { "dscp": "CS1" }
+  },
+  "dscp": {
+    "EF": { "value": 46, "tin": "voice" },
+    "CS4": { "value": 32, "tin": "voice" },
+    "AF41": { "value": 34, "tin": "video" },
+    "AF31": { "value": 26, "tin": "video" },
+    "CS0": { "value": 0, "tin": "best_effort" },
+    "AF11": { "value": 10, "tin": "best_effort" },
+    "CS1": { "value": 8, "tin": "bulk" }
+  },
+  "profiles": {
+    "voice_call": "telephony",
+    "video_call": "multimedia_conferencing",
+    "gaming": "realtime_interactive",
+    "cloud_gaming": "realtime_interactive",
+    "abr_video": "multimedia_streaming",
+    "web_browsing": "standard",
+    "flow_storm": "standard",
+    "bulk_download": "high_throughput_data",
+    "game_update": "high_throughput_data",
+    "backup_upload": "low_priority_data",
+    "p2p": "low_priority_data"
+  },
+  "default_class": "standard",
+  "configs": ["B0", "B1", "B2", "B3", "B4", "O1", "O2", "D1", "D2", "D3", "D4"]
+}

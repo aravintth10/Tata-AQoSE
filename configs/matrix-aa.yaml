@@ -1,0 +1,12 @@
+# A/A runs (chunk 8A): plain CAKE again on the seeds of the full matrix.
+# Two runs of one seed have the same traffic, so what differs between them
+# is noise, and "no worse than CAKE" is judged against it. 90 runs, about
+# five and a half hours. Into its own directory, since run ids would clash:
+#
+#   PYTHONPATH=ml .venv/bin/python -m aqos_ml.run matrix configs/matrix-aa.yaml --results results-aa
+#   PYTHONPATH=ml .venv/bin/python -m aqos_ml.report --results results-core --aa results-aa --out reports/core.md
+scenarios: [S7, S6, S8, S5, S1, S2, S3, S4, S10]
+configs: [B2]
+seeds: {from: 0, to: 9}
+by: seed
+tag: aa

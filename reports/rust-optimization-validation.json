@@ -1,0 +1,181 @@
+{
+  "generated_at": "2026-10-21T17:04:57.169628+00:00",
+  "commands": {
+    "rust": "make test-rust",
+    "benchmark": ".venv/bin/python scripts/bench-rust.py --out reports/rust-optimization.json --baseline-dir bin/rust-baseline",
+    "testbed": "AQOS_INTEGRATION=1 AQOS_SERVICE=rust .venv/bin/pytest -q -s ml/tests/test_controller_testbed.py::test_model_in_the_controller"
+  },
+  "results": {
+    "rust_library_tests": 5,
+    "rust_compile_fail_tests": 1,
+    "backend_python_tests": 6,
+    "reference_records": 2000,
+    "socket_parity_requests": 4000,
+    "probability_tolerance": 1e-09,
+    "clippy": "passed with -D warnings",
+    "format": "passed",
+    "live_integration_test": "passed (both decision modes)"
+  },
+  "logs": [
+    "reports/rust-optimization-tests.txt",
+    "reports/rust-optimization-testbed.txt"
+  ],
+  "benchmark": "reports/rust-optimization.json",
+  "testbed_runs": [
+    {
+      "manifest": {
+        "schema_version": 1,
+        "run_id": "S901-O1-s0007",
+        "scenario_id": "S901",
+        "config": "O1",
+        "seed": 7,
+        "attempt": 1,
+        "tag": null,
+        "started_at": "2026-10-21T22:34:07+05:30",
+        "duration_s": 20,
+        "warmup_s": 4,
+        "valid": true,
+        "invalid_reason": null,
+        "versions": {
+          "git_commit": "4eebba6+dirty",
+          "kernel": "7.2.8-100.fc43.x86_64",
+          "iproute2": "6.14.0, libbpf 1.6.1",
+          "model_version": "lgbm-v2-b3f691d8"
+        }
+      },
+      "environment": {
+        "testbed_mode": "rootless",
+        "cpus": 16,
+        "python": "3.14.7",
+        "shaper_pct": "95",
+        "estimator": true,
+        "reclassifier": true,
+        "aqosd_args": "",
+        "serve_args": "",
+        "service": "rust"
+      },
+      "controller": {
+        "cpu_s": 0.765908,
+        "decision_rule": "top_label",
+        "extractor": {
+          "overflows": 0,
+          "packets": 40,
+          "untracked": 0
+        },
+        "flows": {
+          "records": 5,
+          "labelled": 5,
+          "rate_changes": 0,
+          "over_cap": 0,
+          "service_down": 0,
+          "service_busy": 0,
+          "timeouts": 0,
+          "refused": 0,
+          "rejected": 0,
+          "flow_gone": 0,
+          "mismatch": 0,
+          "errors": 0,
+          "relabelled": 0,
+          "windows": 93,
+          "unchanged": 3,
+          "held": 0,
+          "triggers": 3,
+          "rechecks": 0,
+          "watched": 1,
+          "regressed": 0,
+          "improved": 0,
+          "rolled_back": 0,
+          "held_back": 0
+        },
+        "model_version": "lgbm-v2-b3f691d8",
+        "shield": {
+          "ok": 5
+        }
+      },
+      "artifacts": "results-rust-optimization-validation-20261021/S901-O1-s0007"
+    },
+    {
+      "manifest": {
+        "schema_version": 1,
+        "run_id": "S901-O2-s0007",
+        "scenario_id": "S901",
+        "config": "O2",
+        "seed": 7,
+        "attempt": 1,
+        "tag": null,
+        "started_at": "2026-10-21T22:33:36+05:30",
+        "duration_s": 20,
+        "warmup_s": 4,
+        "valid": true,
+        "invalid_reason": null,
+        "versions": {
+          "git_commit": "4eebba6+dirty",
+          "kernel": "7.2.8-100.fc43.x86_64",
+          "iproute2": "6.14.0, libbpf 1.6.1",
+          "model_version": "lgbm-v2-b3f691d8"
+        }
+      },
+      "environment": {
+        "testbed_mode": "rootless",
+        "cpus": 16,
+        "python": "3.14.7",
+        "shaper_pct": "95",
+        "estimator": true,
+        "reclassifier": true,
+        "aqosd_args": "",
+        "serve_args": "",
+        "service": "rust"
+      },
+      "controller": {
+        "cpu_s": 0.731953,
+        "decision_rule": "expected_damage",
+        "extractor": {
+          "overflows": 0,
+          "packets": 40,
+          "untracked": 0
+        },
+        "flows": {
+          "records": 5,
+          "labelled": 5,
+          "rate_changes": 0,
+          "over_cap": 0,
+          "service_down": 0,
+          "service_busy": 0,
+          "timeouts": 0,
+          "refused": 0,
+          "rejected": 0,
+          "flow_gone": 0,
+          "mismatch": 0,
+          "errors": 0,
+          "relabelled": 0,
+          "windows": 93,
+          "unchanged": 3,
+          "held": 0,
+          "triggers": 3,
+          "rechecks": 0,
+          "watched": 1,
+          "regressed": 0,
+          "improved": 0,
+          "rolled_back": 0,
+          "held_back": 0
+        },
+        "model_version": "lgbm-v2-b3f691d8",
+        "shield": {
+          "ok": 5
+        }
+      },
+      "artifacts": "results-rust-optimization-validation-20261021/S901-O2-s0007"
+    }
+  ],
+  "rust_binary_sha256": "6d751c03d7faac4689cae2ca62f2d541c868eda66fdcd02f2a3703e94675c99d",
+  "source_sha256": {
+    "rust/aqos-classify/Cargo.toml": "4a2cf7dc81d9d6b7fa22ec6e96b808a31fd93efc7edc2d073c9639d9af5baba0",
+    "rust/aqos-classify/Cargo.lock": "f0d51ba2ebedef6fadad226907529247bacf27baacd29d7c121857f13c425fdb",
+    "rust/aqos-classify/src/lib.rs": "bf90cc8eb931cc76c0f0bdaa38b6c0fb19b36e4f17338fe07cd83d12c7cf2846",
+    "rust/aqos-classify/src/main.rs": "71d1157373f40c1dea2761a81f0356f7079e6f0f527894bc49f93e92d6fd0411",
+    "rust/aqos-classify/src/bin/aqos-core-bench-rs.rs": "07a2baca614873ee28ce7a8a50614b611e987caad9f12258638d4c07980e7882",
+    "rust/aqos-classify/tests/parity.rs": "6047669c03e891b1d3937175ec6d032921b253b65fe899d054436689b9a76e2b",
+    "scripts/bench-rust.py": "a6dd458ccb1aac37d38b7bb13ebb91b7bdabf7365b0bb9044a0a8b79e23a63b7"
+  },
+  "limits": "Laptop measurements. Sequential warmed socket traffic, RSS snapshot rather than peak. Integration runs verify controller/shield/CAKE compatibility; no comparative router QoE or capacity claim. Rust memory difference versus previous Rust is within noise. Binary shrink includes symbol stripping."
+}

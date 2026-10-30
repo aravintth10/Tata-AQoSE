@@ -1,0 +1,6 @@
+03:17:49 testbed up (rootless): scenario S903, 2 hosts, ping4 and ping6 pass
+link: down 100000 kbit, up 20000 kbit, delay 10 ms, jitter 0 ms, loss 0%
+03:17:50 B2: cake diffserv4, down 95000 kbit on ifb0, up 19000 kbit on wan0
+03:18:13 event at 20 s: link_rate direction=down rate_kbit=20000 -> link: down 20000 kbit, up 20000 kbit, delay 10 ms, jitter 0 ms, loss 0%
+03:18:43 event at 50 s: link_rate direction=down rate_kbit=100000 -> link: down 100000 kbit, up 20000 kbit, delay 10 ms, jitter 0 ms, loss 0%
+03:19:13 event at 80 s: link_rate direction=down rate_kbit=20000 -> link: down 20000 kbit, up 20000 kbit, delay 10 ms, jitter 0 ms, loss 0%

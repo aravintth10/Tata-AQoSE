@@ -1,0 +1,31 @@
+flowchart TD
+    P(["Any proposal: a label, a rate, an undo"]) --> V1{{"Valid against the contract,<br/>DSCP matches the tin?"}}
+    V1 -.->|"no"| RJ["Reject: nothing changes"]
+    V1 -->|"yes"| V2{{"Still current?<br/>the from-tin or rate is unchanged"}}
+    V2 -.->|"no, stale"| RJ
+    V2 -->|"yes"| V3{{"Flip cap: third tin change<br/>for this flow within 60 s?"}}
+    V3 -.->|"yes"| PIN["Reject and pin the flow<br/>unlabelled for good"]
+    V3 -->|"no"| V4{{"Under 50 re-marks<br/>per second in total?"}}
+    V4 -.->|"no"| RJ
+    V4 -->|"yes"| R{{"A rate?"}}
+    R -->|"no, a label"| EN
+    R -->|"yes"| R1["Clamp into the configured<br/>minimum and maximum"]
+    R1 --> R2["Clamp each step to +10% or -50%"]
+    R2 --> R3{{"An increase within 10 s<br/>of the last one?"}}
+    R3 -.->|"yes"| RJ
+    R3 -->|"no"| EN["Enforcer: snapshot, apply"]
+    EN --> RB{{"Read back equals<br/>what was asked?"}}
+    RB -.->|"no"| RS["Restore the snapshot"]
+    RB -->|"yes"| OK(["Applied and logged with its reason"])
+    subgraph ALWAYS["Running beside it all the time"]
+        HB["Controller touches a heartbeat<br/>every 250 ms"] --> WD{{"Watchdog: heartbeat<br/>older than 2 s?"}}
+        WD -->|"yes"| SAFE(["Remove marking:<br/>plain CAKE at safe rates"])
+        WD -->|"no"| HB
+        SV["Classifier slow or down<br/>(50 ms deadline, queue 1,024)"] --> UL(["Flow stays unlabelled:<br/>plain CAKE"])
+    end
+    classDef ends fill:#5242c4,stroke:#5242c4,color:#ffffff
+    classDef safe fill:#e2f3ea,stroke:#1d7a52,color:#171a2b
+    classDef stop fill:#fbefd9,stroke:#9a5800,color:#171a2b
+    class P,OK ends
+    class SAFE,UL safe
+    class RJ,PIN,RS stop

@@ -1,0 +1,545 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>AQoSE walkthrough</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#fcfcfb;font-family:'IBM Plex Sans',Arial,sans-serif;color:#14213d}
+.scene{position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0;overflow:hidden;background:#fcfcfb;display:none}
+.dark{background:#14213d;color:#f4f3ef}
+.a{position:absolute}
+.kick{position:absolute;left:96px;top:72px;font-size:22px;font-weight:700;letter-spacing:3px;color:#6250d6}
+.dark .kick{color:#b7acff}
+.title{position:absolute;left:96px;top:110px;width:1720px;font-family:'Space Grotesk',Arial,sans-serif;font-weight:700;font-size:60px;line-height:1.08;letter-spacing:-1px}
+.buls{position:absolute;left:96px;top:270px;width:640px;display:flex;flex-direction:column;gap:22px}
+.bul{display:flex;gap:18px;align-items:flex-start;font-size:26px;line-height:1.35;color:#9aa1b2}
+.bul .n{flex:none;width:40px;height:40px;border-radius:20px;background:#e6e9f0;color:#4a5568;font-family:'Space Grotesk',Arial;font-weight:700;font-size:22px;display:flex;align-items:center;justify-content:center;margin-top:-1px}
+.bul.on{color:#14213d}
+.bul.on .n{background:#6250d6;color:#fff}
+.bul.past{color:#4a5568}
+.bul.past .n{background:#c9c3f3;color:#14213d}
+.panel{position:absolute;left:800px;top:250px}
+.num{font-family:'Space Grotesk',Arial,sans-serif;font-weight:700;letter-spacing:-1px}
+.mono{font-family:'IBM Plex Mono',monospace}
+.chap{position:absolute;right:96px;top:72px;font-size:20px;color:#9aa1b2;font-weight:600;letter-spacing:1px}
+svg text{font-family:'IBM Plex Sans',Arial,sans-serif}
+#progress{position:absolute;left:0;top:1074px;height:6px;background:#6250d6;z-index:10}
+</style></head>
+<body>
+<div id="root"></div>
+<div id="progress"></div>
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const eo = x => 1 - Math.pow(1 - x, 3);
+const eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const hash = n => { const s = Math.sin(n * 127.1) * 43758.5453; return s - Math.floor(s); };
+function el(p, tag, at, txt) { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (txt !== undefined) e.textContent = txt; p.appendChild(e); return e; }
+function h(p, tag, cls, html, style) { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; p.appendChild(e); return e; }
+const C = { ink: '#14213d', muted: '#4a5568', faint: '#9aa1b2', line: '#d9dce3', pur: '#6250d6', lav: '#eceaf9', lav2: '#b7acff', cake: '#2a78d6', rules: '#eb6834', red: '#d64545',
+  voice: '#1d3557', video: '#457b9d', be: '#a8c5da', bulk: '#dde8f0', bg2: '#eef1f7' };
+const LANES = [['Voice', C.voice, '#fff'], ['Video', C.video, '#fff'], ['Best Effort', C.be, C.ink], ['Bulk', C.bulk, C.ink]];
+function fmt(v, dec) { return v.toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+/* fade/slide helper for any element (HTML or SVG) */
+function appear(e, t, at, opts = {}) {
+  const d = opts.d || 0.7, dy = opts.dy === undefined ? 20 : opts.dy, dx = opts.dx || 0;
+  const p = eo(prog(t, at, at + d)); const q = opts.out != null ? 1 - prog(t, opts.out, opts.out + 0.5) : 1;
+  e.style.opacity = p * q; e.style.transform = `translate(${(1 - p) * dx}px,${(1 - p) * dy}px)`; return p * q;
+}
+/* packets along a polyline */
+function mkPath(pts) { const L = [0]; for (let i = 1; i < pts.length; i++) L.push(L[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1])); return { pts, L, len: L[L.length - 1] }; }
+function at(P, d) { let i = 1; while (i < P.L.length - 1 && P.L[i] < d) i++; const s = (d - P.L[i - 1]) / ((P.L[i] - P.L[i - 1]) || 1); const a = P.pts[i - 1], b = P.pts[i]; return [a[0] + (b[0] - a[0]) * s, a[1] + (b[1] - a[1]) * s]; }
+class Stream {
+  constructor(g, pts, o) { Object.assign(this, { n: 24, period: 0.2, speed: 260, r: 6, fill: C.pur, stroke: null, t0: 0, t1: 1e9 }, o); this.P = mkPath(pts); this.c = [];
+    for (let i = 0; i < this.n; i++) { const c = el(g, 'circle', { r: this.r, fill: this.fill, opacity: 0 }); if (this.stroke) { c.setAttribute('stroke', this.stroke); c.setAttribute('stroke-width', 2.5); } this.c.push(c); } }
+  update(t) { const ph = t - this.t0, cyc = this.n * this.period;
+    for (let i = 0; i < this.n; i++) { const c = this.c[i]; if (ph < i * this.period) { c.setAttribute('opacity', 0); continue; }
+      const a = (ph - i * this.period) % cyc, d = a * this.speed, spawn = t - a; if (d > this.P.len || spawn > this.t1) { c.setAttribute('opacity', 0); continue; }
+      const [x, y] = at(this.P, d); c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('opacity', 1); } }
+}
+
+/* ===== scene scaffolding ===== */
+const SCENES = {};
+let TOTAL = 12;
+function scene(id, o) { SCENES[id] = o; }
+function frame(id, o) {
+  const root = document.getElementById('root');
+  const s = h(root, 'div', 'scene' + (o.dark ? ' dark' : ''));
+  if (o.kick) h(s, 'div', 'kick', o.kick);
+  if (o.title) h(s, 'div', 'title', o.title);
+  if (o.chap) h(s, 'div', 'chap', o.chap);
+  const buls = [];
+  if (o.buls) { const box = h(s, 'div', 'buls'); o.buls.forEach((b, i) => { const r = h(box, 'div', 'bul', `<div class="n">${i + 1}</div><div>${b}</div>`); buls.push(r); }); }
+  let svg = null;
+  if (o.panel !== false) { svg = el(s, 'svg', { class: 'panel', width: o.pw || 1024, height: o.ph || 690, viewBox: `0 0 ${o.pw || 1024} ${o.ph || 690}` }); svg.style.overflow = 'visible'; }
+  return { s, buls, svg };
+}
+function bullets(F, t, c) {
+  F.buls.forEach((b, i) => { const on = t >= c[i] - 0.2 && (i === c.length - 1 || t < c[i + 1] - 0.2);
+    b.className = 'bul' + (on ? ' on' : (t >= c[i] - 0.2 ? ' past' : '')); appear(b, t, c[i] - 0.4, { dy: 14, d: 0.5 }); });
+}
+/* a group that shows from cue k until cue k+1 (or stays with keep) */
+function stage(g, t, c, k, keep) { const a = c[k] - 0.3, b = keep || k === c.length - 1 ? null : c[k + 1] - 0.5; return appear(g, t, a, { out: b, dy: 16 }); }
+
+/* =================================================================
+   TITLE
+   ================================================================= */
+scene('title', { build() {
+  const F = frame('title', { dark: true, panel: false }); this.F = F;
+  this.big = h(F.s, 'div', 'a num', 'How AQoSE works,<br><span style="color:#b7acff">in detail</span>', 'left:96px;top:250px;font-size:120px;line-height:1.02;letter-spacing:-3px');
+  this.k = h(F.s, 'div', 'kick', 'PART 2');
+  const ch = ['What CAKE already does', 'The architecture', 'What it reads', 'The model', 'The decision', 'Re-checking', 'The safety net', 'The line speed', 'How we tested', 'Results', 'Limits and next steps'];
+  this.items = ch.map((x, i) => h(F.s, 'div', 'a', `<span class="num" style="color:#b7acff;font-size:26px;display:inline-block;width:52px">${String(i + 1).padStart(2, '0')}</span>${x}`, `left:1180px;top:${250 + i * 58}px;font-size:28px;color:#f4f3ef`));
+}, update(t, c) { appear(this.k, t, 0.1); appear(this.big, t, 0.3, { dy: 40 }); this.items.forEach((e, i) => appear(e, t, 0.9 + i * 0.12, { dx: 30, dy: 0 })); } });
+
+/* =================================================================
+   1 · CAKE
+   ================================================================= */
+scene('cake', { build() {
+  const F = frame('cake', { kick: '01 · WHAT CAKE ALREADY DOES', title: 'A strong queue manager, with one blind spot', chap: '1 / 11',
+    buls: ['Shapes just below the line rate, so the queue sits in the router', 'Fair between devices, then between each device\'s connections', 'Four priority tins: Voice, Video, Best Effort, Bulk', 'Uses the tins only for marked packets'] });
+  this.F = F; const g = F.svg;
+  /* v0 shaping */
+  const v0 = this.v0 = el(g, 'g', {});
+  const box = (x, label, sub) => { el(v0, 'rect', { x, y: 220, width: 220, height: 150, rx: 16, fill: C.ink }); el(v0, 'text', { x: x + 110, y: 262, 'text-anchor': 'middle', 'font-size': 24, 'font-weight': 700, fill: '#fff' }, label); if (sub) el(v0, 'text', { x: x + 110, y: 290, 'text-anchor': 'middle', 'font-size': 17, fill: '#d6dbe8' }, sub); };
+  box(20, 'Router', 'CAKE'); box(400, 'Modem', 'oversized buffer');
+  el(v0, 'path', { d: 'M860 380 a50 50 0 0 1 6 -98 a68 68 0 0 1 124 -22 a54 54 0 0 1 30 120 Z', fill: C.bg2, stroke: C.ink, 'stroke-width': 3 });
+  el(v0, 'text', { x: 930, y: 346, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: C.ink }, 'Internet');
+  el(v0, 'line', { x1: 240, y1: 295, x2: 400, y2: 295, stroke: C.ink, 'stroke-width': 6 }); el(v0, 'line', { x1: 620, y1: 295, x2: 850, y2: 295, stroke: C.ink, 'stroke-width': 3 });
+  el(v0, 'text', { x: 735, y: 280, 'text-anchor': 'middle', 'font-size': 18, fill: C.muted }, 'the line');
+  this.mq = []; this.rq = [];
+  for (let i = 0; i < 9; i++) this.mq.push(el(v0, 'rect', { x: 432 + i * 18, y: 316, width: 14, height: 36, rx: 3, fill: C.rules, opacity: 0 }));
+  for (let i = 0; i < 3; i++) this.rq.push(el(v0, 'rect', { x: 60 + i * 18, y: 316, width: 14, height: 36, rx: 3, fill: C.pur, opacity: 0 }));
+  this.mLab = el(v0, 'text', { x: 510, y: 430, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: C.rules, opacity: 0 }, 'queue builds here: up to 500 ms');
+  this.rLab = el(v0, 'text', { x: 130, y: 430, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: C.pur, opacity: 0 }, 'shaped to 95%: queue here');
+  this.sh = el(v0, 'rect', { x: 240, y: 286, width: 40, height: 18, fill: C.pur, opacity: 0 });
+  /* v1 fairness */
+  const v1 = this.v1 = el(g, 'g', {});
+  el(v1, 'rect', { x: 40, y: 120, width: 940, height: 60, rx: 8, fill: C.ink }); el(v1, 'text', { x: 510, y: 158, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: '#fff' }, 'the line');
+  this.dv = [el(v1, 'rect', { x: 40, y: 250, width: 0, height: 60, rx: 8, fill: C.video }), el(v1, 'rect', { x: 516, y: 250, width: 0, height: 60, rx: 8, fill: C.be })];
+  this.dvt = [el(v1, 'text', { x: 278, y: 288, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: '#fff' }, 'laptop: half'), el(v1, 'text', { x: 754, y: 288, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: C.ink }, 'TV: half')];
+  this.cn = []; for (let i = 0; i < 4; i++) this.cn.push(el(v1, 'rect', { x: 40 + i * 119, y: 380, width: 111, height: 60, rx: 8, fill: i === 0 ? C.pur : '#9aa1b2', opacity: 0 }));
+  this.cnt = el(v1, 'text', { x: 40, y: 480, 'font-size': 22, fill: C.ink, opacity: 0 }, 'each connection on the laptop: an equal slice');
+  this.cnt2 = el(v1, 'text', { x: 40, y: 512, 'font-size': 22, fill: C.pur, 'font-weight': 700, opacity: 0 }, 'the call (purple) gets no more than a download');
+  /* v2 tins */
+  const v2 = this.v2 = el(g, 'g', {}); this.tb = [];
+  const share = [[25, 'up to 25% at priority'], [50, 'up to 50% at priority'], [100, 'up to 100%'], [6.25, 'at least 6.25%, never starved']];
+  share.forEach(([p, lab], i) => { const y = 90 + i * 130; el(v2, 'text', { x: 0, y: y + 10, 'font-size': 26, 'font-weight': 700, fill: C.ink }, LANES[i][0]);
+    el(v2, 'rect', { x: 0, y: y + 26, width: 1000, height: 54, rx: 8, fill: '#f1f2f6' });
+    this.tb.push([el(v2, 'rect', { x: 0, y: y + 26, width: 0, height: 54, rx: 8, fill: LANES[i][1] }), p]);
+    el(v2, 'text', { x: 1000, y: y + 10, 'text-anchor': 'end', 'font-size': 22, fill: C.muted }, lab); });
+  /* v3 marks */
+  const v3 = this.v3 = el(g, 'g', {});
+  LANES.forEach(([n, f, tc], i) => { el(v3, 'rect', { x: 520, y: 120 + i * 100, width: 480, height: 70, rx: 10, fill: f }); el(v3, 'text', { x: 540, y: 163 + i * 100, 'font-size': 22, 'font-weight': 700, fill: tc }, n); });
+  el(v3, 'rect', { x: 0, y: 230, width: 200, height: 120, rx: 14, fill: C.ink }); el(v3, 'text', { x: 100, y: 298, 'text-anchor': 'middle', 'font-size': 24, 'font-weight': 700, fill: '#fff' }, 'CAKE');
+  this.s3a = new Stream(v3, [[-200, 250], [200, 260], [520, 155], [1000, 155]], { n: 10, period: 0.9, speed: 300, r: 11, fill: C.pur, stroke: '#fff' });
+  this.s3b = new Stream(v3, [[-200, 330], [200, 320], [520, 355], [1000, 355]], { n: 40, period: 0.16, speed: 300, r: 8, fill: '#8a90a2' });
+  el(v3, 'text', { x: 0, y: 420, 'font-size': 22, fill: C.pur, 'font-weight': 700 }, '● marked "voice": Voice tin');
+  el(v3, 'text', { x: 0, y: 456, 'font-size': 22, fill: C.muted, 'font-weight': 700 }, '● no mark: Best Effort');
+  el(v3, 'text', { x: 0, y: 560, 'font-size': 24, fill: C.ink }, 'Most apps never set the mark, and providers often strip it.');
+}, update(t, c) {
+  const F = this.F; bullets(F, t, c);
+  stage(this.v0, t, c, 0);
+  const bloat = prog(t, c[0] + 0.5, c[0] + 3), fix = prog(t, c[0] + 4.5, c[0] + 6);
+  this.mq.forEach((r, i) => r.setAttribute('opacity', (bloat * 9 > i ? 1 : 0) * (1 - fix)));
+  this.rq.forEach((r, i) => r.setAttribute('opacity', fix * 3 > i ? 1 : 0));
+  this.mLab.setAttribute('opacity', bloat * (1 - fix)); this.rLab.setAttribute('opacity', fix); this.sh.setAttribute('opacity', fix);
+  stage(this.v1, t, c, 1);
+  const p1 = eo(prog(t, c[1] + 0.4, c[1] + 1.4)); this.dv[0].setAttribute('width', 470 * p1); this.dv[1].setAttribute('width', 464 * p1); this.dvt.forEach(x => x.setAttribute('opacity', p1));
+  this.cn.forEach((r, i) => r.setAttribute('opacity', prog(t, c[1] + 1.8 + i * 0.2, c[1] + 2.1 + i * 0.2)));
+  this.cnt.setAttribute('opacity', prog(t, c[1] + 2.6, c[1] + 3)); this.cnt2.setAttribute('opacity', prog(t, c[1] + 3.2, c[1] + 3.6));
+  stage(this.v2, t, c, 2);
+  this.tb.forEach(([r, p], i) => r.setAttribute('width', 10 * p * eo(prog(t, c[2] + 2 + i * 0.9, c[2] + 3 + i * 0.9))));
+  stage(this.v3, t, c, 3); if (t > c[3] - 1) { this.s3a.update(t); this.s3b.update(t); }
+} });
+
+/* =================================================================
+   2 · ARCHITECTURE
+   ================================================================= */
+scene('arch', { build() {
+  const F = frame('arch', { kick: '02 · THE ARCHITECTURE', title: 'One label per connection, and nothing on the packet path', chap: '2 / 11',
+    buls: ['AQoSE adds one thing: a label on each connection', 'Kernel: the conntrack mark picks the CAKE tin; 0 = plain CAKE', 'Upload copies the mark to packets; download restores it on an IFB', 'Controller (Go): extract, classify, check, write the mark', 'Classifier service (Go) and a separate watchdog', 'Remove two rules and it is off'] });
+  this.F = F; const g = F.svg;
+  this.parts = [];
+  const P = (k, fn) => { const gg = el(g, 'g', {}); fn(gg); this.parts.push([gg, k]); return gg; };
+  P(0, gg => { el(gg, 'rect', { x: 0, y: 380, width: 1024, height: 300, rx: 18, fill: C.bg2 }); el(gg, 'text', { x: 20, y: 414, 'font-size': 22, 'font-weight': 700, fill: C.ink }, 'Linux kernel: every packet'); el(gg, 'rect', { x: 0, y: 0, width: 1024, height: 330, rx: 18, fill: 'none', stroke: C.pur, 'stroke-width': 2, 'stroke-dasharray': '8 6' }); el(gg, 'text', { x: 20, y: 34, 'font-size': 22, 'font-weight': 700, fill: C.pur }, 'aqosd · the controller (Go)'); });
+  P(1, gg => {
+    el(gg, 'rect', { x: 20, y: 470, width: 100, height: 70, rx: 35, fill: '#fff', stroke: C.ink, 'stroke-width': 2.5 }); el(gg, 'text', { x: 70, y: 512, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: C.ink }, 'LAN');
+    el(gg, 'rect', { x: 170, y: 450, width: 220, height: 110, rx: 12, fill: '#fff', stroke: C.ink, 'stroke-width': 2.5 }); el(gg, 'text', { x: 280, y: 490, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: C.ink }, 'conntrack');
+    el(gg, 'text', { x: 280, y: 520, 'text-anchor': 'middle', 'font-size': 18, fill: C.muted }, 'mark: low 3 bits'); el(gg, 'text', { x: 280, y: 544, 'text-anchor': 'middle', 'font-size': 16, fill: C.muted }, '1 Bulk 2 BE 3 Video 4 Voice');
+    LANES.forEach(([n, f, tc], i) => { el(gg, 'rect', { x: 450 + i * 105, y: 450, width: 100, height: 110, fill: f }); el(gg, 'text', { x: 500 + i * 105, y: 484, 'text-anchor': 'middle', 'font-size': 17, 'font-weight': 700, fill: tc }, n); });
+    el(gg, 'text', { x: 660, y: 590, 'text-anchor': 'middle', 'font-size': 18, fill: C.muted }, 'CAKE diffserv4 · fwmark 0x7 picks the tin');
+    el(gg, 'rect', { x: 900, y: 470, width: 100, height: 70, rx: 35, fill: '#fff', stroke: C.ink, 'stroke-width': 2.5 }); el(gg, 'text', { x: 950, y: 512, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: C.ink }, 'WAN');
+    [[120, 505, 170, 505], [390, 505, 450, 505], [870, 505, 900, 505]].forEach(([a, b, x, y]) => el(gg, 'line', { x1: a, y1: b, x2: x, y2: y, stroke: C.ink, 'stroke-width': 3 }));
+    el(gg, 'text', { x: 280, y: 640, 'text-anchor': 'middle', 'font-size': 20, 'font-weight': 700, fill: C.pur }, 'mark 0 = plain CAKE');
+  });
+  P(2, gg => {
+    el(gg, 'rect', { x: 430, y: 610, width: 270, height: 50, rx: 10, fill: '#fff', stroke: C.pur, 'stroke-width': 2 }); el(gg, 'text', { x: 565, y: 642, 'text-anchor': 'middle', 'font-size': 17, fill: C.ink }, 'upload: copy mark → packet');
+    el(gg, 'rect', { x: 715, y: 610, width: 300, height: 50, rx: 10, fill: '#fff', stroke: C.pur, 'stroke-width': 2 }); el(gg, 'text', { x: 865, y: 642, 'text-anchor': 'middle', 'font-size': 17, fill: C.ink }, 'download: IFB restores mark');
+  });
+  P(3, gg => {
+    const B = (x, y, w, t1, t2) => { el(gg, 'rect', { x, y, width: w, height: 90, rx: 12, fill: C.lav, stroke: C.pur, 'stroke-width': 2 }); el(gg, 'text', { x: x + w / 2, y: y + 40, 'text-anchor': 'middle', 'font-size': 21, 'font-weight': 700, fill: C.ink }, t1); el(gg, 'text', { x: x + w / 2, y: y + 66, 'text-anchor': 'middle', 'font-size': 17, fill: C.muted }, t2); };
+    B(20, 70, 220, 'Extractor', 'first 8 packets'); B(280, 70, 180, 'Reclassifier', '1 check / s'); B(500, 70, 200, 'Safety shield', 'accept · clamp · reject'); B(740, 70, 250, 'Enforcer', 'write mark, read back');
+    B(280, 200, 180, 'Estimator', 'line speed'); B(500, 200, 200, 'Verifier', 'delay after a change');
+    el(gg, 'path', { d: 'M258 450 V115 H246', stroke: C.pur, 'stroke-width': 3, 'marker-end': 'url(#ar)', fill: 'none' });
+    el(gg, 'path', { d: 'M1012 115 V450', stroke: C.pur, 'stroke-width': 3, 'marker-end': 'url(#ar)', fill: 'none' });
+    el(gg, 'text', { x: 266, y: 340, 'font-size': 17, fill: C.pur, 'font-weight': 700 }, 'headers');
+    el(gg, 'text', { x: 1004, y: 340, 'text-anchor': 'end', 'font-size': 17, fill: C.pur, 'font-weight': 700 }, 'set mark');
+  });
+  P(4, gg => {
+    el(gg, 'rect', { x: 740, y: 200, width: 250, height: 90, rx: 12, fill: '#fff', stroke: C.pur, 'stroke-width': 3 }); el(gg, 'text', { x: 865, y: 240, 'text-anchor': 'middle', 'font-size': 21, 'font-weight': 700, fill: C.ink }, 'aqos-classify'); el(gg, 'text', { x: 865, y: 266, 'text-anchor': 'middle', 'font-size': 17, fill: C.muted }, '259 trees · 6 µs');
+    el(gg, 'rect', { x: 20, y: 200, width: 220, height: 90, rx: 12, fill: '#fff', stroke: C.faint, 'stroke-width': 2.5, 'stroke-dasharray': '7 5' }); el(gg, 'text', { x: 130, y: 240, 'text-anchor': 'middle', 'font-size': 21, 'font-weight': 700, fill: C.ink }, 'Watchdog'); el(gg, 'text', { x: 130, y: 266, 'text-anchor': 'middle', 'font-size': 17, fill: C.muted }, 'separate process');
+  });
+  P(5, gg => { el(gg, 'rect', { x: 0, y: 440, width: 1024, height: 130, rx: 12, fill: 'none', stroke: '#1d7a52', 'stroke-width': 4 }); el(gg, 'text', { x: 1014, y: 432, 'text-anchor': 'end', 'font-size': 20, 'font-weight': 700, fill: '#1d7a52' }, 'the packet path: kernel and CAKE only'); });
+  const defs = el(g, 'defs', {}); const m = el(defs, 'marker', { id: 'ar', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 6, markerHeight: 6, orient: 'auto' }); el(m, 'path', { d: 'M0 0 L10 5 L0 10 Z', fill: C.pur });
+  this.pk = new Stream(g, [[110, 520], [170, 552], [440, 552], [880, 552], [905, 520]], { n: 20, period: 0.22, speed: 280, r: 6, fill: C.pur });
+}, update(t, c) { bullets(this.F, t, c); this.parts.forEach(([gg, k]) => appear(gg, t, c[k] + (k === 0 ? 0.2 : 0.3), { dy: 14 })); if (t > c[1]) this.pk.update(t); } });
+
+/* =================================================================
+   3 · FEATURES
+   ================================================================= */
+const SIZES = [520, -1180, -1180, 380, -1180, 140, -900, 260];
+scene('features', { build() {
+  const F = frame('features', { kick: '03 · WHAT IT READS', title: 'Eight packet headers become 28 numbers', chap: '3 / 11',
+    buls: ['One nftables rule: first 8 packets, headers only', '8 sizes, signed by direction, and 7 gaps', 'IP version, protocol, port class of each end', '9 window statistics, once a second: 28 in all', 'Addresses never leave the controller: keyed hashes'] });
+  this.F = F; const g = F.svg;
+  this.v0 = el(g, 'g', {});
+  const rule = el(this.v0, 'g', {}); el(rule, 'rect', { x: 0, y: 0, width: 1024, height: 70, rx: 10, fill: C.ink }); el(rule, 'text', { x: 24, y: 45, 'font-size': 26, fill: '#d6dbe8', class: 'mono', 'font-family': 'IBM Plex Mono, monospace' }, 'ct packets < 9 log group 5 snaplen 64');
+  el(this.v0, 'line', { x1: 0, y1: 230, x2: 1024, y2: 230, stroke: C.line, 'stroke-width': 3 });
+  this.pk = []; for (let k = 0; k < 14; k++) { const gg = el(this.v0, 'g', {}); el(gg, 'rect', { x: -22, y: -22, width: 44, height: 44, rx: 8, fill: k < 8 ? C.pur : '#c9cde0' }); el(gg, 'text', { x: 0, y: 8, 'text-anchor': 'middle', 'font-size': 20, 'font-weight': 700, fill: k < 8 ? '#fff' : C.muted }, k + 1); this.pk.push(gg); }
+  el(this.v0, 'text', { x: 0, y: 130, 'font-size': 22, fill: C.pur, 'font-weight': 700 }, '↑ copied to the controller: 64 bytes each, at most');
+  el(this.v0, 'text', { x: 660, y: 300, 'font-size': 22, fill: C.muted }, 'the rest: never inspected');
+  this.v1 = el(g, 'g', {});
+  el(this.v1, 'line', { x1: 0, y1: 470, x2: 1000, y2: 470, stroke: C.ink, 'stroke-width': 2 });
+  el(this.v1, 'text', { x: 0, y: 360, 'font-size': 18, fill: C.muted }, 'up'); el(this.v1, 'text', { x: 0, y: 590, 'font-size': 18, fill: C.muted }, 'down');
+  this.bars = SIZES.map((s, k) => { const r = el(this.v1, 'rect', { x: 60 + k * 118, y: 470, width: 70, height: 0, rx: 4, fill: s > 0 ? C.pur : C.video }); return [r, s]; });
+  this.gaps = []; for (let k = 0; k < 7; k++) this.gaps.push(el(this.v1, 'text', { x: 154 + k * 118, y: 462, 'text-anchor': 'middle', 'font-size': 16, fill: C.muted, opacity: 0 }, 'gap'));
+  this.v2 = el(g, 'g', {}); this.v3 = el(g, 'g', {}); this.v4 = el(g, 'g', {});
+  const chips = (gg, items, y, fill, tc) => items.map((x, i) => { const w = 18 + x.length * 11.5, cg = el(gg, 'g', {}); return [cg, w, x, fill, tc, y]; });
+  this.c2 = ['IP version', 'protocol', 'port class: initiator', 'port class: responder'];
+  this.c3 = ['packets/s up', 'packets/s down', 'bytes/s up', 'bytes/s down', 'mean size up', 'mean size down', 'size spread', 'rate variation', 'burstiness'];
+  const lay = (gg, items, y0, fill, tc) => { let x = 0, y = y0; return items.map(txt => { const w = 30 + txt.length * 11; if (x + w > 1024) { x = 0; y += 56; } const cg = el(gg, 'g', {}); el(cg, 'rect', { x, y, width: w, height: 44, rx: 22, fill }); el(cg, 'text', { x: x + w / 2, y: y + 29, 'text-anchor': 'middle', 'font-size': 19, 'font-weight': 600, fill: tc }, txt); x += w + 12; return cg; }); };
+  this.ch2 = lay(this.v2, this.c2, 0, C.lav, C.ink);
+  el(this.v2, 'text', { x: 0, y: 90, 'font-size': 20, fill: C.muted }, 'system, registered or dynamic range; raw port numbers never used');
+  this.ch3 = lay(this.v3, this.c3, 120, C.bg2, C.ink);
+  this.tot = el(this.v3, 'text', { x: 0, y: 330, 'font-size': 64, 'font-weight': 700, fill: C.pur, 'font-family': 'Space Grotesk' }, '8 + 7 + 4 + 9 = 28');
+  el(this.v3, 'text', { x: 0, y: 370, 'font-size': 20, fill: C.muted }, 'window statistics are missing on the very first record');
+  el(this.v4, 'rect', { x: 0, y: 470, width: 1024, height: 200, rx: 16, fill: C.bg2 });
+  el(this.v4, 'text', { x: 40, y: 560, 'font-size': 34, fill: C.ink, 'font-family': 'IBM Plex Mono' }, '192.168.1.23 : 51834');
+  el(this.v4, 'text', { x: 470, y: 560, 'font-size': 34, fill: C.pur }, '→');
+  this.hash = el(this.v4, 'text', { x: 530, y: 560, 'font-size': 34, fill: C.pur, 'font-family': 'IBM Plex Mono', 'font-weight': 500 }, '598c2610726d6e76');
+  el(this.v4, 'text', { x: 40, y: 620, 'font-size': 22, fill: C.muted }, 'devices and connections are keyed hashes; the action log holds only hashes');
+}, update(t, c) { bullets(this.F, t, c);
+  appear(this.v0, t, c[0] - 0.3, { out: c[1] - 0.5 });
+  for (let k = 0; k < 14; k++) { const a = c[0] + 0.6 + k * 0.18, p = eo(prog(t, a, a + 0.6)); const x = -60 + (40 + k * 70 + 60) * p; let y = 230; if (k < 8) y = 230 - 70 * eo(prog(t, c[0] + 3.5 + k * 0.08, c[0] + 4 + k * 0.08)); this.pk[k].setAttribute('transform', `translate(${x},${y})`); this.pk[k].style.opacity = prog(t, a, a + 0.2); }
+  appear(this.v1, t, c[1] - 0.3, { out: c[3] - 0.5 });
+  this.bars.forEach(([r, s], k) => { const hgt = Math.abs(s) / 1200 * 190 * eo(prog(t, c[1] + 0.4 + k * 0.15, c[1] + 0.9 + k * 0.15)); r.setAttribute('height', hgt); r.setAttribute('y', s > 0 ? 470 - hgt : 470); });
+  this.gaps.forEach((e, k) => e.setAttribute('opacity', prog(t, c[1] + 2 + k * 0.1, c[1] + 2.3 + k * 0.1)));
+  appear(this.v2, t, c[2] - 0.3, { out: c[3] - 0.5 }); this.ch2.forEach((e, i) => appear(e, t, c[2] + i * 0.3, { dy: 10 }));
+  this.v2.setAttribute('transform', 'translate(0,0)');
+  appear(this.v3, t, c[3] - 0.3, { out: c[4] - 0.5 }); this.ch3.forEach((e, i) => appear(e, t, c[3] + 0.3 + i * 0.22, { dy: 10 })); this.tot.style.opacity = prog(t, c[3] + 3, c[3] + 3.6);
+  appear(this.v4, t, c[4] - 0.3);
+  const hp = prog(t, c[4] + 1, c[4] + 2.2); this.hash.style.opacity = hp;
+} });
+
+/* =================================================================
+   4 · MODEL
+   ================================================================= */
+scene('model', { build() {
+  const F = frame('model', { kick: '04 · THE MODEL', title: 'Small, fast, and tested on data it never saw', chap: '4 / 11',
+    buls: ['246,274 records from 7 sources', 'Split by session; a sealed test set, opened once', 'LightGBM over a random forest: 10× faster, 8× smaller', '259 trees, calibrated probabilities', 'Runs in Go: same answers as Python, 6 µs', 'Sealed test: accuracy 0.969, macro-F1 0.73'] });
+  this.F = F; const g = F.svg;
+  this.v = [];
+  const V = () => { const gg = el(g, 'g', {}); this.v.push(gg); return gg; };
+  const v0 = V(); this.src = ['ISCX VPN-nonVPN', 'ISCX Tor', 'Purdue video calls', 'UNSW cloud gaming', 'Labayen', 'our testbed', 'our own captures'].map((s, i) => { const gg = el(v0, 'g', {}); el(gg, 'rect', { x: (i % 2) * 520, y: Math.floor(i / 2) * 110, width: 490, height: 86, rx: 14, fill: i >= 5 ? C.lav : C.bg2, stroke: i >= 5 ? C.pur : 'none', 'stroke-width': 2 }); el(gg, 'text', { x: (i % 2) * 520 + 30, y: Math.floor(i / 2) * 110 + 53, 'font-size': 26, 'font-weight': 700, fill: C.ink }, s); return gg; });
+  this.rec = el(v0, 'text', { x: 0, y: 520, 'font-size': 72, 'font-weight': 700, fill: C.pur, 'font-family': 'Space Grotesk' }, '0');
+  el(v0, 'text', { x: 0, y: 560, 'font-size': 22, fill: C.muted }, 'records: first-packets records and five-second windows');
+  const v1 = V(); const sp = [['train', 156049, C.video], ['calibration', 29250, C.be], ['validation', 43221, C.lav2]]; let x = 0; this.sp = [];
+  sp.forEach(([n, v, f], i) => { const w = v / 228520 * 760; const r = el(v1, 'rect', { x, y: 60, width: 0, height: 90, fill: f }); this.sp.push([r, w]); const ly = i === 2 ? 250 : 190; el(v1, 'text', { x: x + 8, y: ly, 'font-size': 20, 'font-weight': 700, fill: C.ink }, n); el(v1, 'text', { x: x + 8, y: ly + 26, 'font-size': 18, fill: C.muted }, fmt(v, 0)); x += w + 4; });
+  this.lock = el(v1, 'g', {}); el(this.lock, 'rect', { x: 800, y: 40, width: 224, height: 130, rx: 14, fill: C.ink }); el(this.lock, 'text', { x: 912, y: 92, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: '#fff' }, 'sealed test'); el(this.lock, 'text', { x: 912, y: 124, 'text-anchor': 'middle', 'font-size': 18, fill: '#d6dbe8' }, '1,213 flows'); el(this.lock, 'text', { x: 912, y: 152, 'text-anchor': 'middle', 'font-size': 18, fill: C.lav2 }, 'opened once');
+  el(v1, 'text', { x: 0, y: 340, 'font-size': 24, fill: C.ink }, 'A capture session never spans two parts, so the model is always');
+  el(v1, 'text', { x: 0, y: 374, 'font-size': 24, fill: C.ink }, 'judged on sessions it has never seen. The test set: 183 sessions.');
+  const v2 = V(); this.cmp = [];
+  [['time per record (Python)', 13.5, 1.4, 'ms'], ['model size', 11.7, 1.5, 'MB'], ['expected damage, validation', 0.146, 0.141, '']].forEach(([lab, rf, lg, u], i) => { const y = i * 200;
+    el(v2, 'text', { x: 0, y: y + 24, 'font-size': 24, 'font-weight': 700, fill: C.ink }, lab);
+    const m = Math.max(rf, lg); const a = el(v2, 'rect', { x: 200, y: y + 44, width: 0, height: 40, rx: 6, fill: C.faint }), b = el(v2, 'rect', { x: 200, y: y + 94, width: 0, height: 40, rx: 6, fill: C.pur });
+    el(v2, 'text', { x: 0, y: y + 72, 'font-size': 20, fill: C.muted }, 'random forest'); el(v2, 'text', { x: 0, y: y + 122, 'font-size': 20, fill: C.pur, 'font-weight': 700 }, 'LightGBM');
+    const ta = el(v2, 'text', { x: 0, y: y + 72, 'font-size': 20, fill: C.muted }, `${rf} ${u}`), tb = el(v2, 'text', { x: 0, y: y + 122, 'font-size': 20, 'font-weight': 700, fill: C.ink }, `${lg} ${u}`);
+    this.cmp.push([a, b, ta, tb, rf / m * 700, lg / m * 700, i]); });
+  const v3 = V(); this.dots = []; for (let r = 0; r < 7; r++) for (let q = 0; q < 37; q++) this.dots.push(el(v3, 'rect', { x: q * 27, y: 20 + r * 50, width: 20, height: 36, rx: 4, fill: C.pur, opacity: 0 }));
+  ['voice call', 'game', 'video call', 'streaming', 'web', 'download', 'backup'].forEach((n, r) => el(v3, 'text', { x: 1010, y: 46 + r * 50, 'text-anchor': 'end', 'font-size': 0 }, ''));
+  el(v3, 'text', { x: 0, y: 420, 'font-size': 26, 'font-weight': 700, fill: C.ink }, '37 rounds × 7 classes = 259 trees, up to 127 leaves each');
+  el(v3, 'text', { x: 0, y: 460, 'font-size': 22, fill: C.muted }, 'temperature calibration: p = softmax(1.125 · z)');
+  const v4 = V(); const side = (x, n, sub, f) => { el(v4, 'rect', { x, y: 60, width: 400, height: 220, rx: 18, fill: f }); el(v4, 'text', { x: x + 200, y: 160, 'text-anchor': 'middle', 'font-size': 40, 'font-weight': 700, fill: '#fff' }, n); el(v4, 'text', { x: x + 200, y: 205, 'text-anchor': 'middle', 'font-size': 22, fill: '#e8e6ff' }, sub); };
+  side(0, 'Python', 'trains, exports trees', C.video); side(600, 'Go', 'runs on the router', C.pur);
+  el(v4, 'text', { x: 500, y: 190, 'text-anchor': 'middle', 'font-size': 64, 'font-weight': 700, fill: C.ink }, '=');
+  this.us = el(v4, 'text', { x: 0, y: 420, 'font-size': 72, 'font-weight': 700, fill: C.pur, 'font-family': 'Space Grotesk' }, '6 µs');
+  el(v4, 'text', { x: 0, y: 470, 'font-size': 24, fill: C.muted }, 'per classification in Go (about 2 ms in the Python service)');
+  el(v4, 'text', { x: 0, y: 520, 'font-size': 24, fill: C.muted }, 'on 2,000 records, same tin every time, agreement to 4 × 10⁻¹⁶');
+  const v5 = V(); this.r5 = [];
+  [['0.969', 'accuracy'], ['0.73', 'macro-F1: some classes have only 4 to 8 flows']].forEach(([n, l], i) => { const gg = el(v5, 'g', {}); el(gg, 'text', { x: i * 400, y: 80, 'font-size': 88, 'font-weight': 700, fill: C.pur, 'font-family': 'Space Grotesk' }, n); el(gg, 'text', { x: i * 400, y: 120, 'font-size': 20, fill: C.muted }, l); this.r5.push(gg); });
+  el(v5, 'text', { x: 0, y: 240, 'font-size': 24, 'font-weight': 700, fill: C.ink }, 'sent to Bulk, sealed test');
+  this.tbl = [];
+  [['video calls', 0, 14], ['cloud-gaming flows', 0, 78]].forEach(([n, a, q], i) => { const y = 290 + i * 150; el(v5, 'text', { x: 0, y: y + 30, 'font-size': 24, fill: C.ink }, n);
+    const ra = el(v5, 'rect', { x: 300, y, width: 0, height: 44, rx: 6, fill: C.pur }), rq = el(v5, 'rect', { x: 300, y: y + 54, width: 0, height: 44, rx: 6, fill: C.rules });
+    el(v5, 'text', { x: 300, y: y - 8, 'font-size': 0 }, '');
+    const ta = el(v5, 'text', { x: 310, y: y + 31, 'font-size': 22, 'font-weight': 700, fill: C.pur }, `AQoSE ${a}%`), tq = el(v5, 'text', { x: 0, y: y + 85, 'font-size': 22, 'font-weight': 700, fill: C.rules }, `qosify defaults ${q}%`);
+    this.tbl.push([ra, rq, tq, a, q]); });
+}, update(t, c) { bullets(this.F, t, c);
+  this.v.forEach((g, k) => stage(g, t, c, k));
+  this.src.forEach((e, i) => appear(e, t, c[0] + 0.4 + i * 0.35, { dy: 10 }));
+  this.rec.textContent = fmt(246274 * eio(prog(t, c[0] + 1, c[0] + 4)), 0);
+  this.sp.forEach(([r, w], i) => r.setAttribute('width', w * eo(prog(t, c[1] + 0.4 + i * 0.4, c[1] + 1.2 + i * 0.4))));
+  appear(this.lock, t, c[1] + 2.5, { dy: -20 });
+  this.cmp.forEach(([a, b, ta, tb, wa, wb, i]) => { const p = eo(prog(t, c[2] + 0.5 + i * 0.8, c[2] + 1.5 + i * 0.8)); a.setAttribute('width', wa * p); b.setAttribute('width', wb * p); ta.setAttribute('x', 210 + wa * p); tb.setAttribute('x', 210 + wb * p); ta.style.opacity = p; tb.style.opacity = p; });
+  this.dots.forEach((d, i) => d.setAttribute('opacity', prog(t, c[3] + 0.3 + i * 0.012, c[3] + 0.5 + i * 0.012)));
+  this.us.style.opacity = prog(t, c[4] + 1.5, c[4] + 2);
+  this.r5.forEach((e, i) => appear(e, t, c[5] + 0.3 + i * 1.6));
+  this.tbl.forEach(([ra, rq, tq, a, q], i) => { const p = eo(prog(t, c[5] + 4 + i * 0.6, c[5] + 5 + i * 0.6)); ra.setAttribute('width', Math.max(4, a * 7) * p); rq.setAttribute('width', q * 7 * p); tq.setAttribute('x', 310 + q * 7 * p + 10); tq.style.opacity = p; });
+} });
+
+/* =================================================================
+   5 · DECISION
+   ================================================================= */
+const DMG = [['Voice call', [0, 0, 0, 0]], ['Game, cloud game', [0, 0, 2.5, 6]], ['Video call', [1.5, 0, 2, 2.5]], ['Streaming', [0, 1, 0.5, 1.5]], ['Web and other', [0, 3.5, 0, 7]], ['Large download', [0.5, 4.5, 0, 7]], ['Backup, peer-to-peer', [2, 2, 1.5, 0]]];
+const heat = v => v === 0 ? '#f6efe9' : v <= 0.5 ? '#f1e3da' : v <= 1.5 ? '#e8cabd' : v <= 2.5 ? '#deb29f' : v <= 4.5 ? '#cc8165' : '#b4441b';
+scene('decision', { build() {
+  const F = frame('decision', { kick: '05 · THE DECISION', title: 'Pick the lane with the least expected harm', chap: '5 / 11',
+    buls: ['A wrong lane doesn\'t always hurt the same', 'Harm measured in 240 testbed runs: the damage table', 'Expected damage = Σ odds × damage; lowest wins', 'Guards: Voice > 50% call or game; Bulk > 80% sure, never UDP', 'Live, the classifier does most of the work'] });
+  this.F = F; const g = F.svg; this.v = [];
+  const V = () => { const gg = el(g, 'g', {}); this.v.push(gg); return gg; };
+  const v0 = V(); const card = (x, t1, t2, col, sev) => { el(v0, 'rect', { x, y: 40, width: 480, height: 300, rx: 18, fill: C.bg2 }); el(v0, 'text', { x: x + 30, y: 100, 'font-size': 30, 'font-weight': 700, fill: C.ink }, t1); el(v0, 'text', { x: x + 30, y: 140, 'font-size': 22, fill: C.muted }, t2); const r = el(v0, 'rect', { x: x + 30, y: 200, width: 0, height: 50, rx: 8, fill: col }); el(v0, 'text', { x: x + 30, y: 300, 'font-size': 26, 'font-weight': 700, fill: col }, sev); return r; };
+  this.c0 = [card(0, 'A call or game in Bulk', 'harm 2.5 (video call) to 6 (game)', C.red, 'a broken call'), card(520, 'A download in Voice', 'harm 0.5', '#1d7a52', 'mostly harmless')];
+  const v1 = V(); this.cells = [];
+  LANES.forEach(([n], j) => el(v1, 'text', { x: 420 + j * 150, y: 20, 'text-anchor': 'middle', 'font-size': 20, 'font-weight': 700, fill: C.ink }, n));
+  DMG.forEach(([n, row], i) => { el(v1, 'text', { x: 0, y: 70 + i * 74, 'font-size': 22, fill: C.ink }, n); row.forEach((v, j) => { const gg = el(v1, 'g', {}); el(gg, 'rect', { x: 350 + j * 150, y: 38 + i * 74, width: 140, height: 64, rx: 6, fill: heat(v) }); el(gg, 'text', { x: 420 + j * 150, y: 79 + i * 74, 'text-anchor': 'middle', 'font-size': 24, 'font-weight': 700, fill: v >= 3.5 ? '#fff' : C.ink }, v); this.cells.push([gg, i, j]); }); });
+  const v2 = V();
+  el(v2, 'text', { x: 0, y: 50, 'font-size': 40, fill: C.ink, 'font-family': 'Space Grotesk', 'font-weight': 700 }, 'E[lane] = Σ  P(class) × D[class][lane]');
+  el(v2, 'text', { x: 0, y: 130, 'font-size': 24, fill: C.muted }, 'Example: 55% backup, 45% game');
+  this.lanes = []; const ev = ['barred', '1.10', '1.95', '2.70'], sub = ['0.55 × 2 + 0.45 × 0', '0.55 × 2 + 0.45 × 0', '0.55 × 1.5 + 0.45 × 2.5', '0.55 × 0 + 0.45 × 6'];
+  LANES.forEach(([n, f, tc], i) => { const gg = el(v2, 'g', {}); el(gg, 'rect', { x: i * 256, y: 180, width: 236, height: 220, rx: 16, fill: f }); el(gg, 'text', { x: i * 256 + 118, y: 225, 'text-anchor': 'middle', 'font-size': 24, 'font-weight': 700, fill: tc }, n); el(gg, 'text', { x: i * 256 + 118, y: 310, 'text-anchor': 'middle', 'font-size': i === 0 ? 40 : 60, 'font-weight': 700, fill: tc }, ev[i]); el(gg, 'text', { x: i * 256 + 118, y: 370, 'text-anchor': 'middle', 'font-size': 16, fill: tc }, i === 0 ? 'only 45% call or game' : sub[i]); this.lanes.push(gg); });
+  this.ring = el(v2, 'rect', { x: 246, y: 170, width: 256, height: 240, rx: 20, fill: 'none', stroke: C.pur, 'stroke-width': 8, opacity: 0 });
+  this.pick = el(v2, 'text', { x: 0, y: 480, 'font-size': 30, 'font-weight': 700, fill: C.pur, opacity: 0 }, '→ Video. The top label alone would pick Bulk, where a game breaks.');
+  const v3 = V(); this.gates = [['Voice', 'only if P(call) + P(game) > 50%', 'Voice is a quarter of the line, so it needs evidence'], ['Bulk', 'only if > 80% sure', 'demotion needs confidence'], ['Bulk', 'never on first packets, never UDP', 'calls and games are UDP; on unseen sources, unseen calls sent to Bulk fell from 16% to 0%']].map(([a, b, d], i) => { const gg = el(v3, 'g', {}); const y = i * 200; el(gg, 'rect', { x: 0, y, width: 1024, height: 170, rx: 16, fill: C.bg2 }); el(gg, 'rect', { x: 0, y, width: 14, height: 170, rx: 4, fill: i === 0 ? C.voice : C.faint }); el(gg, 'text', { x: 40, y: y + 60, 'font-size': 30, 'font-weight': 700, fill: C.ink }, `${a}: ${b}`); el(gg, 'text', { x: 40, y: y + 110, 'font-size': 22, fill: C.muted }, d); return gg; });
+  const v4 = V(); el(v4, 'text', { x: 0, y: 30, 'font-size': 24, 'font-weight': 700, fill: C.ink }, 'Flows left unusable, nine scenarios, median of 10 seeds');
+  this.u = [['threshold rules', 6.61, C.rules], ['classifier, top label', 0.70, C.video], ['classifier + expected damage', 0.69, C.pur]].map(([n, v, f], i) => { const y = 80 + i * 130; el(v4, 'text', { x: 0, y: y + 30, 'font-size': 24, fill: C.ink }, n); const r = el(v4, 'rect', { x: 0, y: y + 46, width: 0, height: 46, rx: 6, fill: f }); const tx = el(v4, 'text', { x: 0, y: y + 80, 'font-size': 26, 'font-weight': 700, fill: C.ink }, v.toFixed(2)); return [r, tx, v]; });
+  el(v4, 'text', { x: 0, y: 520, 'font-size': 24, fill: C.muted }, 'Recognising the traffic is what fixes the blind spot.');
+}, update(t, c) { bullets(this.F, t, c); this.v.forEach((g, k) => stage(g, t, c, k));
+  this.c0.forEach((r, i) => r.setAttribute('width', (i === 0 ? 420 : 60) * eo(prog(t, c[0] + 1 + i * 2, c[0] + 2 + i * 2))));
+  this.cells.forEach(([gg, i, j]) => appear(gg, t, c[1] + 1 + i * 0.35 + j * 0.06, { dy: 0, d: 0.4 }));
+  this.lanes.forEach((gg, i) => appear(gg, t, c[2] + 2.5 + i * 0.5, { dy: 20 }));
+  this.ring.setAttribute('opacity', prog(t, c[2] + 5, c[2] + 5.4)); this.pick.setAttribute('opacity', prog(t, c[2] + 5.4, c[2] + 5.8));
+  this.gates.forEach((gg, i) => appear(gg, t, c[3] + 0.4 + i * 2.2, { dx: 30, dy: 0 }));
+  this.u.forEach(([r, tx, v], i) => { const p = eo(prog(t, c[4] + 0.6 + i * 0.7, c[4] + 1.6 + i * 0.7)); r.setAttribute('width', v * 130 * p + 4); tx.setAttribute('x', v * 130 * p + 20); tx.style.opacity = p; });
+} });
+
+/* =================================================================
+   6 · RECLASSIFY
+   ================================================================= */
+scene('reclass', { build() {
+  const F = frame('reclass', { kick: '06 · RE-CHECKING', title: 'Keep watching, without running the model', chap: '6 / 11',
+    buls: ['Traffic changes: camera on, lobby to match', 'Each class has a normal range: 5th to 95th percentile', '2+ features outside for 2 s (6 s for BE, Bulk): classify again', 'Plus a random recheck at 30–60 s: 3.3% of checks'] });
+  this.F = F; const g = F.svg;
+  el(g, 'line', { x1: 0, y1: 560, x2: 1024, y2: 560, stroke: C.ink, 'stroke-width': 2 });
+  el(g, 'text', { x: 1024, y: 600, 'text-anchor': 'end', 'font-size': 20, fill: C.muted }, 'time, one tick per second');
+  el(g, 'text', { x: 0, y: 30, 'font-size': 22, fill: C.muted }, 'bytes per second, one call');
+  this.band = el(g, 'rect', { x: 0, y: 330, width: 1024, height: 150, fill: C.lav, opacity: 0 });
+  this.bandT = el(g, 'text', { x: 12, y: 322, 'font-size': 20, 'font-weight': 700, fill: C.pur, opacity: 0 }, 'normal range for a voice call');
+  const pts = []; for (let i = 0; i <= 64; i++) { const x = i * 16; let y = 420 + Math.sin(i * 0.9) * 22 + (hash(i) - 0.5) * 18; if (i >= 30) y = 170 + Math.sin(i * 0.8) * 20 + (hash(i) - 0.5) * 16; pts.push([x, y]); }
+  this.pts = pts; this.line = el(g, 'polyline', { points: '', fill: 'none', stroke: C.ink, 'stroke-width': 4, 'stroke-linejoin': 'round' });
+  this.cam = el(g, 'text', { x: 480, y: 130, 'font-size': 24, 'font-weight': 700, fill: C.ink, opacity: 0 }, 'camera turns on');
+  this.ticks = []; for (let i = 0; i < 32; i++) this.ticks.push(el(g, 'circle', { cx: 16 + i * 32, cy: 560, r: 9, fill: C.pur, opacity: 0 }));
+  this.trig = el(g, 'g', {}); el(this.trig, 'rect', { x: 560, y: 610, width: 440, height: 64, rx: 32, fill: C.rules }); el(this.trig, 'text', { x: 780, y: 652, 'text-anchor': 'middle', 'font-size': 24, 'font-weight': 700, fill: '#fff' }, 'out for 2 s → classify again');
+  this.big = el(g, 'g', {}); el(this.big, 'rect', { x: 0, y: 0, width: 1024, height: 690, fill: '#fcfcfb' });
+  this.pct = el(this.big, 'text', { x: 0, y: 220, 'font-size': 180, 'font-weight': 700, fill: C.pur, 'font-family': 'Space Grotesk' }, '3.3%');
+  el(this.big, 'text', { x: 0, y: 290, 'font-size': 30, fill: C.ink }, 'of per-second checks lead to a classification');
+  this.cc = el(this.big, 'text', { x: 0, y: 380, 'font-size': 30, fill: C.muted }, '');
+  el(this.big, 'text', { x: 0, y: 470, 'font-size': 26, fill: C.muted }, 'plus a recheck at a random moment, 30–60 s after the last answer;');
+  el(this.big, 'text', { x: 0, y: 506, 'font-size': 26, fill: C.muted }, 'triggers back off from 5 to 40 s');
+}, update(t, c) { bullets(this.F, t, c);
+  const n = Math.round(64 * prog(t, c[0] + 0.3, c[2] + 3)); this.line.setAttribute('points', this.pts.slice(0, n + 1).map(p => p.join(',')).join(' '));
+  this.cam.setAttribute('opacity', n >= 31 ? 1 : 0);
+  this.band.setAttribute('opacity', 0.9 * prog(t, c[1] + 0.3, c[1] + 1)); this.bandT.setAttribute('opacity', prog(t, c[1] + 0.5, c[1] + 1));
+  this.ticks.forEach((d, i) => { const shown = t > c[2] + i * 0.12; const out = i >= 15 && i <= 16 && n >= 31; d.setAttribute('opacity', shown ? 1 : 0); d.setAttribute('fill', i >= 15 && n >= 30 ? C.rules : C.pur); });
+  appear(this.trig, t, c[2] + 4.5, { dy: 10 });
+  appear(this.big, t, c[3] + 0.2, { dy: 0 });
+  const p = eio(prog(t, c[3] + 4, c[3] + 7)); this.cc.textContent = `${fmt(165684 * p, 0)} checks → ${fmt(5453 * p, 0)} classifications, over 80 runs`;
+} });
+
+/* =================================================================
+   7 · SAFETY
+   ================================================================= */
+scene('safety', { build() {
+  const F = frame('safety', { kick: '07 · THE SAFETY NET', title: 'Every way out ends in plain CAKE', chap: '7 / 11',
+    buls: ['The shield: a pure function, accept, clamp or reject', 'Rejects stale, invalid, flapping and flooding changes', 'Fuzzed: 10.9 million proposals, 0 violations', 'Enforcer: snapshot, apply, read back, compare', 'Verifier: delay up > 5 ms and > 50%: undo', 'Watchdog: silent 2 s → plain CAKE'] });
+  this.F = F; const g = F.svg; this.v = []; const V = () => { const gg = el(g, 'g', {}); this.v.push(gg); return gg; };
+  const v0 = V(); const B = (gg, x, y, w, hh, t1, f, tc) => { el(gg, 'rect', { x, y, width: w, height: hh, rx: 14, fill: f }); el(gg, 'text', { x: x + w / 2, y: y + hh / 2 + 9, 'text-anchor': 'middle', 'font-size': 24, 'font-weight': 700, fill: tc }, t1); };
+  B(v0, 0, 120, 240, 90, 'proposal', C.bg2, C.ink); B(v0, 0, 260, 240, 90, 'current state', C.bg2, C.ink);
+  el(v0, 'path', { d: 'M430 150 L560 235 L430 320 L300 235 Z', fill: C.pur }); el(v0, 'text', { x: 430, y: 244, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 700, fill: '#fff' }, 'shield');
+  B(v0, 680, 80, 300, 80, 'accept', '#1d7a52', '#fff'); B(v0, 680, 195, 300, 80, 'clamp', C.video, '#fff'); B(v0, 680, 310, 300, 80, 'reject', C.red, '#fff');
+  [[240, 165, 300, 235], [240, 305, 300, 235], [560, 235, 680, 120], [560, 235, 680, 235], [560, 235, 680, 350]].forEach(([a, b, x, y]) => el(v0, 'line', { x1: a, y1: b, x2: x, y2: y, stroke: C.ink, 'stroke-width': 3 }));
+  el(v0, 'text', { x: 0, y: 470, 'font-size': 24, fill: C.muted }, 'Every proposal, from the classifier, the estimator or the verifier, passes here.');
+  const v1 = V(); this.rules = ['invalid against the JSON contract', 'stale proposals', 'a third tin change within 60 s (flow pinned)', 'more than 50 re-marks per second', 'rate steps beyond +10% or −50%', 'a rise within 10 s of the last'].map((s, i) => { const gg = el(v1, 'g', {}); el(gg, 'rect', { x: 0, y: i * 100, width: 1024, height: 80, rx: 12, fill: i < 4 ? '#fbe9e9' : '#e7f0f8' }); el(gg, 'text', { x: 30, y: i * 100 + 50, 'font-size': 26, fill: C.ink }, (i < 4 ? 'reject: ' : 'clamp: ') + s); return gg; });
+  const v2 = V(); this.fz = el(v2, 'text', { x: 0, y: 200, 'font-size': 150, 'font-weight': 700, fill: C.pur, 'font-family': 'Space Grotesk' }, '0');
+  el(v2, 'text', { x: 0, y: 260, 'font-size': 30, fill: C.ink }, 'generated proposals in 5 minutes · 0 violations');
+  el(v2, 'text', { x: 0, y: 360, 'font-size': 26, fill: C.muted }, 'Six bugs planted on purpose: each found in under a second.');
+  const v3 = V(); this.steps = ['snapshot', 'apply', 'read back', 'compare'].map((s, i) => { const gg = el(v3, 'g', {}); el(gg, 'rect', { x: i * 260, y: 120, width: 220, height: 110, rx: 16, fill: C.lav, stroke: C.pur, 'stroke-width': 2.5 }); el(gg, 'text', { x: i * 260 + 110, y: 185, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 700, fill: C.ink }, s); if (i < 3) el(gg, 'text', { x: i * 260 + 240, y: 185, 'text-anchor': 'middle', 'font-size': 30, fill: C.pur }, '→'); return gg; });
+  this.restore = el(v3, 'g', {}); el(this.restore, 'path', { d: 'M890 240 Q890 360 500 360 Q110 360 110 240', fill: 'none', stroke: C.red, 'stroke-width': 4 }); el(this.restore, 'text', { x: 500, y: 410, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 700, fill: C.red }, 'mismatch: restore the snapshot');
+  const v4 = V(); el(v4, 'line', { x1: 0, y1: 400, x2: 1000, y2: 400, stroke: C.ink, 'stroke-width': 2 }); el(v4, 'line', { x1: 400, y1: 60, x2: 400, y2: 400, stroke: C.faint, 'stroke-dasharray': '6 5', 'stroke-width': 2 });
+  el(v4, 'text', { x: 400, y: 440, 'text-anchor': 'middle', 'font-size': 20, fill: C.muted }, 'promotion'); el(v4, 'text', { x: 0, y: 40, 'font-size': 20, fill: C.muted }, 'Voice and Video tin delay');
+  el(v4, 'text', { x: 150, y: 440, 'text-anchor': 'middle', 'font-size': 18, fill: C.muted }, '10 s before'); el(v4, 'text', { x: 600, y: 440, 'text-anchor': 'middle', 'font-size': 18, fill: C.muted }, 'two 5 s windows after');
+  const dp = []; for (let i = 0; i <= 50; i++) dp.push([i * 20, i < 20 ? 330 + (hash(i) - 0.5) * 16 : 190 + (hash(i) - 0.5) * 20]); this.dp = dp; this.dl = el(v4, 'polyline', { points: '', fill: 'none', stroke: C.rules, 'stroke-width': 4 });
+  this.undo = el(v4, 'g', {}); el(this.undo, 'rect', { x: 620, y: 480, width: 380, height: 64, rx: 32, fill: C.red }); el(this.undo, 'text', { x: 810, y: 522, 'text-anchor': 'middle', 'font-size': 24, 'font-weight': 700, fill: '#fff' }, 'delay rose: undo the change');
+  const v5 = V(); this.hb = el(v5, 'polyline', { points: '', fill: 'none', stroke: C.pur, 'stroke-width': 4 }); el(v5, 'text', { x: 0, y: 40, 'font-size': 20, fill: C.muted }, 'heartbeat, every 250 ms');
+  this.dead = el(v5, 'text', { x: 560, y: 120, 'font-size': 24, 'font-weight': 700, fill: C.red, opacity: 0 }, 'controller killed');
+  this.timer = el(v5, 'text', { x: 560, y: 330, 'font-size': 96, 'font-weight': 700, fill: C.ink, 'font-family': 'Space Grotesk', opacity: 0 }, '0.0 s');
+  this.safe = el(v5, 'g', {}); el(this.safe, 'rect', { x: 0, y: 420, width: 1024, height: 120, rx: 16, fill: '#e2f3ea' }); el(this.safe, 'text', { x: 40, y: 475, 'font-size': 30, 'font-weight': 700, fill: '#1d7a52' }, 'plain CAKE restored: marking rules removed'); el(this.safe, 'text', { x: 40, y: 515, 'font-size': 22, fill: C.muted }, '2.03 to 2.06 s after the kill, in 20 of 20 runs');
+}, update(t, c) { bullets(this.F, t, c); this.v.forEach((g, k) => stage(g, t, c, k));
+  this.rules.forEach((e, i) => appear(e, t, c[1] + 0.5 + i * 0.6, { dx: 30, dy: 0 }));
+  this.fz.textContent = fmt(10900000 * eio(prog(t, c[2] + 0.5, c[2] + 4)), 0);
+  this.steps.forEach((e, i) => appear(e, t, c[3] + 0.5 + i * 0.7, { dy: 10 })); appear(this.restore, t, c[3] + 3.6, { dy: 10 });
+  const n = Math.round(50 * prog(t, c[4] + 0.5, c[4] + 6)); this.dl.setAttribute('points', this.dp.slice(0, n + 1).map(p => p.join(',')).join(' ')); appear(this.undo, t, c[4] + 6.3, { dy: 10 });
+  const T = t - c[5] - 0.3, kill = 3.0, pts = []; for (let x = 0; x <= 1000; x += 4) { const tt = x / 1000 * 6; if (tt > T) break; const beat = tt < kill && (tt % 0.25) < 0.05 ? 1 : 0; pts.push([x, 230 - beat * 90]); } this.hb.setAttribute('points', pts.map(p => p.join(',')).join(' '));
+  this.dead.setAttribute('opacity', T > kill ? 1 : 0); const since = clamp(T - kill, 0, 2.04); this.timer.setAttribute('opacity', T > kill ? 1 : 0); this.timer.textContent = since.toFixed(2) + ' s'; appear(this.safe, t, c[5] + 0.3 + kill + 2.05, { dy: 10 });
+} });
+
+/* =================================================================
+   8 · ESTIMATOR
+   ================================================================= */
+scene('estimator', { build() {
+  const F = frame('estimator', { kick: '08 · THE LINE SPEED', title: 'Follow the line down fast, back up slowly', chap: '8 / 11',
+    buls: ['A slower line moves the queue back to the modem', 'Probes 3 reflectors every 100 ms; cut download to 90% of delivered', 'Raise 10% at a time; probes silent: hold still', 'Line drops to a fifth: under it in 2 s, 6% error'] });
+  this.F = F; const g = F.svg;
+  el(g, 'line', { x1: 60, y1: 520, x2: 1010, y2: 520, stroke: C.ink, 'stroke-width': 2 }); el(g, 'line', { x1: 60, y1: 40, x2: 60, y2: 520, stroke: C.ink, 'stroke-width': 2 });
+  el(g, 'text', { x: 0, y: 80, 'font-size': 18, fill: C.muted }, '100'); el(g, 'text', { x: 0, y: 450, 'font-size': 18, fill: C.muted }, '20'); el(g, 'text', { x: 70, y: 30, 'font-size': 20, fill: C.muted }, 'Mbit/s, download');
+  el(g, 'text', { x: 1010, y: 560, 'text-anchor': 'end', 'font-size': 18, fill: C.muted }, 'time (shape only, not a measured trace)');
+  const Y = v => 520 - v * 4.4;
+  this.line = el(g, 'polyline', { points: '', fill: 'none', stroke: C.ink, 'stroke-width': 5 });
+  this.cake = el(g, 'polyline', { points: '', fill: 'none', stroke: C.cake, 'stroke-width': 3, 'stroke-dasharray': '10 7' });
+  this.aq = el(g, 'polyline', { points: '', fill: 'none', stroke: C.pur, 'stroke-width': 5 });
+  this.ar = el(g, 'polyline', { points: '', fill: 'none', stroke: C.rules, 'stroke-width': 3 });
+  this.Y = Y;
+  this.leg = el(g, 'g', {}); [['the real line', C.ink], ['plain CAKE (fixed at 95)', C.cake], ['AQoSE estimator', C.pur], ['cake-autorate', C.rules]].forEach(([n, f], i) => { el(this.leg, 'rect', { x: 600, y: 220 + i * 34, width: 22, height: 8, fill: f }); el(this.leg, 'text', { x: 632, y: 230 + i * 34, 'font-size': 20, fill: C.ink }, n); });
+  this.probe = []; for (let i = 0; i < 12; i++) this.probe.push(el(g, 'circle', { cx: 0, cy: 0, r: 6, fill: C.pur, opacity: 0 }));
+  this.res = el(g, 'g', {}); el(this.res, 'rect', { x: 60, y: 580, width: 950, height: 100, rx: 14, fill: C.bg2 });
+  el(this.res, 'text', { x: 90, y: 625, 'font-size': 28, 'font-weight': 700, fill: C.pur }, 'AQoSE: under the line in 2 s, 6% error');
+  el(this.res, 'text', { x: 90, y: 662, 'font-size': 24, fill: C.rules, 'font-weight': 700 }, 'cake-autorate: 3 s, 20% error, above the line 76% of the time');
+}, update(t, c) { bullets(this.F, t, c); const Y = this.Y;
+  const T = 12 * prog(t, c[0] + 0.3, c[3] + 1); const X = s => 60 + s / 12 * 950;
+  const real = s => s < 3 ? 100 : 20, aqv = s => s < 3 ? 95 : s < 3.4 ? 95 - (s - 3) / 0.4 * 76 : Math.min(19 + Math.floor((s - 3.4) / 3) * 0, 19.5) - (hash(Math.floor(s * 3)) - 0.5) * 1.6;
+  const arv = s => s < 3 ? 95 : s < 6 ? 95 - (s - 3) / 3 * 70 + Math.sin(s * 5) * 2 : 24 + Math.sin(s * 2.4) * 3;
+  const mk = f => { const p = []; for (let s = 0; s <= T; s += 0.05) p.push([X(s), Y(f(s))]); return p.map(q => q.join(',')).join(' '); };
+  this.line.setAttribute('points', mk(real)); this.cake.setAttribute('points', mk(() => 95));
+  this.aq.setAttribute('points', t > c[1] ? mk(aqv) : ''); this.ar.setAttribute('points', t > c[1] + 2 ? mk(arv) : '');
+  appear(this.leg, t, c[0] + 1);
+  this.probe.forEach((p, i) => { const ph = ((t * 10 + i) % 12) / 12; p.setAttribute('cx', X(Math.max(0, T - 0.6 + ph * 0.6))); p.setAttribute('cy', 500); p.setAttribute('opacity', t > c[1] && t < c[3] ? 0.8 : 0); });
+  appear(this.res, t, c[3] + 0.5, { dy: 10 });
+} });
+
+/* =================================================================
+   9 · TESTING
+   ================================================================= */
+scene('testing', { build() {
+  const F = frame('testing', { kick: '09 · HOW WE TESTED', title: 'A rootless testbed, and a freeze before the final runs', chap: '9 / 11',
+    buls: ['Namespaces on one laptop; a bloated 500 ms modem buffer', '11 traffic generators; late = over 100 ms (calls), 50 ms (games)', '9 scenarios × 5 setups × 10 seeds, paired; 90 A/A runs for noise', 'Frozen; then fresh seeds, an unseen home, real calls, IPv6: 492 runs'] });
+  this.F = F; const g = F.svg; this.v = []; const V = () => { const gg = el(g, 'g', {}); this.v.push(gg); return gg; };
+  const v0 = V(); const B = (x, y, w, t1, t2, f) => { const gg = el(v0, 'g', {}); el(gg, 'rect', { x, y, width: w, height: 110, rx: 14, fill: f || C.bg2 }); el(gg, 'text', { x: x + w / 2, y: y + 48, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: f === C.ink ? '#fff' : C.ink }, t1); el(gg, 'text', { x: x + w / 2, y: y + 78, 'text-anchor': 'middle', 'font-size': 17, fill: f === C.ink ? '#d6dbe8' : C.muted }, t2); return gg; };
+  this.tb = [B(0, 40, 200, 'laptop', 'namespace'), B(0, 180, 200, 'PC, TV…', 'one per device'), B(260, 110, 200, 'router', 'CAKE + AQoSE', C.ink), B(520, 110, 220, 'ISP bottleneck', '500 ms FIFO', '#fbe9e9'), B(800, 110, 220, 'servers', 'far end')];
+  [[200, 95, 260, 165], [200, 235, 260, 165], [460, 165, 520, 165], [740, 165, 800, 165]].forEach(([a, b, x, y]) => el(v0, 'line', { x1: a, y1: b, x2: x, y2: y, stroke: C.ink, 'stroke-width': 3 }));
+  el(v0, 'text', { x: 0, y: 380, 'font-size': 24, fill: C.ink }, 'No root needed. Offloads off, so the router sees real packet sizes.');
+  el(v0, 'text', { x: 0, y: 420, 'font-size': 24, fill: C.muted }, 'The bottleneck\'s rate error measured 0.00%.');
+  const v1 = V(); this.gens = ['video call', 'voice call', 'game', 'cloud game', 'adaptive video', 'browsing', 'download', 'game update', 'backup', 'peer-to-peer', 'replayed trace'].map((s, i) => { const gg = el(v1, 'g', {}); el(gg, 'rect', { x: (i % 4) * 256, y: Math.floor(i / 4) * 90, width: 240, height: 70, rx: 35, fill: i === 10 ? C.lav : C.bg2 }); el(gg, 'text', { x: (i % 4) * 256 + 120, y: Math.floor(i / 4) * 90 + 44, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 600, fill: C.ink }, s); return gg; });
+  el(v1, 'text', { x: 0, y: 340, 'font-size': 24, fill: C.ink }, 'Every packet carries its sequence number, send time and frame.');
+  el(v1, 'text', { x: 0, y: 380, 'font-size': 24, fill: C.ink }, 'A frame is late if its last packet is over 100 ms late (calls) or 50 ms (games).');
+  const v2 = V(); this.cells = []; for (let s = 0; s < 9; s++) for (let k = 0; k < 5; k++) for (let r = 0; r < 10; r++) this.cells.push(el(v2, 'rect', { x: k * 205 + r * 19, y: s * 50, width: 15, height: 40, rx: 3, fill: [C.faint, C.cake, C.rules, C.video, C.pur][k], opacity: 0 }));
+  ['no QoS', 'plain CAKE', 'threshold rules', 'top label', 'AQoSE'].forEach((n, k) => el(v2, 'text', { x: k * 205, y: 480, 'font-size': 18, fill: C.ink, 'font-weight': 700 }, n));
+  el(v2, 'text', { x: 0, y: 530, 'font-size': 22, fill: C.muted }, '9 scenarios × 5 setups × 10 seeds = 450 runs, plus cake-autorate on two scenarios');
+  const v3 = V(); this.lk = el(v3, 'g', {}); el(this.lk, 'rect', { x: 0, y: 0, width: 1024, height: 110, rx: 16, fill: C.ink }); el(this.lk, 'text', { x: 40, y: 66, 'font-size': 30, 'font-weight': 700, fill: '#fff' }, 'Frozen, Oct 15: code, model, damage table, every setting');
+  this.after = ['fresh seeds 10–14', 'an unseen home (S11)', 'real WhatsApp calls, replayed', 'all over IPv6'].map((s, i) => { const gg = el(v3, 'g', {}); el(gg, 'rect', { x: (i % 2) * 520, y: 150 + Math.floor(i / 2) * 110, width: 500, height: 86, rx: 14, fill: C.lav }); el(gg, 'text', { x: (i % 2) * 520 + 30, y: 150 + Math.floor(i / 2) * 110 + 53, 'font-size': 26, 'font-weight': 700, fill: C.ink }, s); return gg; });
+  this.n492 = el(v3, 'text', { x: 0, y: 520, 'font-size': 96, 'font-weight': 700, fill: C.pur, 'font-family': 'Space Grotesk' }, '0');
+  el(v3, 'text', { x: 0, y: 566, 'font-size': 24, fill: C.muted }, 'runs after the freeze, all valid');
+}, update(t, c) { bullets(this.F, t, c); this.v.forEach((g, k) => stage(g, t, c, k));
+  this.tb.forEach((e, i) => appear(e, t, c[0] + 0.4 + i * 0.5, { dy: 10 }));
+  this.gens.forEach((e, i) => appear(e, t, c[1] + 0.3 + i * 0.25, { dy: 10 }));
+  this.cells.forEach((e, i) => e.setAttribute('opacity', t > c[2] + 0.4 + i * 0.012 ? 1 : 0));
+  appear(this.lk, t, c[3] + 0.2, { dy: -10 }); this.after.forEach((e, i) => appear(e, t, c[3] + 4 + i * 0.9, { dy: 10 }));
+  this.n492.textContent = fmt(492 * eio(prog(t, c[3] + 8, c[3] + 10.5)), 0);
+} });
+
+/* =================================================================
+   10 · RESULTS
+   ================================================================= */
+scene('results', { dark: false, build() {
+  const F = frame('results', { kick: '10 · RESULTS, IN EMULATION', title: 'Big wins where CAKE is blind, ties where it already works', chap: '10 / 11',
+    buls: ['Call or game sharing its device: 83–94% late → about 1%', '140 paired runs: 70 better, 70 tied, 0 worse', 'Bulk keeps a median 98%; fairness unchanged', 'Replayed WhatsApp: 57% → 2.4%, 79% → 14%', 'Call alone on its device: CAKE already works, AQoSE ties'] });
+  this.F = F; const g = F.svg; this.v = []; const V = () => { const gg = el(g, 'g', {}); this.v.push(gg); return gg; };
+  const bars = (gg, rows, y0, step) => rows.map(([n, a, b], i) => { const y = y0 + i * step; el(gg, 'text', { x: 0, y: y + 22, 'font-size': 22, fill: C.ink }, n); const ra = el(gg, 'rect', { x: 330, y, width: 0, height: 28, rx: 4, fill: C.cake }), rb = el(gg, 'rect', { x: 330, y: y + 34, width: 0, height: 28, rx: 4, fill: C.pur }); const ta = el(gg, 'text', { x: 0, y: y + 22, 'font-size': 20, fill: C.muted }, a.toFixed(1) + '%'), tb = el(gg, 'text', { x: 0, y: y + 56, 'font-size': 22, 'font-weight': 700, fill: C.pur }, b.toFixed(1) + '%'); return [ra, rb, ta, tb, a, b]; });
+  const v0 = V(); el(v0, 'rect', { x: 330, y: 0, width: 16, height: 16, fill: C.cake }); el(v0, 'text', { x: 354, y: 14, 'font-size': 20, fill: C.ink }, 'plain CAKE'); el(v0, 'rect', { x: 500, y: 0, width: 16, height: 16, fill: C.pur }); el(v0, 'text', { x: 524, y: 14, 'font-size': 20, 'font-weight': 700, fill: C.ink }, 'AQoSE');
+  this.b0 = bars(v0, [['HD call, laptop sharing files', 94.3, 0.6], ['work call, backup running', 93.3, 0.1], ['cloud game, PC updating', 83.2, 1.0], ['line drops to a fifth', 55.5, 0.9]], 50, 110);
+  el(v0, 'text', { x: 0, y: 520, 'font-size': 22, fill: C.muted }, 'late frames, median of 10 seeds');
+  const v1 = V(); this.w = []; for (let i = 0; i < 140; i++) this.w.push(el(v1, 'rect', { x: (i % 20) * 50, y: Math.floor(i / 20) * 50, width: 40, height: 40, rx: 6, fill: i < 70 ? C.pur : '#c9cde0', opacity: 0 }));
+  el(v1, 'text', { x: 0, y: 400, 'font-size': 28, 'font-weight': 700, fill: C.ink }, '70 better · 70 tied · 0 worse than plain CAKE');
+  el(v1, 'text', { x: 0, y: 450, 'font-size': 24, fill: C.muted }, 'never worse than threshold rules · better than cake-autorate in 20 of 20');
+  const v2 = V(); const bt = [['S1 download', 100], ['S2 download', 97], ['S4 backup', 100], ['S5 backup', 83], ['S6 download', 95], ['S6 sharing, down', 104], ['S6 sharing, up', 75], ['S7 game update', 98], ['S10 download', 90]];
+  this.bt = bt.map(([n, v], i) => { const y = i * 56; el(v2, 'text', { x: 0, y: y + 30, 'font-size': 20, fill: C.ink }, n); const r = el(v2, 'rect', { x: 240, y: y + 8, width: 0, height: 30, rx: 4, fill: v >= 95 ? C.pur : C.lav2 }); const tx = el(v2, 'text', { x: 0, y: y + 31, 'font-size': 20, 'font-weight': 700, fill: C.ink }, v + '%'); return [r, tx, v]; });
+  el(v2, 'line', { x1: 240 + 600, y1: 0, x2: 240 + 600, y2: 510, stroke: C.ink, 'stroke-dasharray': '6 5', 'stroke-width': 2 }); el(v2, 'text', { x: 846, y: 530, 'font-size': 18, fill: C.muted }, '= plain CAKE');
+  el(v2, 'text', { x: 0, y: 580, 'font-size': 22, fill: C.muted }, 'bulk throughput under AQoSE, as % of plain CAKE; Jain\'s index within ±0.01');
+  const v3 = V(); this.b3 = bars(v3, [['S12: call never trained on', 57.0, 2.4], ['S13: larger call, in training', 78.7, 14.4]], 40, 130);
+  el(v3, 'text', { x: 0, y: 360, 'font-size': 24, fill: C.ink }, 'S13: keyframe bursts exceed the Video tin\'s half of a 4 Mbit/s upload.');
+  el(v3, 'text', { x: 0, y: 400, 'font-size': 24, fill: C.pur, 'font-weight': 700 }, 'The lane was right; the limit is CAKE\'s share.');
+  const v4 = V(); this.ties = ['S1 download on another device', 'S3 TVs and a console', 'S4 backup on another device', 'S10 probes silent, controller killed'].map((s, i) => { const gg = el(v4, 'g', {}); el(gg, 'rect', { x: 0, y: i * 110, width: 1024, height: 90, rx: 14, fill: C.bg2 }); el(gg, 'text', { x: 30, y: i * 110 + 56, 'font-size': 26, fill: C.ink }, s); el(gg, 'text', { x: 994, y: i * 110 + 56, 'text-anchor': 'end', 'font-size': 26, 'font-weight': 700, fill: C.pur }, 'tie: 0% late'); return gg; });
+}, update(t, c) { bullets(this.F, t, c); this.v.forEach((g, k) => stage(g, t, c, k));
+  const grow = (rows, t0) => rows.forEach(([ra, rb, ta, tb, a, b], i) => { const p = eo(prog(t, t0 + i * 0.5, t0 + 1 + i * 0.5)), q = eo(prog(t, t0 + 2.5 + i * 0.4, t0 + 3.3 + i * 0.4)); ra.setAttribute('width', a * 6.5 * p); rb.setAttribute('width', Math.max(4, b * 6.5) * q); ta.setAttribute('x', 340 + a * 6.5 * p); tb.setAttribute('x', 340 + Math.max(4, b * 6.5) * q); ta.style.opacity = p; tb.style.opacity = q; });
+  grow(this.b0, c[0] + 0.5); grow(this.b3, c[3] + 0.5);
+  this.w.forEach((e, i) => e.setAttribute('opacity', t > c[1] + 0.4 + i * 0.025 ? 1 : 0));
+  this.bt.forEach(([r, tx, v], i) => { const p = eo(prog(t, c[2] + 0.4 + i * 0.15, c[2] + 1.2 + i * 0.15)); r.setAttribute('width', v * 6 * p); tx.setAttribute('x', 250 + v * 6 * p + 6); tx.style.opacity = p; });
+  this.ties.forEach((e, i) => appear(e, t, c[4] + 0.3 + i * 0.3, { dx: 20, dy: 0 }));
+} });
+
+/* =================================================================
+   11 · LIMITS
+   ================================================================= */
+scene('limits', { build() {
+  const F = frame('limits', { kick: '11 · LIMITS AND NEXT STEPS', title: 'What these results do not show yet', chap: '11 / 11',
+    buls: ['Emulation on one laptop: no router, Wi-Fi or homes yet', 'Calls don\'t adapt; weaker on unseen sources; no VPNs', 'Two open bugs: Voice share, estimator after an outage', 'Next: OpenWrt router, real apps live, a home field trial'] });
+  this.F = F; const g = F.svg; this.v = []; const V = () => { const gg = el(g, 'g', {}); this.v.push(gg); return gg; };
+  const cards = (gg, items) => items.map(([a, b], i) => { const e = el(gg, 'g', {}); el(e, 'rect', { x: 0, y: i * 150, width: 1024, height: 128, rx: 16, fill: C.bg2 }); el(e, 'text', { x: 30, y: i * 150 + 52, 'font-size': 28, 'font-weight': 700, fill: C.ink }, a); el(e, 'text', { x: 30, y: i * 150 + 92, 'font-size': 22, fill: C.muted }, b); return e; });
+  this.c0 = cards(V(), [['Emulation only', 'one laptop, emulated links from 4 to 100 Mbit/s'], ['No real router, no Wi-Fi', 'router CPU and memory not yet measured'], ['No real homes', 'and no gigabit lines or floods of short flows']]);
+  this.c1 = cards(V(), [['Calls that don\'t adapt', 'real apps lower their bitrate when squeezed; ours lose frames'], ['Weaker on unseen sources', 'the bulk guard keeps such traffic out of Bulk'], ['VPN tunnels out of scope', 'one encrypted tunnel hides every connection inside it']]);
+  this.c2 = cards(V(), [['A 24.9 Mbit/s cloud game outgrew Voice', 'high-rate interactive flows belong in Video, with half the line'], ['Estimator after a probe outage', 'halved the download for about 30 s when probes came back']]);
+  const v3 = V(); this.road = ['OpenWrt router', 'real apps, live', 'volunteer homes'].map((s, i) => { const e = el(v3, 'g', {}); el(e, 'circle', { cx: 120 + i * 390, cy: 220, r: 70, fill: i === 0 ? C.pur : C.lav, stroke: C.pur, 'stroke-width': 3 }); el(e, 'text', { x: 120 + i * 390, y: 232, 'text-anchor': 'middle', 'font-size': 34, 'font-weight': 700, fill: i === 0 ? '#fff' : C.ink }, i + 1); el(e, 'text', { x: 120 + i * 390, y: 340, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 700, fill: C.ink }, s); if (i < 2) el(e, 'line', { x1: 200 + i * 390, y1: 220, x2: 430 + i * 390, y2: 220, stroke: C.pur, 'stroke-width': 4, 'stroke-dasharray': '10 8' }); return e; });
+  el(v3, 'text', { x: 0, y: 470, 'font-size': 24, fill: C.muted }, 'Each with a test and a success bar: same wins as in emulation, no home worse off.');
+}, update(t, c) { bullets(this.F, t, c); this.v.forEach((g, k) => stage(g, t, c, k));
+  [this.c0, this.c1, this.c2].forEach((cs, k) => cs.forEach((e, i) => appear(e, t, c[k] + 0.4 + i * 0.6, { dx: 20, dy: 0 })));
+  this.road.forEach((e, i) => appear(e, t, c[3] + 1 + i * 1.2, { dy: 10 }));
+} });
+
+/* =================================================================
+   CLOSE
+   ================================================================= */
+scene('close', { build() {
+  const F = frame('close', { dark: true, panel: false }); this.F = F;
+  this.a = h(F.s, 'div', 'a num', 'AQoSE', 'left:0;top:200px;width:1920px;text-align:center;font-size:150px;letter-spacing:-4px');
+  this.b = h(F.s, 'div', 'a', 'Recognise the call. Give it its lane. Never make things worse.', 'left:0;top:390px;width:1920px;text-align:center;font-size:36px;color:#b7acff');
+  this.q = h(F.s, 'div', 'a', '<img src="repo-qr.png" style="width:200px;height:200px;display:block">', 'left:690px;top:520px;background:#fcfcfb;border-radius:16px;padding:12px');
+  this.g = h(F.s, 'div', 'a', '<div style="font-size:24px;letter-spacing:2px;font-weight:700;color:#b7acff">REPORT, CODE, EVERY RESULT</div><div class="num" style="font-size:44px;margin-top:8px">github.com/shreyashsri79/aqose</div>', 'left:940px;top:560px;width:700px');
+  this.tm = h(F.s, 'div', 'a', 'Shreyash Neeraj · Mridul Jaiswal · Sachi Jha &nbsp;·&nbsp; Tata Elxsi Teliport, Season 4', 'left:0;top:860px;width:1920px;text-align:center;font-size:28px;color:#c9cde0');
+}, update(t, c) { appear(this.a, t, 0.2, { dy: 30 }); appear(this.b, t, 0.8); appear(this.q, t, 1.4); appear(this.g, t, 1.6, { dx: 20, dy: 0 }); appear(this.tm, t, 2.2); } });
+
+/* ===== timeline ===== */
+let T = null;
+window.setTiming = function (tj) {
+  T = tj; for (const s of T.scenes) { const S = SCENES[s.id]; S.build(); S.el = S.F.s; }
+};
+window.render = function (tau) {
+  for (const s of T.scenes) {
+    const S = SCENES[s.id], local = tau - s.start;
+    const o = Math.min(clamp(local / 0.45 + (s.start === 0 ? 1 : 0)), clamp((s.dur - local) / 0.45));
+    S.el.style.display = o > 0 ? 'block' : 'none'; S.el.style.opacity = o;
+    if (o > 0) S.update(local, s.cues, s.dur);
+  }
+  document.getElementById('progress').style.width = (1920 * tau / T.duration) + 'px';
+};
+</script>
+</body></html>

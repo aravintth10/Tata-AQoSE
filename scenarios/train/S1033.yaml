@@ -1,0 +1,62 @@
+schema_version: 1
+id: S1033
+name: 'training mix 33: voice_call, cloud_gaming, abr_video, bulk_download, video_call,
+  cloud_gaming'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 200000
+  up_kbit: 100000
+  delay_ms: 40
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-voice-call
+  host: desktop
+  profile: voice_call
+  start_s: 4.6
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-cloud-gaming
+  host: laptop
+  profile: cloud_gaming
+  start_s: 10.6
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-abr-video
+  host: tv1
+  profile: abr_video
+  start_s: 6.6
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-bulk-download
+  host: laptop
+  profile: bulk_download
+  start_s: 9.7
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t4-video-call
+  host: phone
+  profile: video_call
+  start_s: 6.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t5-cloud-gaming
+  host: phone
+  profile: cloud_gaming
+  start_s: 3.7
+  stop_s: null
+  params:
+    ip_version: 6
+events: []
+primary_metrics:
+- latency_ms

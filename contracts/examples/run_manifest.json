@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "run_id": "S1-B2-s0007",
+  "scenario_id": "S1",
+  "config": "B2",
+  "seed": 7,
+  "attempt": 1,
+  "tag": null,
+  "started_at": "2026-10-12T10:15:00+05:30",
+  "duration_s": 180,
+  "warmup_s": 20,
+  "valid": true,
+  "invalid_reason": null,
+  "versions": {
+    "git_commit": "0000000",
+    "kernel": "7.2.8-100.fc43.x86_64",
+    "iproute2": "6.14.0",
+    "model_version": null
+  }
+}

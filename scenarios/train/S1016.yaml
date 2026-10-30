@@ -1,0 +1,54 @@
+schema_version: 1
+id: S1016
+name: 'training mix 16: bulk_download, gaming, voice_call, web_browsing, video_call'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 200000
+  up_kbit: 20000
+  delay_ms: 5
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-bulk-download
+  host: tv1
+  profile: bulk_download
+  start_s: 0.9
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-gaming
+  host: tv1
+  profile: gaming
+  start_s: 8.8
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-voice-call
+  host: laptop
+  profile: voice_call
+  start_s: 1.4
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t3-web-browsing
+  host: laptop
+  profile: web_browsing
+  start_s: 3.0
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-video-call
+  host: desktop
+  profile: video_call
+  start_s: 2.7
+  stop_s: null
+  params:
+    ip_version: 6
+events: []
+primary_metrics:
+- latency_ms

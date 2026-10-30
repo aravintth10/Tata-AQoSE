@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "proposal_id": "0000000000000a19",
+  "ts_ns": 96000000000,
+  "verdict": "reject",
+  "reason": "A structural change was applied less than 10 s ago.",
+  "applied": null
+}

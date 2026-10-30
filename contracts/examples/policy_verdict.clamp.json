@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "proposal_id": "0000000000000a18",
+  "ts_ns": 95000050000,
+  "verdict": "clamp",
+  "reason": "Rate increase limited to the maximum upward step.",
+  "applied": { "rate_kbit": 30000 }
+}

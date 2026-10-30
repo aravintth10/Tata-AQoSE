@@ -1,0 +1,298 @@
+<title>Case Study Handover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: the case study page's own system, so the two read as one project. A single reading
+   column; tables break out wider. Status chips carry what is final and what will move. */
+:root {
+  --paper: #f6f7f5;
+  --ink: #15171a;
+  --ink-2: #474b52;
+  --ink-3: #6e737b;
+  --rule: #d9dcd8;
+  --accent: #5242c4;
+  --accent-soft: #e9e6fb;
+  --good: #1f7a3a;
+  --good-soft: #e3f2e7;
+  --warn: #9a5b00;
+  --warn-soft: #fbf0dc;
+  --stop: #b02a2a;
+  --stop-soft: #fbe5e5;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --measure: 44rem;
+  --wide: 62rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131518; --ink: #e9ebee; --ink-2: #b9bec6; --ink-3: #8c929b; --rule: #2c3036;
+    --accent: #9a8ff0; --accent-soft: #24213d; --good: #6fcf8a; --good-soft: #17291d;
+    --warn: #f0b552; --warn-soft: #2e2516; --stop: #f08a8a; --stop-soft: #331b1b; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131518; --ink: #e9ebee; --ink-2: #b9bec6; --ink-3: #8c929b; --rule: #2c3036;
+  --accent: #9a8ff0; --accent-soft: #24213d; --good: #6fcf8a; --good-soft: #17291d;
+  --warn: #f0b552; --warn-soft: #2e2516; --stop: #f08a8a; --stop-soft: #331b1b; color-scheme: dark;
+}
+
+body { background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.65 var(--body); }
+.page { padding-inline: 1.25rem; padding-block: 3rem 5rem; display: grid; gap: 3rem; }
+.page > * { width: 100%; max-width: var(--measure); margin-inline: auto; }
+.page > .wide { max-width: var(--wide); }
+h1, h2, h3 { font-family: var(--display); line-height: 1.12; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.2rem, 5.5vw, 3.2rem); font-weight: 700; }
+h2 { font-size: 1.65rem; font-weight: 600; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p { margin: 0; }
+section, header { display: grid; gap: 1rem; }
+.eyebrow { font: 500 0.78rem/1.3 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.lede { font-size: 1.18rem; line-height: 1.55; color: var(--ink-2); }
+.meta { font: 400 0.85rem/1.5 var(--mono); color: var(--ink-3); }
+a { color: var(--accent); }
+code { font-family: var(--mono); font-size: 0.88em; overflow-wrap: anywhere; }
+strong { font-weight: 600; }
+
+.callout { padding: 0.9rem 1.1rem; border-left: 3px solid var(--accent); background: var(--accent-soft); }
+.callout.warn { border-color: var(--warn); background: var(--warn-soft); }
+.quote { font: 500 1.15rem/1.5 var(--body); padding: 1.1rem 1.2rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 3px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 0.55rem 0.75rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--rule); }
+thead th { font: 500 0.75rem/1.3 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+tbody tr:last-child td { border-bottom: 0; }
+td.n { font-family: var(--mono); white-space: nowrap; }
+
+.chip { display: inline-block; font: 500 0.72rem/1 var(--mono); letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 0.3rem 0.45rem; border-radius: 2px; white-space: nowrap; }
+.chip.final { color: var(--good); background: var(--good-soft); }
+.chip.moves { color: var(--warn); background: var(--warn-soft); }
+.chip.pending { color: var(--stop); background: var(--stop-soft); }
+
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1.25rem; }
+.two > div { min-width: 0; display: grid; gap: 0.6rem; align-content: start; }
+ul.list, ol.list { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.45rem; }
+ul.do li::marker { content: "✓  "; color: var(--good); }
+ul.dont li::marker { content: "✗  "; color: var(--stop); }
+.swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: 0.75rem; }
+.swatch { display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.6rem; align-items: center; font-size: 0.9rem; }
+.swatch i { width: 1.6rem; height: 1.6rem; border-radius: 3px; border: 1px solid var(--rule); }
+dl.gloss { margin: 0; display: grid; gap: 0.8rem; }
+dl.gloss div { display: grid; gap: 0.15rem; }
+dl.gloss dt { font-weight: 600; }
+dl.gloss dd { margin: 0; color: var(--ink-2); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<main class="page">
+
+<header>
+  <p class="eyebrow">Adaptive QoS Engine · Teliport Season 4</p>
+  <h1>Case Study Handover</h1>
+  <p class="lede">For the literature and design team writing the submitted case study. What the project is, what we may claim, which numbers are final and which will move, the figures available, what must be disclosed, and where every source lives.</p>
+</header>
+
+<section>
+  <p class="eyebrow">Start here</p>
+  <h2>The one-paragraph version</h2>
+  <p>Home routers that run CAKE, the best open-source queue manager, already keep most calls and games smooth by sharing the line fairly between devices. They fail in one common situation: a call or a game on a device that is also downloading, backing up or sharing files. Fairness then gives the call a small slice of that device's share, and nothing tells CAKE which connection is the call. Existing tools guess with thresholds ("many packets per second means bulk") and get calls and cloud games wrong, because those send many packets too. We built a small classifier that recognises the kind of traffic from the sizes and timing of a connection's first eight packets, without reading any content, and a decision rule that puts each connection in the CAKE priority queue that does the least expected harm. In emulated homes it fixes that failure case, ties CAKE everywhere else, and has never done worse than the threshold tools.</p>
+  <p>The interim results page (<code>reports/case-study/index.html</code>) shows all of this with charts. Treat it as the source of facts and wording, not as the design to copy.</p>
+</section>
+
+<section>
+  <p class="eyebrow">Timing</p>
+  <h2>Write the structure now; fill the numbers last</h2>
+  <div class="callout warn">Every result number today comes from 6 of 10 seeds and from a system that will change once more before it is frozen. Write the narrative, the method and the limits now. Put result numbers in as placeholders and fill them from the final report.</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>When</th><th>What lands</th><th>What it means for the writing</th></tr></thead>
+      <tbody>
+        <tr><td class="n">Oct 15, early morning</td><td>All 10 seeds, then the A/A noise runs</td><td>Interim numbers firm up; still the pre-freeze system</td></tr>
+        <tr><td class="n">Oct 15</td><td>System frozen: estimator fix, safer demotion rule, model retrained with the WhatsApp calls</td><td>The model's accuracy figures will change</td></tr>
+        <tr><td class="n">Oct 16 to 17</td><td>Rerun of the classifier configurations, plus fresh seeds run only once</td><td><strong>Final numbers.</strong> Charts regenerated with one command</td></tr>
+        <tr><td class="n">After that</td><td>The sealed test set of real captures is opened, once</td><td>The last classifier figure for the case study</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="meta">Round dates and submission format are still to be confirmed on the official Teliport page (open item in the PRD). Tell the engineering side the deadline as soon as it is known; the rerun can be shortened to fit.</p>
+</section>
+
+<section>
+  <p class="eyebrow">The claim</p>
+  <h2>What we may say, word for word</h2>
+  <p class="quote">A safe, low-cost upgrade for routers that already run CAKE: it fixes the one case plain CAKE cannot, a call or a game sharing its device with bulk traffic, and ties CAKE everywhere else. Demonstrated in emulation against plain CAKE and against threshold rules; validation on real router hardware is the next step.</p>
+  <div class="two">
+    <div>
+      <h3>Say</h3>
+      <ul class="list do">
+        <li>"Beats plain CAKE when a call or game shares its device with bulk traffic; ties it otherwise."</li>
+        <li>"Never did worse than threshold rules in any run."</li>
+        <li>"Classifies from packet sizes and timing; never reads content."</li>
+        <li>"Falls back to plain CAKE within about two seconds if it fails."</li>
+        <li>"In emulation" or "in a testbed", every time a live result is quoted.</li>
+        <li>Credit the line-speed scenario (S2) to the capacity estimator, not the classifier.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Do not say</h3>
+      <ul class="list dont">
+        <li>"Beats CAKE" without the condition, or "CAKE is bad". CAKE is our floor and we build on it.</li>
+        <li>"A viable upgrade for homes" or "deployed". It has not run on a real router or in a real home.</li>
+        <li>"Seven times better" as a headline. It depends on our scenario mix.</li>
+        <li>"AI", "deep learning" or "neural network". The model is gradient-boosted decision trees.</li>
+        <li>"94% accurate" alone. Accuracy is dominated by web traffic; give per-class figures or say "on held-out flows".</li>
+        <li>That the WhatsApp calls were classified correctly. The video calls were labelled as voice calls, though every one was still protected.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">Suggested story</p>
+  <h2>A sequence that matches the evidence</h2>
+  <ol class="list">
+    <li><strong>The everyday failure.</strong> A cloud game on a PC that starts a game update. Plain CAKE: 83% of the game's frames late. Use the S7 timeline chart.</li>
+    <li><strong>Why fairness cannot fix it, and why thresholds make it worse.</strong> The game is one of nine connections on its PC; threshold rules read its packet rate as a download.</li>
+    <li><strong>The idea.</strong> Recognise the traffic from its first eight packets; choose the queue by expected harm, not by the most likely label.</li>
+    <li><strong>How it stays safe.</strong> Safety shield, fallback to plain CAKE when unsure, watchdog within two seconds.</li>
+    <li><strong>The test.</strong> Nine emulated home situations, five router setups, identical traffic per seed.</li>
+    <li><strong>Results in what people experience.</strong> Late frames and latency first, the summary cost scale second.</li>
+    <li><strong>Where it does not help</strong>, and why that was predicted.</li>
+    <li><strong>What we learned.</strong> Each scenario that exposed a wrong assumption, and the fix.</li>
+    <li><strong>Limits</strong> (the list below, all of it), then next steps: real hardware first.</li>
+  </ol>
+</section>
+
+<section class="wide">
+  <p class="eyebrow">Numbers</p>
+  <h2>Key figures, with their status and source</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Figure</th><th>Today</th><th>Status</th><th>Source in the repository</th></tr></thead>
+      <tbody>
+        <tr><td>S6, HD call on a laptop sharing files: late frames, CAKE vs full system</td><td class="n">94% → 2%</td><td><span class="chip moves">will move</span></td><td><code>reports/core-6seeds.md</code></td></tr>
+        <tr><td>S7, cloud game during an update: late frames, CAKE vs rules vs full system</td><td class="n">83% / 19% / 0.6%</td><td><span class="chip moves">will move</span></td><td><code>reports/core-6seeds.md</code></td></tr>
+        <tr><td>S2, line drops to a fifth: late frames, CAKE vs full system (estimator's win)</td><td class="n">56% → 0.9%</td><td><span class="chip moves">will move</span></td><td><code>reports/core-6seeds.md</code></td></tr>
+        <tr><td>S5, work call on a busy evening: late frames, CAKE vs full system</td><td class="n">93% → 0.1%</td><td><span class="chip moves">will move</span></td><td><code>reports/core-6seeds.md</code></td></tr>
+        <tr><td>Runs as good as CAKE or better</td><td class="n">53 of 54</td><td><span class="chip moves">will move</span></td><td>case study page</td></tr>
+        <tr><td>Flows left unusable over 9 scenarios: no QoS / CAKE / rules / top label / full system</td><td class="n">12.31 / 5.58 / 6.91 / 1.65 / 0.73</td><td><span class="chip moves">will move</span></td><td><code>reports/charts/total-cost.png</code></td></tr>
+        <tr><td>Classifier on 3,607 held-out flows: accuracy, macro-F1</td><td class="n">0.94, 0.74</td><td><span class="chip moves">changes with retraining</span></td><td><code>reports/head-to-head-v1-validation.md</code></td></tr>
+        <tr><td>qosify's default rules: cloud-gaming flows sent to Bulk</td><td class="n">89%</td><td><span class="chip final">final</span></td><td><code>reports/head-to-head-v1-validation.md</code></td></tr>
+        <tr><td>Time to classify one flow; model size</td><td class="n">1.4 ms; 1.5 MB</td><td><span class="chip moves">gets faster</span></td><td><code>models/lgbm-v1-fe91bbad/meta.json</code></td></tr>
+        <tr><td>Watchdog back to plain CAKE after a crash</td><td class="n">2.02–2.03 s</td><td><span class="chip final">final</span></td><td><code>results-core/S10-*/failsafe.json</code></td></tr>
+        <tr><td>Safety shield fuzzing: bad proposals, none passed</td><td class="n">10.9 million</td><td><span class="chip final">final</span></td><td>Project Log, section 3</td></tr>
+        <tr><td>Unseen video calls (Zoom, Meet, Teams, Webex) sent to Bulk</td><td class="n">16%</td><td><span class="chip moves">being fixed</span></td><td>case study page</td></tr>
+        <tr><td>CPU use per component on a router</td><td class="n">not measured</td><td><span class="chip pending">pending</span></td><td>none yet</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="wide">
+  <p class="eyebrow">Figures</p>
+  <h2>Charts you can use, and their rules</h2>
+  <p>All charts are generated from the results by <code>python -m aqos_ml.charts --results results-core --out reports/charts</code> and will be regenerated with the final numbers under the same file names. Lay out with today's files; swap in the final ones.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>File in <code>reports/charts/</code></th><th>Shows</th><th>Best use</th></tr></thead>
+      <tbody>
+        <tr><td><code>timeline-S7.png</code></td><td>A cloud game's late frames, second by second, plain CAKE against the full system</td><td>Opening image: the failure, and the fix, in one picture</td></tr>
+        <tr><td><code>timeline-S6.png</code></td><td>The same for an HD call on a laptop sharing files</td><td>Second example</td></tr>
+        <tr><td><code>late-frames.png</code></td><td>Late frames per scenario and router setup</td><td>Main results figure</td></tr>
+        <tr><td><code>against-cake.png</code></td><td>Paired difference against each rival, with intervals</td><td>Statistical evidence</td></tr>
+        <tr><td><code>cost-by-scenario.png</code></td><td>Summary cost per scenario</td><td>Overview, includes the ties</td></tr>
+        <tr><td><code>total-cost.png</code></td><td>Summary cost over all scenarios</td><td>Summary only, never the headline</td></tr>
+        <tr><td><code>offline.png</code></td><td>Classifier against threshold rules on recorded flows</td><td>Before any live traffic</td></tr>
+        <tr><td><code>damage-table.png</code></td><td>The measured cost of each wrong queue</td><td>Explaining "expected damage"</td></tr>
+        <tr><td><code>timeline-S2.png</code>, <code>timeline-S5.png</code>, <code>timeline-S8.png</code></td><td>Line-speed drop; busy evening; changing flows</td><td>Appendix</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>Colours belong to the router setups</h3>
+  <p>Every chart gives each setup the same colour. Keep it in redrawn charts and diagrams, so a reader learns it once. The set was checked for colour-blind readers; values are written on the marks, so colour is never the only cue.</p>
+  <div class="swatches">
+    <div class="swatch"><i style="background:#898781"></i><span>No QoS <code>#898781</code></span></div>
+    <div class="swatch"><i style="background:#2a78d6"></i><span>Plain CAKE <code>#2a78d6</code></span></div>
+    <div class="swatch"><i style="background:#eb6834"></i><span>Threshold rules <code>#eb6834</code></span></div>
+    <div class="swatch"><i style="background:#1baf7a"></i><span>Top label <code>#1baf7a</code></span></div>
+    <div class="swatch"><i style="background:#6250d6"></i><span>Full system <code>#6250d6</code></span></div>
+  </div>
+  <p class="meta">The charts are drawn on a light surface (#fcfcfb). For a dark layout, keep them on a light panel. If a chart needs changing, ask for it to be changed in <code>ml/aqos_ml/charts.py</code> rather than editing the image, or the next regeneration undoes the edit.</p>
+</section>
+
+<section>
+  <p class="eyebrow">Must appear in the case study</p>
+  <h2>Limits that have to be stated</h2>
+  <p>Judges will look for these; stating them first is what makes the rest credible. Each is explained on the interim page.</p>
+  <ol class="list">
+    <li>Everything ran in emulation on one laptop: no real router, no real home, no Wi-Fi.</li>
+    <li>Generated calls and games do not lower their quality when squeezed, as real ones do, so the size of CAKE's failures is overstated.</li>
+    <li>The model does much worse on data sources it never saw. On unseen video-call apps, 16% of records went to the lowest-priority queue.</li>
+    <li>The system was tuned partly on the scenarios it is measured on. The final numbers come with fresh seeds and new scenarios run once, to answer this.</li>
+    <li>The summary cost scale is the one the decision rule optimises; the raw measurements are the evidence.</li>
+    <li>Expected damage has beaten the simpler top-label rule in only one live scenario so far.</li>
+    <li>Not yet measured: CPU on a router, a flood of short connections, fairness between devices, IPv6 end to end, VPN traffic.</li>
+    <li>The adaptive line-speed comparison (S2) still needs the community tool, cake-autorate, as a baseline.</li>
+  </ol>
+</section>
+
+<section class="wide">
+  <p class="eyebrow">Literature</p>
+  <h2>What to cite</h2>
+  <p>The PRD's section "Prior art and lessons" has a linked table of the related work we position against; start there. Core references:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Topic</th><th>Reference</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>CAKE</td><td>T. Høiland-Jørgensen, D. Täht, J. Morton. "Piece of CAKE: A Comprehensive Queue Management Solution for Home Gateways." IEEE LANMAN 2018.</td><td><span class="chip final">check details</span></td></tr>
+        <tr><td>Traffic classes</td><td>J. Babiarz, K. Chan, F. Baker. RFC 4594, "Configuration Guidelines for DiffServ Service Classes." IETF, 2006.</td><td><span class="chip final">check details</span></td></tr>
+        <tr><td>LightGBM</td><td>G. Ke et al. "LightGBM: A Highly Efficient Gradient Boosting Decision Tree." NeurIPS 2017.</td><td><span class="chip final">check details</span></td></tr>
+        <tr><td>Random forest library</td><td>F. Pedregosa et al. "Scikit-learn: Machine Learning in Python." JMLR 12, 2011.</td><td><span class="chip final">check details</span></td></tr>
+        <tr><td>Dataset: ISCX VPN-nonVPN</td><td>G. Draper-Gil, A. H. Lashkari, M. Mamun, A. A. Ghorbani. "Characterization of Encrypted and VPN Traffic Using Time-Related Features." ICISSP 2016.</td><td><span class="chip final">check details</span></td></tr>
+        <tr><td>Dataset: ISCX Tor-nonTor</td><td>A. H. Lashkari, G. Draper-Gil, M. Mamun, A. A. Ghorbani. "Characterization of Tor Traffic Using Time Based Features." ICISSP 2017.</td><td><span class="chip final">check details</span></td></tr>
+        <tr><td>Dataset: Purdue video calls (2026)</td><td>From the dataset's page; the archive is named for PAM 2026.</td><td><span class="chip pending">to complete</span></td></tr>
+        <tr><td>Dataset: UNSW cloud gaming (2025)</td><td>From the dataset's page.</td><td><span class="chip pending">to complete</span></td></tr>
+        <tr><td>Dataset: Labayen et al. (2020), Mendeley, CC BY 4.0</td><td>From the dataset's page; the licence requires attribution.</td><td><span class="chip pending">to complete</span></td></tr>
+        <tr><td>Threshold rules we compare against</td><td>qosify (OpenWrt), dscpclassify, QoSmate: links in the PRD.</td><td><span class="chip final">linked</span></td></tr>
+        <tr><td>Adaptive shaping</td><td>cake-autorate (OpenWrt community): link in the PRD.</td><td><span class="chip final">linked</span></td></tr>
+        <tr><td>Earlier ML for home QoS</td><td>DIFFUSE (2012), FlowQoS (2015), FPHTC (2021), DCTPQ (2025), Polito RTC classification: links in the PRD.</td><td><span class="chip final">linked</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="meta">"Check details" means the reference is right as far as the engineering side knows, but page numbers and exact titles must be confirmed against the source before submission. Our contribution, as the PRD frames it: no reproducible head-to-head between ML classifiers and the deterministic classifiers that feed CAKE was found; this is one.</p>
+</section>
+
+<section>
+  <p class="eyebrow">Words</p>
+  <h2>Glossary for writing</h2>
+  <dl class="gloss">
+    <div><dt>CAKE</dt><dd>The queue manager in Linux that most enthusiast home routers (OpenWrt) use. It keeps delay low and shares the line fairly. Our system only gives it hints.</dd></div>
+    <div><dt>Tin</dt><dd>One of CAKE's four priority queues: Voice, Video, Best Effort, Bulk. In prose, "priority queue" is clearer.</dd></div>
+    <div><dt>Flow, connection</dt><dd>One conversation between two programs, such as the video of a call or one part of a download. Use "connection" for general readers.</dd></div>
+    <div><dt>Late frames</dt><dd>Video or game frames that arrived too late to show (100 ms for calls, 50 ms for games). The most readable measure of what a person sees.</dd></div>
+    <div><dt>Expected damage</dt><dd>For each queue, the harm of putting the connection there, averaged over what it might be, weighted by how likely each is. The system picks the queue with the least.</dd></div>
+    <div><dt>Damage table</dt><dd>The measured harm of putting each kind of traffic in each queue. 240 testbed runs.</dd></div>
+    <div><dt>Top label</dt><dd>The simpler rule: put the connection in the queue of its most likely kind.</dd></div>
+    <div><dt>Seed</dt><dd>A number that fixes every random detail of a test, so all router setups face identical traffic.</dd></div>
+    <div><dt>Plain CAKE, B2</dt><dd>The baseline to beat. Configuration names B0, B2, B4, O1, O2 are internal; prefer the plain names on the left of the colour list.</dd></div>
+    <div><dt>Emulation, testbed</dt><dd>Virtual home networks on one laptop, running the real Linux networking code at real speed. Not a simulation, but not a real home either.</dd></div>
+  </dl>
+</section>
+
+<section>
+  <p class="eyebrow">Where things live</p>
+  <h2>Sources</h2>
+  <ul class="list">
+    <li><a href="../case-study/index.html">Interim case study page</a>: the facts, numbers and limits, with charts.</li>
+    <li><code>Project Log.md</code>: the whole story with dates, decisions, mistakes and results. Sections 11 and 12 are the latest.</li>
+    <li><code>Adaptive QoS Engine Product Requirements (Teliport S4).md</code>: goals, success criteria, prior art with links.</li>
+    <li><code>Technical Specification.md</code>: how each part works, with "As built" notes.</li>
+    <li><code>reports/</code>: every report and chart; <code>reports/case-study/</code> is the interim page's source.</li>
+    <li>Questions on what a number means, or whether a sentence is true: ask the engineering side before publishing it.</li>
+  </ul>
+</section>
+
+</main>

@@ -1,0 +1,582 @@
+{
+  "model_version": "lgbm-v1-fe91bbad",
+  "kind": "lgbm",
+  "chosen": true,
+  "schema_version": 1,
+  "features_version": 1,
+  "features": [
+    "size_1",
+    "size_2",
+    "size_3",
+    "size_4",
+    "size_5",
+    "size_6",
+    "size_7",
+    "size_8",
+    "gap_1_us",
+    "gap_2_us",
+    "gap_3_us",
+    "gap_4_us",
+    "gap_5_us",
+    "gap_6_us",
+    "gap_7_us",
+    "ip_version",
+    "protocol",
+    "port_class_initiator",
+    "port_class_responder",
+    "pkts_up_per_s",
+    "pkts_down_per_s",
+    "bytes_up_per_s",
+    "bytes_down_per_s",
+    "mean_pkt_size_up",
+    "mean_pkt_size_down",
+    "pkt_size_spread",
+    "rate_cv",
+    "burstiness"
+  ],
+  "classes": [
+    "telephony",
+    "realtime_interactive",
+    "multimedia_conferencing",
+    "multimedia_streaming",
+    "standard",
+    "high_throughput_data",
+    "low_priority_data"
+  ],
+  "dataset": {
+    "name": "v1",
+    "sha256": "fe91bbad5e5e48471d2e1baa907527592fe9c4df9bd34dcfe808f8e52dcc4075",
+    "records": {
+      "train": 156013,
+      "calibration": 29250,
+      "validation": 43188
+    }
+  },
+  "damage_table": {
+    "file": "damage_table.yaml",
+    "sha256": "86959d3975b73dfd755438047eb1ca3b2d1c6b1b977c688f24bc5413febe1e98"
+  },
+  "seed": 1,
+  "params": {
+    "num_leaves": 127,
+    "learning_rate": 0.05,
+    "min_child_samples": 10,
+    "colsample_bytree": 1.0,
+    "reg_lambda": 0.0,
+    "trees": 37
+  },
+  "calibration": "sigmoid",
+  "calibrations_tried": {
+    "sigmoid": {
+      "expected_damage_balanced": 0.14098097364278356,
+      "expected_damage": 0.036456889381760234,
+      "accuracy": 0.9440701638167125,
+      "macro_f1": 0.7350659180425418,
+      "ece": 0.05224549141567647,
+      "damage_by_class": {
+        "telephony": 0.0,
+        "realtime_interactive": 0.022522522522522324,
+        "multimedia_conferencing": 0.00902934537246187,
+        "multimedia_streaming": 0.5,
+        "standard": 0.024621878297574604,
+        "high_throughput_data": 0.0,
+        "low_priority_data": 0.43069306930692614
+      },
+      "recall": {
+        "telephony": 0.7368421052631597,
+        "realtime_interactive": 0.9543543543543535,
+        "multimedia_conferencing": 0.9953783769023515,
+        "multimedia_streaming": 0.9068322981366457,
+        "standard": 0.9473142572995249,
+        "high_throughput_data": 0.7739868903685164,
+        "low_priority_data": 0.7766973125883997
+      },
+      "precision": {
+        "telephony": 0.358017640050361,
+        "realtime_interactive": 0.9216937354988405,
+        "multimedia_conferencing": 0.9935622352412449,
+        "multimedia_streaming": 0.1665005549192572,
+        "standard": 0.9968258451731874,
+        "high_throughput_data": 0.6524049895306486,
+        "low_priority_data": 0.7645213458348031
+      }
+    },
+    "isotonic": {
+      "expected_damage_balanced": 0.14979518168368505,
+      "expected_damage": 0.034594113230101226,
+      "accuracy": 0.9377350436123697,
+      "macro_f1": 0.7168257004495728,
+      "ece": 0.03260096851001617,
+      "damage_by_class": {
+        "telephony": 0.0,
+        "realtime_interactive": 0.08913458913458834,
+        "multimedia_conferencing": 0.009090354462816343,
+        "multimedia_streaming": 0.5,
+        "standard": 0.019648258881464535,
+        "high_throughput_data": 0.0,
+        "low_priority_data": 0.43069306930692614
+      },
+      "recall": {
+        "telephony": 0.6842105263157912,
+        "realtime_interactive": 0.9543543543543535,
+        "multimedia_conferencing": 0.9954548227685921,
+        "multimedia_streaming": 0.9068322981366457,
+        "standard": 0.9413138802709774,
+        "high_throughput_data": 0.7608061159478121,
+        "low_priority_data": 0.7376630520194853
+      },
+      "precision": {
+        "telephony": 0.3377032877742338,
+        "realtime_interactive": 0.9216937354988405,
+        "multimedia_conferencing": 0.9956992559422182,
+        "multimedia_streaming": 0.14582860256828034,
+        "standard": 0.9973885026812477,
+        "high_throughput_data": 0.5826749946309646,
+        "low_priority_data": 0.7680040972311315
+      }
+    },
+    "temperature": {
+      "expected_damage_balanced": 0.14753889317586882,
+      "expected_damage": 0.02956962792005972,
+      "accuracy": 0.9715255922919241,
+      "macro_f1": 0.7841814501986873,
+      "ece": 0.03291355765070583,
+      "damage_by_class": {
+        "telephony": 0.0,
+        "realtime_interactive": 0.04299754299754261,
+        "multimedia_conferencing": 0.00902934537246187,
+        "multimedia_streaming": 0.5,
+        "standard": 0.014773126978544765,
+        "high_throughput_data": 0.07877280265339896,
+        "low_priority_data": 0.38719943422913367
+      },
+      "recall": {
+        "telephony": 0.3421052631578956,
+        "realtime_interactive": 0.9643734643734634,
+        "multimedia_conferencing": 0.9954853273137694,
+        "multimedia_streaming": 0.80110461372276,
+        "standard": 0.9857634189463056,
+        "high_throughput_data": 0.7025130756473998,
+        "low_priority_data": 0.8091898475561825
+      },
+      "precision": {
+        "telephony": 0.6021052631578947,
+        "realtime_interactive": 0.9224441833137491,
+        "multimedia_conferencing": 0.995485327313769,
+        "multimedia_streaming": 0.5357566886793399,
+        "standard": 0.991084373915916,
+        "high_throughput_data": 0.6992524335024077,
+        "low_priority_data": 0.7587174315231412
+      }
+    }
+  },
+  "uncalibrated": {
+    "expected_damage_balanced": 0.1392552546842918,
+    "expected_damage": 0.026749259196585724,
+    "accuracy": 0.9715255922919241,
+    "macro_f1": 0.7841814501986873,
+    "ece": 0.057473788080652025,
+    "damage_by_class": {
+      "telephony": 0.0,
+      "realtime_interactive": 0.04402129402129362,
+      "multimedia_conferencing": 0.00902934537246187,
+      "multimedia_streaming": 0.5,
+      "standard": 0.012310939148787307,
+      "high_throughput_data": 0.007462686567164113,
+      "low_priority_data": 0.40196251768033564
+    },
+    "recall": {
+      "telephony": 0.3421052631578956,
+      "realtime_interactive": 0.9643734643734634,
+      "multimedia_conferencing": 0.9954853273137694,
+      "multimedia_streaming": 0.80110461372276,
+      "standard": 0.9857634189463056,
+      "high_throughput_data": 0.7025130756473998,
+      "low_priority_data": 0.8091898475561825
+    },
+    "precision": {
+      "telephony": 0.6021052631578947,
+      "realtime_interactive": 0.9224441833137491,
+      "multimedia_conferencing": 0.995485327313769,
+      "multimedia_streaming": 0.5357566886793399,
+      "standard": 0.991084373915916,
+      "high_throughput_data": 0.6992524335024077,
+      "low_priority_data": 0.7587174315231412
+    }
+  },
+  "search": [
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.05,
+      "min_child_samples": 40,
+      "colsample_bytree": 1.0,
+      "reg_lambda": 0.0,
+      "trees": 46,
+      "expected_damage_balanced": 0.15671052663733948
+    },
+    {
+      "num_leaves": 15,
+      "learning_rate": 0.1,
+      "min_child_samples": 40,
+      "colsample_bytree": 0.6,
+      "reg_lambda": 0.0,
+      "trees": 34,
+      "expected_damage_balanced": 0.15918785593760618
+    },
+    {
+      "num_leaves": 127,
+      "learning_rate": 0.05,
+      "min_child_samples": 10,
+      "colsample_bytree": 1.0,
+      "reg_lambda": 0.0,
+      "trees": 37,
+      "expected_damage_balanced": 0.1392552546842918
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.05,
+      "min_child_samples": 20,
+      "colsample_bytree": 0.6,
+      "reg_lambda": 0.0,
+      "trees": 57,
+      "expected_damage_balanced": 0.156730917493509
+    },
+    {
+      "num_leaves": 127,
+      "learning_rate": 0.1,
+      "min_child_samples": 40,
+      "colsample_bytree": 0.8,
+      "reg_lambda": 5.0,
+      "trees": 25,
+      "expected_damage_balanced": 0.15387688140043482
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.05,
+      "min_child_samples": 40,
+      "colsample_bytree": 0.6,
+      "reg_lambda": 0.0,
+      "trees": 62,
+      "expected_damage_balanced": 0.15871794348636883
+    },
+    {
+      "num_leaves": 15,
+      "learning_rate": 0.05,
+      "min_child_samples": 40,
+      "colsample_bytree": 0.6,
+      "reg_lambda": 1.0,
+      "trees": 80,
+      "expected_damage_balanced": 0.15444878084079244
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.1,
+      "min_child_samples": 5,
+      "colsample_bytree": 0.8,
+      "reg_lambda": 0.0,
+      "trees": 21,
+      "expected_damage_balanced": 0.16180262671399728
+    },
+    {
+      "num_leaves": 15,
+      "learning_rate": 0.1,
+      "min_child_samples": 5,
+      "colsample_bytree": 0.6,
+      "reg_lambda": 1.0,
+      "trees": 33,
+      "expected_damage_balanced": 0.1627418980053728
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.03,
+      "min_child_samples": 40,
+      "colsample_bytree": 1.0,
+      "reg_lambda": 5.0,
+      "trees": 88,
+      "expected_damage_balanced": 0.16093961194265602
+    },
+    {
+      "num_leaves": 15,
+      "learning_rate": 0.1,
+      "min_child_samples": 10,
+      "colsample_bytree": 0.8,
+      "reg_lambda": 5.0,
+      "trees": 28,
+      "expected_damage_balanced": 0.1688768542327978
+    },
+    {
+      "num_leaves": 31,
+      "learning_rate": 0.1,
+      "min_child_samples": 5,
+      "colsample_bytree": 0.6,
+      "reg_lambda": 5.0,
+      "trees": 29,
+      "expected_damage_balanced": 0.1608942967648484
+    }
+  ],
+  "fit_s": 117.4,
+  "single_record_us": 1433.7,
+  "validation": {
+    "rows": 43188,
+    "flows": 3607,
+    "expected_damage": 0.036456889381760234,
+    "expected_damage_balanced": 0.14098097364278356,
+    "damage_by_class": {
+      "telephony": 0.0,
+      "realtime_interactive": 0.022522522522522324,
+      "multimedia_conferencing": 0.00902934537246187,
+      "multimedia_streaming": 0.5,
+      "standard": 0.024621878297574604,
+      "high_throughput_data": 0.0,
+      "low_priority_data": 0.43069306930692614
+    },
+    "accuracy": 0.9440701638167125,
+    "macro_f1": 0.7350659180425418,
+    "ece": 0.05224549141567647,
+    "reliability": [
+      null,
+      null,
+      {
+        "confidence": 0.2834,
+        "accuracy": 0.0,
+        "flows": 1.08
+      },
+      {
+        "confidence": 0.3547,
+        "accuracy": 0.0203,
+        "flows": 12.74
+      },
+      {
+        "confidence": 0.4727,
+        "accuracy": 0.4434,
+        "flows": 39.64
+      },
+      {
+        "confidence": 0.5437,
+        "accuracy": 0.5155,
+        "flows": 93.26
+      },
+      {
+        "confidence": 0.6517,
+        "accuracy": 0.6136,
+        "flows": 96.05
+      },
+      {
+        "confidence": 0.7551,
+        "accuracy": 0.8223,
+        "flows": 128.02
+      },
+      {
+        "confidence": 0.8621,
+        "accuracy": 0.8937,
+        "flows": 310.51
+      },
+      {
+        "confidence": 0.9364,
+        "accuracy": 0.9904,
+        "flows": 2925.71
+      }
+    ],
+    "recall": {
+      "telephony": 0.7368421052631597,
+      "realtime_interactive": 0.9543543543543535,
+      "multimedia_conferencing": 0.9953783769023515,
+      "multimedia_streaming": 0.9068322981366457,
+      "standard": 0.9473142572995249,
+      "high_throughput_data": 0.7739868903685164,
+      "low_priority_data": 0.7766973125883997
+    },
+    "precision": {
+      "telephony": 0.358017640050361,
+      "realtime_interactive": 0.9216937354988405,
+      "multimedia_conferencing": 0.9935622352412449,
+      "multimedia_streaming": 0.1665005549192572,
+      "standard": 0.9968258451731874,
+      "high_throughput_data": 0.6524049895306486,
+      "low_priority_data": 0.7645213458348031
+    },
+    "confusion": {
+      "telephony": {
+        "standard": 2.0,
+        "multimedia_streaming": 3.0,
+        "telephony": 14.0
+      },
+      "realtime_interactive": {
+        "realtime_interactive": 105.933,
+        "multimedia_streaming": 2.067,
+        "telephony": 1.143,
+        "multimedia_conferencing": 1.857
+      },
+      "multimedia_conferencing": {
+        "multimedia_conferencing": 440.953,
+        "standard": 2.0,
+        "telephony": 0.047
+      },
+      "multimedia_streaming": {
+        "multimedia_streaming": 20.857,
+        "standard": 2.143
+      },
+      "standard": {
+        "multimedia_streaming": 90.202,
+        "standard": 2693.214,
+        "telephony": 20.333,
+        "multimedia_conferencing": 1.0,
+        "realtime_interactive": 9.0,
+        "high_throughput_data": 9.5,
+        "low_priority_data": 19.75
+      },
+      "high_throughput_data": {
+        "low_priority_data": 4.412,
+        "high_throughput_data": 51.857,
+        "multimedia_streaming": 6.239,
+        "telephony": 2.059,
+        "standard": 2.433
+      },
+      "low_priority_data": {
+        "low_priority_data": 78.446,
+        "telephony": 1.522,
+        "high_throughput_data": 18.129,
+        "multimedia_streaming": 2.903
+      }
+    },
+    "tins": {
+      "telephony": {
+        "best_effort": 5.0,
+        "voice": 10.5,
+        "bulk": 3.5
+      },
+      "realtime_interactive": {
+        "voice": 106.933,
+        "video": 3.067,
+        "best_effort": 1.0
+      },
+      "multimedia_conferencing": {
+        "video": 441.0,
+        "best_effort": 2.0
+      },
+      "multimedia_streaming": {
+        "best_effort": 23.0
+      },
+      "standard": {
+        "best_effort": 2808.5,
+        "voice": 24.5,
+        "bulk": 10.0
+      },
+      "high_throughput_data": {
+        "best_effort": 67.0
+      },
+      "low_priority_data": {
+        "bulk": 72.048,
+        "video": 0.143,
+        "best_effort": 28.81
+      }
+    }
+  },
+  "validation_top_label": {
+    "expected_damage_balanced": 0.2936334819164578,
+    "expected_damage": 0.13591224613136227,
+    "accuracy": 0.9440701638167125,
+    "macro_f1": 0.7350659180425418,
+    "ece": 0.05224549141567647,
+    "damage_by_class": {
+      "telephony": 0.0,
+      "realtime_interactive": 0.0,
+      "multimedia_conferencing": 0.009189770989588524,
+      "multimedia_streaming": 0.9534161490683231,
+      "standard": 0.13443820473955626,
+      "high_throughput_data": 0.43439409900278164,
+      "low_priority_data": 0.5239961496149552
+    },
+    "recall": {
+      "telephony": 0.7368421052631597,
+      "realtime_interactive": 0.9543543543543535,
+      "multimedia_conferencing": 0.9953783769023515,
+      "multimedia_streaming": 0.9068322981366457,
+      "standard": 0.9473142572995249,
+      "high_throughput_data": 0.7739868903685164,
+      "low_priority_data": 0.7766973125883997
+    },
+    "precision": {
+      "telephony": 0.358017640050361,
+      "realtime_interactive": 0.9216937354988405,
+      "multimedia_conferencing": 0.9935622352412449,
+      "multimedia_streaming": 0.1665005549192572,
+      "standard": 0.9968258451731874,
+      "high_throughput_data": 0.6524049895306486,
+      "low_priority_data": 0.7645213458348031
+    }
+  },
+  "rules_on_validation": {
+    "bulk_pps": 4000,
+    "priority_bytes": 1200,
+    "expected_damage_balanced": 0.7450731244508527,
+    "expected_damage": 0.2808775748430425,
+    "accuracy": 0.41835531898134576,
+    "macro_f1": 0.10423201563974749,
+    "ece": 0.5816446810186213,
+    "damage_by_class": {
+      "telephony": 0.0,
+      "realtime_interactive": 0.8272548552453154,
+      "multimedia_conferencing": 1.518805971864512,
+      "multimedia_streaming": 0.20512763881436577,
+      "standard": 0.0,
+      "high_throughput_data": 0.7454565185431086,
+      "low_priority_data": 1.9188668866886673
+    },
+    "recall": {
+      "telephony": 0.0,
+      "realtime_interactive": 0.6906533066177892,
+      "multimedia_conferencing": 0.0,
+      "multimedia_streaming": 0.0,
+      "standard": 0.5037141766603634,
+      "high_throughput_data": 0.0,
+      "low_priority_data": 0.0028288543140027973
+    },
+    "precision": {
+      "telephony": null,
+      "realtime_interactive": 0.03716388656682188,
+      "multimedia_conferencing": null,
+      "multimedia_streaming": null,
+      "standard": 0.9311233990257348,
+      "high_throughput_data": null,
+      "low_priority_data": 0.04618662462759531
+    }
+  },
+  "feature_importance": {
+    "gap_1_us": 0.0931,
+    "size_4": 0.0827,
+    "gap_7_us": 0.0709,
+    "gap_5_us": 0.0678,
+    "gap_3_us": 0.067,
+    "gap_2_us": 0.0636,
+    "gap_4_us": 0.0591,
+    "gap_6_us": 0.0585,
+    "size_1": 0.0432,
+    "pkts_up_per_s": 0.0378,
+    "size_6": 0.0371,
+    "pkts_down_per_s": 0.0316,
+    "pkt_size_spread": 0.0285,
+    "size_8": 0.0281,
+    "mean_pkt_size_up": 0.0264,
+    "mean_pkt_size_down": 0.0243,
+    "rate_cv": 0.022,
+    "size_7": 0.0213,
+    "size_2": 0.0193,
+    "bytes_down_per_s": 0.0185,
+    "burstiness": 0.0185,
+    "size_5": 0.0172,
+    "bytes_up_per_s": 0.0167,
+    "port_class_responder": 0.0161,
+    "size_3": 0.0147,
+    "port_class_initiator": 0.0125,
+    "protocol": 0.0024,
+    "ip_version": 0.001
+  },
+  "libraries": {
+    "python": "3.14.7",
+    "scikit-learn": "1.9.1",
+    "lightgbm": "4.7.0",
+    "numpy": "2.5.3"
+  },
+  "model_bytes": 1492110
+}

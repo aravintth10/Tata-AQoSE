@@ -1,0 +1,39 @@
+schema_version: 1
+id: S7
+name: Cloud gaming on a PC that is also fetching a game update
+description: >
+  A cloud game: 10 to 25 Mbit/s of video toward the home in large packets,
+  and small input packets back. By packet rate and size it looks like a
+  download, which is the false positive qosify's own documentation
+  describes. The same PC starts fetching a game update over eight
+  connections 30 s in, and a TV is streaming.
+
+  As in S6, fair shares between flows on one device leave the game a
+  ninth of what the PC gets, far less than it needs. The generated game
+  does not lower its picture quality as a real one would, so "less than
+  it needs" shows here as lost packets and late frames.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 100000
+  up_kbit: 20000
+  delay_ms: 10
+hosts:
+  - pc
+  - tv
+traffic:
+  - {id: game, host: pc, profile: cloud_gaming, start_s: 0, stop_s: null}
+  - id: update
+    host: pc
+    profile: game_update
+    start_s: 50
+    stop_s: null
+    params: {connections: 8}
+  - {id: stream, host: tv, profile: abr_video, start_s: 0, stop_s: null}
+events: []
+primary_metrics:
+  - latency_ms
+  - jitter_ms
+  - loss_ratio
+  - frame_miss
+  - throughput_kbit

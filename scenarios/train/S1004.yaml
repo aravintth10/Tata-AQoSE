@@ -1,0 +1,54 @@
+schema_version: 1
+id: S1004
+name: 'training mix 4: cloud_gaming, p2p, gaming, web_browsing, video_call'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 10000
+  up_kbit: 2000
+  delay_ms: 5
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-cloud-gaming
+  host: tv1
+  profile: cloud_gaming
+  start_s: 4.5
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-p2p
+  host: phone
+  profile: p2p
+  start_s: 7.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-gaming
+  host: phone
+  profile: gaming
+  start_s: 7.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-web-browsing
+  host: desktop
+  profile: web_browsing
+  start_s: 8.8
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-video-call
+  host: laptop
+  profile: video_call
+  start_s: 3.3
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

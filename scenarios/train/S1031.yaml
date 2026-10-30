@@ -1,0 +1,40 @@
+schema_version: 1
+id: S1031
+name: 'training mix 31: voice_call, voice_call, gaming'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 200000
+  up_kbit: 40000
+  delay_ms: 40
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-voice-call
+  host: laptop
+  profile: voice_call
+  start_s: 6.0
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-voice-call
+  host: phone
+  profile: voice_call
+  start_s: 8.7
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-gaming
+  host: tv1
+  profile: gaming
+  start_s: 3.9
+  stop_s: null
+  params:
+    ip_version: 6
+events: []
+primary_metrics:
+- latency_ms

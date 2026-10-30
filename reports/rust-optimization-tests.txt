@@ -1,0 +1,56 @@
+go build -o bin/ ./cmd/...
+/home/shreyashneeraj/.cargo/bin/cargo build --locked --release --manifest-path rust/aqos-classify/Cargo.toml
+   Compiling serde-saphyr v1.3.0
+   Compiling aqos-classify-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-classify)
+    Finished `release` profile [optimized] target(s) in 11.50s
+mkdir -p bin
+cp rust/aqos-classify/target/release/aqos-classify-rs bin/
+cp rust/aqos-classify/target/release/aqos-core-bench-rs bin/
+/home/shreyashneeraj/.cargo/bin/cargo fmt --manifest-path rust/aqos-classify/Cargo.toml -- --check
+/home/shreyashneeraj/.cargo/bin/cargo clippy --locked --manifest-path rust/aqos-classify/Cargo.toml --all-targets -- -D warnings
+    Checking serde-saphyr v1.3.0
+    Checking aqos-classify-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-classify)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.88s
+/home/shreyashneeraj/.cargo/bin/cargo test --locked --manifest-path rust/aqos-classify/Cargo.toml
+   Compiling serde-saphyr v1.3.0
+   Compiling aqos-classify-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-classify)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.97s
+     Running unittests src/lib.rs (rust/aqos-classify/target/debug/deps/aqos_classify_rs-707e4748ee9875fc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (rust/aqos-classify/target/debug/deps/aqos_classify_rs-059bdcdb5446a5a3)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/aqos-core-bench-rs.rs (rust/aqos-classify/target/debug/deps/aqos_core_bench_rs-a06dba1ea3eef794)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/parity.rs (rust/aqos-classify/target/debug/deps/parity-7ef369d82540df50)
+
+running 5 tests
+test nan_routing_and_leaf_roots_match_lightgbm_semantics ... ok
+test rejects_malformed_models_before_inference ... ok
+test split_boundaries_missing_values_and_nonzero_roots ... ok
+test probability_and_record_validation_and_bulk_guards ... ok
+test all_reference_probabilities_and_decisions_match ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.49s
+
+   Doc-tests aqos_classify_rs
+
+running 1 test
+test src/lib.rs - Probabilities (line 395) - compile fail ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+AQOS_RUST_TEST=1 .venv/bin/pytest -q ml/tests/test_rust_backend.py
+......                                                                   [100%]
+6 passed in 11.48s

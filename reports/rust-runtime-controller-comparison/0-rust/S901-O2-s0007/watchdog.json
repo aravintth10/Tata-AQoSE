@@ -1,0 +1,6 @@
+{
+  "heartbeat": "reports/rust-runtime-controller-comparison/0-rust/S901-O2-s0007/heartbeat",
+  "timeout_ms": 2000,
+  "safe_up_kbit": 19000,
+  "safe_down_kbit": 95000
+}

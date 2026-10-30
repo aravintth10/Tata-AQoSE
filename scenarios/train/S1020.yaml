@@ -1,0 +1,62 @@
+schema_version: 1
+id: S1020
+name: 'training mix 20: video_call, web_browsing, voice_call, cloud_gaming, cloud_gaming,
+  web_browsing'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 20000
+  up_kbit: 4000
+  delay_ms: 5
+  loss_pct: 0.5
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-video-call
+  host: laptop
+  profile: video_call
+  start_s: 2.7
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-web-browsing
+  host: phone
+  profile: web_browsing
+  start_s: 11.2
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t2-voice-call
+  host: tv1
+  profile: voice_call
+  start_s: 8.6
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-cloud-gaming
+  host: desktop
+  profile: cloud_gaming
+  start_s: 7.2
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t4-cloud-gaming
+  host: laptop
+  profile: cloud_gaming
+  start_s: 5.2
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t5-web-browsing
+  host: tv1
+  profile: web_browsing
+  start_s: 7.3
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

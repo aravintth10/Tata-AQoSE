@@ -1,0 +1,35 @@
+flowchart TB
+    DEV(["Home devices"])
+    subgraph SVC["aqos-classify (Go): decides"]
+        direction LR
+        CLS["Classifier<br/>259 trees"] --> DEC["Decision engine<br/>expected damage, guards"]
+    end
+    subgraph CTRL["aqosd (Go): watches and acts"]
+        direction LR
+        EXT["Feature extractor<br/>packets 1 to 8"]
+        REC["Reclassifier<br/>every second"]
+        INT["Lease API"]
+        CAP["Capacity estimator<br/>every 100 ms"]
+        VER["QoE verifier"]
+        SH{{"Safety shield"}}
+        ENF["Enforcer<br/>apply, read back"]
+    end
+    subgraph KER["Linux kernel: moves every packet"]
+        direction LR
+        CT["conntrack mark"] --> CAKE["CAKE, 4 tins"]
+    end
+    NET(["Internet"])
+    WD["Watchdog<br/>separate process"]
+    DEV --> CAKE --> NET
+    CAKE -.->|"headers of packets 1 to 8"| EXT
+    EXT -->|"feature record"| CLS
+    REC -->|"window record"| CLS
+    INT -->|"leased classes"| DEC
+    DEC -->|"tin proposal"| SH
+    CAP -->|"rate proposal"| SH
+    VER -->|"undo proposal"| SH
+    SH -->|"accept or clamp"| ENF
+    ENF -->|"set mark, set rate"| CT
+    WD ==>|"aqosd silent 2 s: plain CAKE"| CAKE
+    classDef ends fill:#5242c4,stroke:#5242c4,color:#ffffff
+    class DEV,NET ends

@@ -1,0 +1,12 @@
+# Public datasets to fetch: URL, then destination relative to the repo root.
+# data/ext is a link to the large external disk; data/public is on this disk.
+# scripts/fetch-data.sh downloads every line and resumes after any interruption.
+# An optional third column names a file holding a browser cookie, for sites
+# that only serve a browser that has registered. That file is git-ignored.
+https://archive.ll.mit.edu/datasets/vnat/VNAT_Dataframe_release_1.h5	data/public/vnat/VNAT_Dataframe_release_1.h5
+https://www.cs.purdue.edu/homes/fahmy/datasets/VCAPurdue/pam2026.zip	data/ext/purdue-vca/pam2026.zip
+https://data.mendeley.com/public-files/datasets/5pmnkshffm/files/02a81782-0246-442d-947f-9f6ba412ff38/file_downloaded	data/ext/labayen/pcap_web.tar.gz
+https://data.mendeley.com/public-files/datasets/5pmnkshffm/files/c78bcac1-7465-488b-b9f2-1892443756f4/file_downloaded	data/ext/labayen/pcap_interactive.tar.gz
+https://data.mendeley.com/public-files/datasets/5pmnkshffm/files/2304c9d9-ee6f-4d01-9c2a-e3081abc5f7a/file_downloaded	data/ext/labayen/pcap_video.tar.gz
+https://data.mendeley.com/public-files/datasets/5pmnkshffm/files/f0110f59-30bb-4c01-ae21-62e4e60524ae/file_downloaded	data/ext/labayen/pcap_bulk-2.tar.gz
+https://data.mendeley.com/public-files/datasets/5pmnkshffm/files/5f479156-6eb0-4306-91d1-90deb382320e/file_downloaded	data/ext/labayen/pcap_bulk-1.tar.gz

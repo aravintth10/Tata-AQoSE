@@ -1,0 +1,52 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@600;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;width:1280px;height:720px;overflow:hidden;background:#14213d;font-family:'IBM Plex Sans',Arial,sans-serif;color:#f4f3ef}
+.a{position:absolute}
+.g{font-family:'Space Grotesk',Arial,sans-serif;font-weight:700}
+</style></head><body>
+<svg class="a" style="left:0;top:0" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <radialGradient id="glow" cx="0.72" cy="0.55" r="0.55"><stop offset="0" stop-color="#6250d6" stop-opacity="0.45"/><stop offset="1" stop-color="#6250d6" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#glow)"/>
+  <!-- faint packet lines -->
+  <g stroke="#24345c" stroke-width="2">
+    <line x1="0" y1="96" x2="1280" y2="96"/><line x1="0" y1="660" x2="1280" y2="660"/>
+  </g>
+  <!-- laptop on a call -->
+  <g transform="translate(790,170)">
+    <rect x="0" y="0" width="300" height="200" rx="14" fill="#fcfcfb"/>
+    <rect x="14" y="14" width="272" height="172" rx="6" fill="#eceaf9"/>
+    <circle cx="150" cy="82" r="34" fill="#6250d6"/>
+    <path d="M92 186 Q150 116 208 186 Z" fill="#6250d6"/>
+    <path d="M-30 208 H330 L306 232 H-6 Z" fill="#fcfcfb"/>
+    <rect x="206" y="24" width="68" height="28" rx="14" fill="#1d7a52"/>
+    <text x="240" y="44" text-anchor="middle" font-family="IBM Plex Sans" font-weight="700" font-size="16" fill="#fff">LIVE</text>
+  </g>
+  <!-- four CAKE lanes, the call alone in Video -->
+  <g transform="translate(760,452) scale(0.885,1)" font-family="IBM Plex Sans" font-weight="700" font-size="17">
+    <rect x="0" y="0" width="520" height="34" rx="6" fill="#1d3557" stroke="#3a4a72" stroke-width="2"/>
+    <rect x="0" y="42" width="520" height="34" rx="6" fill="#457b9d"/>
+    <rect x="0" y="84" width="520" height="34" rx="6" fill="#a8c5da"/>
+    <rect x="0" y="126" width="520" height="34" rx="6" fill="#dde8f0"/>
+    <text x="12" y="23" fill="#c9cde0">VOICE</text><text x="12" y="65" fill="#fff">VIDEO</text><text x="12" y="107" fill="#14213d">BEST EFFORT</text><text x="12" y="149" fill="#14213d">BULK</text>
+    <g fill="#ffffff" stroke="#6250d6" stroke-width="3"><circle cx="150" cy="59" r="9"/><circle cx="200" cy="59" r="9"/><circle cx="250" cy="59" r="9"/><circle cx="300" cy="59" r="9"/><circle cx="350" cy="59" r="9"/><circle cx="400" cy="59" r="9"/><circle cx="450" cy="59" r="9"/></g>
+    <g fill="#5f6b85"><circle cx="160" cy="101" r="6"/><circle cx="190" cy="101" r="6"/><circle cx="220" cy="101" r="6"/><circle cx="250" cy="101" r="6"/><circle cx="280" cy="101" r="6"/><circle cx="310" cy="101" r="6"/><circle cx="340" cy="101" r="6"/><circle cx="370" cy="101" r="6"/><circle cx="160" cy="143" r="6"/><circle cx="190" cy="143" r="6"/><circle cx="220" cy="143" r="6"/><circle cx="250" cy="143" r="6"/><circle cx="280" cy="143" r="6"/></g>
+  </g>
+  <path d="M940 408 C940 432 890 470 905 494" fill="none" stroke="#b7acff" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 12"/>
+</svg>
+
+<div class="a g" style="left:64px;top:52px;font-size:120px;line-height:1;letter-spacing:-4px">AQoSE</div>
+<div class="a" style="left:68px;top:184px;width:600px;font-size:34px;line-height:1.2;font-weight:700;color:#b7acff">Your router can't tell a call<br>from a download. This can.</div>
+
+<div class="a g" style="left:62px;top:338px;display:flex;align-items:center;gap:18px;font-size:124px;line-height:1;letter-spacing:-5px"><span style="color:#8a90a2">94%</span><span style="font-size:72px;color:#8a90a2;letter-spacing:0">→</span><span style="color:#b7acff">0.6%</span></div>
+<div class="a" style="left:66px;top:494px;width:620px;font-size:28px;line-height:1.3;font-weight:600;color:#c9cde0">late video frames on a call, when the same<br>laptop is busy sharing files</div>
+
+<div class="a" style="left:64px;top:600px;display:flex;gap:14px;align-items:center">
+  <span style="background:#6250d6;color:#fff;font-weight:700;font-size:26px;padding:10px 22px;border-radius:999px">How it works, explained</span>
+</div>
+<div class="a" style="left:1100px;top:28px;background:#fcfcfb;border-radius:12px;padding:6px 10px"><img src="tata-elxsi.png" style="height:56px;display:block"></div>
+<div class="a" style="left:900px;top:30px;background:#fcfcfb;border-radius:12px;padding:6px 10px"><img src="teliport.png" style="height:52px;display:block"></div>
+</body></html>

@@ -1,0 +1,62 @@
+schema_version: 1
+id: S1025
+name: 'training mix 25: web_browsing, bulk_download, cloud_gaming, game_update, video_call,
+  gaming'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 200000
+  up_kbit: 20000
+  delay_ms: 10
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-web-browsing
+  host: tv1
+  profile: web_browsing
+  start_s: 6.9
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-bulk-download
+  host: phone
+  profile: bulk_download
+  start_s: 4.5
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-cloud-gaming
+  host: tv1
+  profile: cloud_gaming
+  start_s: 5.2
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-game-update
+  host: laptop
+  profile: game_update
+  start_s: 3.9
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-video-call
+  host: desktop
+  profile: video_call
+  start_s: 4.1
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t5-gaming
+  host: desktop
+  profile: gaming
+  start_s: 11.2
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

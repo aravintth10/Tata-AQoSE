@@ -1,0 +1,47 @@
+schema_version: 1
+id: S1034
+name: 'training mix 34: voice_call, abr_video, voice_call, web_browsing'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 20000
+  up_kbit: 2000
+  delay_ms: 60
+  loss_pct: 0.1
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-voice-call
+  host: laptop
+  profile: voice_call
+  start_s: 10.0
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t1-abr-video
+  host: desktop
+  profile: abr_video
+  start_s: 1.9
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t2-voice-call
+  host: tv1
+  profile: voice_call
+  start_s: 0.2
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t3-web-browsing
+  host: laptop
+  profile: web_browsing
+  start_s: 8.4
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

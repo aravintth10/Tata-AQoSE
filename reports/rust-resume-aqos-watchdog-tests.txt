@@ -1,0 +1,13 @@
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling aqos-watchdog-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-watchdog)
+    Finished `release` profile [optimized] target(s) in 1m 13s
+     Running unittests src/main.rs (rust/aqos-watchdog/target/release/deps/aqos_watchdog_rs-eb7b006adfdc9c61)
+
+running 2 tests
+test command::tests::communicates ... ok
+test command::tests::timeout_kills_children_and_closes_pipes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+

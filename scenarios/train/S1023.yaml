@@ -1,0 +1,54 @@
+schema_version: 1
+id: S1023
+name: 'training mix 23: abr_video, video_call, abr_video, voice_call, web_browsing'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 50000
+  up_kbit: 10000
+  delay_ms: 40
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-abr-video
+  host: laptop
+  profile: abr_video
+  start_s: 11.7
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-video-call
+  host: desktop
+  profile: video_call
+  start_s: 0.3
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t2-abr-video
+  host: phone
+  profile: abr_video
+  start_s: 2.9
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-voice-call
+  host: phone
+  profile: voice_call
+  start_s: 9.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-web-browsing
+  host: tv1
+  profile: web_browsing
+  start_s: 2.7
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

@@ -1,0 +1,12 @@
+# A first look at the live configurations on every scenario that can run
+# today, one seed each. About two hours; the scenarios the project is about
+# come first, so stopping early still leaves the important ones.
+#
+#   AQOS_MODEL=<version under models/> PYTHONPATH=ml .venv/bin/python -m aqos_ml.run matrix configs/matrix-live.yaml --results results-live
+#   PYTHONPATH=ml .venv/bin/python -m aqos_ml.run table --results results-live --out reports/live.md
+#
+# B4 runs qosify's own thresholds unless configs/rules.yaml exists.
+scenarios: [S7, S6, S1, S2, S3, S4, S5, S10]
+configs: [B2, B4, O1, O2]
+seeds: [1]
+tag: first-live

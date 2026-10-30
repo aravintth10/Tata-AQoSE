@@ -1,0 +1,61 @@
+schema_version: 1
+id: S1013
+name: 'training mix 13: gaming, web_browsing, gaming, cloud_gaming, voice_call, voice_call'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 50000
+  up_kbit: 5000
+  delay_ms: 10
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-gaming
+  host: tv1
+  profile: gaming
+  start_s: 10.6
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-web-browsing
+  host: laptop
+  profile: web_browsing
+  start_s: 11.6
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-gaming
+  host: tv1
+  profile: gaming
+  start_s: 9.1
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-cloud-gaming
+  host: phone
+  profile: cloud_gaming
+  start_s: 11.9
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-voice-call
+  host: desktop
+  profile: voice_call
+  start_s: 9.4
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t5-voice-call
+  host: tv1
+  profile: voice_call
+  start_s: 5.1
+  stop_s: null
+  params:
+    ip_version: 6
+events: []
+primary_metrics:
+- latency_ms

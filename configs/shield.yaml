@@ -1,0 +1,20 @@
+# Bounds the safety shield holds every proposal to. Starting values from the
+# technical specification, section 7.4.
+#
+# Rate bounds are for the reference testbed link. A scenario with a very
+# different link needs its own copy.
+min_rate_kbit: {up: 500, down: 1000}
+max_rate_kbit: {up: 200000, down: 1000000}
+# Largest move of a shaper rate in one proposal, as a fraction of the
+# current rate.
+max_increase: 0.10
+max_decrease: 0.50
+# Shortest time between two increases in one direction. Decreases are never
+# delayed.
+increase_interval_ms: 10000
+# A flow whose label already changed flip_limit times within the window is
+# pinned to unlabelled at the next change.
+flip_limit: 2
+flip_window_ms: 60000
+# Label changes allowed per second over all flows.
+remark_budget: 50

@@ -1,0 +1,23 @@
+flowchart TD
+    S(["START: the router boots"]) --> A["CAKE shapes the line to 95% of its rate<br/>AQoSE installs marking, the watchdog arms"]
+    A --> B["You join a video call on your laptop"]
+    B --> C["First 8 packets of the call<br/>sizes and gaps only"]
+    C --> D{{"What is it?"}}
+    D -->|"video call, 62% sure"| E["Video tin"]
+    B --> F["The same laptop starts a cloud backup"]
+    F --> G["First 8 packets of each backup connection"]
+    G --> H{{"What is it?"}}
+    H -->|"background transfer, over 80% sure, TCP"| I["Bulk tin"]
+    H -->|"not sure enough"| J["Best Effort tin"]
+    E --> K["CAKE sends the call's packets first<br/>up to half the line"]
+    I --> L["The backup takes what is left"]
+    J --> L
+    K --> M{{"Each second, a cheap check, no model:<br/>still inside its class's normal range?"}}
+    L --> M
+    M -->|"outside for 2 to 6 s in a row,<br/>or the routine recheck every 30 to 60 s"| D
+    M -->|"inside"| K
+    K --> N(["END: the call stays smooth<br/>under 1% late frames instead of 94%"])
+    classDef ends fill:#5242c4,stroke:#5242c4,color:#ffffff
+    classDef tin fill:#ebe8fb,stroke:#5242c4,color:#171a2b
+    class S,N ends
+    class E,I,J tin

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "classification.schema.json",
+  "title": "Classification",
+  "description": "Classifier to decision engine. Calibrated probabilities for the seven RFC 4594 classes; they sum to 1 within 1e-6.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "flow_id", "model_version", "probs", "confidence", "inference_us"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "flow_id": { "type": "string", "pattern": "^[0-9a-f]{16}$" },
+    "model_version": {
+      "description": "Identifies the model or rule set that produced the probabilities.",
+      "type": "string",
+      "minLength": 1
+    },
+    "probs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "telephony",
+        "realtime_interactive",
+        "multimedia_conferencing",
+        "multimedia_streaming",
+        "standard",
+        "high_throughput_data",
+        "low_priority_data"
+      ],
+      "properties": {
+        "telephony": { "$ref": "#/$defs/prob" },
+        "realtime_interactive": { "$ref": "#/$defs/prob" },
+        "multimedia_conferencing": { "$ref": "#/$defs/prob" },
+        "multimedia_streaming": { "$ref": "#/$defs/prob" },
+        "standard": { "$ref": "#/$defs/prob" },
+        "high_throughput_data": { "$ref": "#/$defs/prob" },
+        "low_priority_data": { "$ref": "#/$defs/prob" }
+      }
+    },
+    "confidence": {
+      "description": "The largest value in probs.",
+      "$ref": "#/$defs/prob"
+    },
+    "inference_us": { "type": "number", "minimum": 0 }
+  },
+  "$defs": {
+    "prob": { "type": "number", "minimum": 0, "maximum": 1 }
+  }
+}

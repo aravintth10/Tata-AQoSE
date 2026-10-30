@@ -1,0 +1,40 @@
+schema_version: 1
+id: S13
+name: A larger real WhatsApp video call, replayed, on a laptop that is also sharing files
+description: >
+  S12 with a second WhatsApp video call recorded on Oct 14 (trace
+  whatsapp-video-010544): about 0.7 Mbit/s up and 2.1 Mbit/s down,
+  300 packets a second each way. This call is in the training data of
+  the model chosen for the final runs, so S13 counts as unseen only for
+  the model before it, which never saw WhatsApp. Written on Oct 15, after
+  the freeze.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 50000
+  up_kbit: 4000
+  delay_ms: 10
+hosts:
+  - laptop
+  - desktop
+traffic:
+  - id: call
+    host: laptop
+    profile: video_call
+    start_s: 0
+    stop_s: null
+    params: {trace: whatsapp-video-010544}
+  - id: sharing
+    host: laptop
+    profile: p2p
+    start_s: 30
+    stop_s: null
+    params: {tcp_up: 10, tcp_down: 10}
+  - {id: download, host: desktop, profile: bulk_download, start_s: 30, stop_s: null}
+events: []
+primary_metrics:
+  - latency_ms
+  - jitter_ms
+  - loss_ratio
+  - frame_miss
+  - throughput_kbit

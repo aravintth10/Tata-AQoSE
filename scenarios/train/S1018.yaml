@@ -1,0 +1,26 @@
+schema_version: 1
+id: S1018
+name: 'training mix 18: bulk_download'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 20000
+  up_kbit: 4000
+  delay_ms: 40
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-bulk-download
+  host: desktop
+  profile: bulk_download
+  start_s: 0.2
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

@@ -1,0 +1,26 @@
+schema_version: 1
+id: S1002
+name: 'training mix 2: video_call'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 10000
+  up_kbit: 2000
+  delay_ms: 20
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-video-call
+  host: phone
+  profile: video_call
+  start_s: 9.1
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

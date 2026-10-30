@@ -1,0 +1,8 @@
+# The frozen system on the matrix seeds. B0, B2 and B4 do not change at the
+# freeze, so their runs are copied from results-core; only the classifier
+# configurations are run again. 180 runs, about 10.5 hours.
+scenarios: [S7, S6, S8, S5, S1, S2, S3, S4, S10]
+configs: [O1, O2]
+seeds: {from: 0, to: 9}
+by: seed
+tag: final

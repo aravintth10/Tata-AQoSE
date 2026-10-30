@@ -1,0 +1,30 @@
+[package]
+name = "aqos-runtime-rs"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+aqos-classify-rs = { path = "../aqos-classify" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde-saphyr = { version = "1", default-features = false, features = ["deserialize"] }
+rustix = { version = "1", features = ["net", "event", "time", "fs", "process"] }
+signal-hook = "0.3"
+nix = { version = "0.31", default-features = false, features = ["socket"] }
+getrandom = { version = "0.3", features = ["std"] }
+sha2 = "0.10"
+hmac = "0.12"
+ipnet = { version = "2", features = ["serde"] }
+flate2 = "1"
+time = { version = "0.3", features = ["formatting", "parsing"] }
+httparse = "1"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "symbols"
+
+[lints.rust]
+unsafe_code = "forbid"
+unused_must_use = "deny"

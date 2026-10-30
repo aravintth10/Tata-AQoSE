@@ -1,0 +1,7 @@
+# S14: S6 entirely over IPv6, plain CAKE against AQoSE. Run after the
+# freeze; the system under test is the frozen one. 6 runs, about 21 minutes.
+scenarios: [S14]
+configs: [B2, O2]
+seeds: {from: 0, to: 2}
+by: seed
+tag: ipv6

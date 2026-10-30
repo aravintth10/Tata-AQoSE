@@ -1,0 +1,133 @@
+mkdir -p bin
+go build -o bin/aqos-testbed ./cmd/aqos-testbed
+/home/shreyashneeraj/.cargo/bin/cargo build --locked --release --manifest-path rust/aqos-classify/Cargo.toml
+   Compiling rustversion v1.0.23
+   Compiling libc v0.2.191
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling serde_core v1.0.229
+   Compiling unicode-ident v1.0.27
+   Compiling autocfg v1.5.1
+   Compiling cfg-if v1.0.5
+   Compiling multiversion_no_op v1.0.0
+   Compiling simdutf8 v0.1.5
+   Compiling core_detect v1.0.0
+   Compiling zmij v1.0.23
+   Compiling scopeguard v1.2.0
+   Compiling unicode-width v0.2.2
+   Compiling anstyle v1.0.14
+   Compiling getrandom v0.3.4
+   Compiling serde_json v1.0.154
+   Compiling rustix v1.1.5
+   Compiling serde v1.0.229
+   Compiling smallvec v1.16.3
+   Compiling arraydeque v0.5.1
+   Compiling signal-hook v0.3.18
+   Compiling annotate-snippets v0.12.17
+   Compiling itoa v1.0.18
+   Compiling linux-raw-sys v0.12.1
+   Compiling bitflags v2.13.2
+   Compiling memchr v2.8.3
+   Compiling num-traits v0.2.19
+   Compiling granit-parser v1.3.0
+   Compiling encoding_rs v0.8.42
+   Compiling syn v3.0.9
+   Compiling errno v0.3.14
+   Compiling signal-hook-registry v1.4.8
+   Compiling encoding_rs_io v0.1.8
+   Compiling serde-saphyr v1.3.0
+   Compiling serde_derive v1.0.229
+   Compiling aqos-classify-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-classify)
+    Finished `release` profile [optimized] target(s) in 15.34s
+mkdir -p bin
+cp rust/aqos-classify/target/release/aqos-classify-rs bin/
+cp rust/aqos-classify/target/release/aqos-core-bench-rs bin/
+/home/shreyashneeraj/.cargo/bin/cargo build --locked --release --manifest-path rust/aqos-runtime/Cargo.toml
+   Compiling autocfg v1.5.1
+   Compiling cfg-if v1.0.5
+   Compiling proc-macro2 v1.0.107
+   Compiling libc v0.2.191
+   Compiling version_check v0.9.5
+   Compiling rustversion v1.0.23
+   Compiling unicode-ident v1.0.27
+   Compiling serde_core v1.0.229
+   Compiling quote v1.0.47
+   Compiling typenum v1.20.1
+   Compiling zmij v1.0.23
+   Compiling core_detect v1.0.0
+   Compiling serde v1.0.229
+   Compiling simdutf8 v0.1.5
+   Compiling scopeguard v1.2.0
+   Compiling multiversion_no_op v1.0.0
+   Compiling smallvec v1.16.3
+   Compiling arraydeque v0.5.1
+   Compiling subtle v2.6.1
+   Compiling signal-hook v0.3.18
+   Compiling rustix v1.1.5
+   Compiling bitflags v2.13.2
+   Compiling cfg_aliases v0.2.2
+   Compiling unicode-width v0.2.2
+   Compiling anstyle v1.0.14
+   Compiling getrandom v0.3.4
+   Compiling serde_json v1.0.154
+   Compiling crc32fast v1.5.3
+   Compiling granit-parser v1.3.0
+   Compiling nix v0.31.3
+   Compiling generic-array v0.14.7
+   Compiling annotate-snippets v0.12.17
+   Compiling simd-adler32 v0.3.10
+   Compiling num-traits v0.2.19
+   Compiling memoffset v0.9.1
+   Compiling memchr v2.8.3
+   Compiling adler2 v2.0.1
+   Compiling linux-raw-sys v0.12.1
+   Compiling httparse v1.10.1
+   Compiling itoa v1.0.18
+   Compiling miniz_oxide v0.9.1
+   Compiling cpufeatures v0.2.17
+   Compiling powerfmt v0.2.1
+   Compiling num-conv v0.2.2
+   Compiling encoding_rs v0.8.42
+   Compiling deranged v0.5.9
+   Compiling syn v3.0.9
+   Compiling time-core v0.1.9
+   Compiling flate2 v1.1.10
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling digest v0.10.7
+   Compiling sha2 v0.10.9
+   Compiling hmac v0.12.1
+   Compiling errno v0.3.14
+   Compiling signal-hook-registry v1.4.8
+   Compiling encoding_rs_io v0.1.8
+   Compiling time v0.3.55
+   Compiling serde-saphyr v1.3.0
+   Compiling serde_derive v1.0.229
+   Compiling ipnet v2.12.2
+   Compiling aqos-classify-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-classify)
+   Compiling aqos-runtime-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-runtime)
+    Finished `release` profile [optimized] target(s) in 1m 29s
+/home/shreyashneeraj/.cargo/bin/cargo build --locked --release --manifest-path rust/aqos-watchdog/Cargo.toml
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling libc v0.2.191
+   Compiling unicode-ident v1.0.27
+   Compiling serde_core v1.0.229
+   Compiling zmij v1.0.23
+   Compiling rustix v1.1.5
+   Compiling serde v1.0.229
+   Compiling serde_json v1.0.154
+   Compiling signal-hook v0.3.18
+   Compiling memchr v2.8.3
+   Compiling linux-raw-sys v0.12.1
+   Compiling itoa v1.0.18
+   Compiling bitflags v2.13.2
+   Compiling syn v3.0.9
+   Compiling errno v0.3.14
+   Compiling signal-hook-registry v1.4.8
+   Compiling serde_derive v1.0.229
+   Compiling aqos-watchdog-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-watchdog)
+    Finished `release` profile [optimized] target(s) in 18.49s
+mkdir -p bin
+cp rust/aqos-runtime/target/release/aqos-extract-rs rust/aqos-runtime/target/release/aqos-ctl-rs rust/aqos-runtime/target/release/aqosd-rs rust/aqos-runtime/target/release/aqos-cake-reader-rs rust/aqos-runtime/target/release/aqos-reflector-rs rust/aqos-runtime/target/release/aqos-exporter-rs bin/
+cp rust/aqos-watchdog/target/release/aqos-watchdog-rs bin/

@@ -1,0 +1,26 @@
+schema_version: 1
+id: S1019
+name: 'training mix 19: gaming'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 10000
+  up_kbit: 2000
+  delay_ms: 60
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-gaming
+  host: desktop
+  profile: gaming
+  start_s: 2.3
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "service_response.schema.json",
+  "title": "Service response",
+  "description": "ML service to controller, one JSON object per line. ok false means the request produced nothing to act on: the controller leaves the flow unlabelled.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "ok"
+  ],
+  "properties": {
+    "id": {
+      "description": "The request's id. Null when the request line could not be read.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "error": {
+      "type": "string",
+      "minLength": 1
+    },
+    "classification": {
+      "description": "A classification (classification.schema.json).",
+      "type": "object"
+    },
+    "proposal": {
+      "description": "A flow-label policy proposal (policy_proposal.schema.json), ready for the safety shield.",
+      "type": "object"
+    },
+    "model_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_rule": {
+      "enum": [
+        "top_label",
+        "expected_damage",
+        "rules"
+      ]
+    },
+    "ready": {
+      "type": "boolean"
+    }
+  },
+  "if": {
+    "properties": {
+      "ok": {
+        "const": false
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "error"
+    ],
+    "not": {
+      "anyOf": [
+        {
+          "required": [
+            "classification"
+          ]
+        },
+        {
+          "required": [
+            "proposal"
+          ]
+        }
+      ]
+    }
+  },
+  "else": {
+    "not": {
+      "required": [
+        "error"
+      ]
+    },
+    "oneOf": [
+      {
+        "required": [
+          "classification",
+          "proposal"
+        ]
+      },
+      {
+        "required": [
+          "model_version",
+          "decision_rule",
+          "ready"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "proposal_id": "0000000000000a17",
+  "ts_ns": 41250400000,
+  "source": "decision_engine",
+  "kind": "flow_label",
+  "reason": "Looks like a video call (78% confident); the Video tin has the lowest expected damage.",
+  "flow_label": {
+    "flow_id": "3fa9c1d2e4b50761",
+    "host_id": "a1b2c3d4e5f60718",
+    "tin": "video",
+    "dscp": "AF41",
+    "previous_tin": null,
+    "top_class": "multimedia_conferencing",
+    "expected_damage": 0.6,
+    "decision_rule": "expected_damage"
+  }
+}

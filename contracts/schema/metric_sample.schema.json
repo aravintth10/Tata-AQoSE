@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "metric_sample.schema.json",
+  "title": "Metric sample",
+  "description": "One line of a run's metrics.jsonl. Long format: one value per line, labels as optional fields.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["run_id", "t_s", "source", "metric", "value"],
+  "properties": {
+    "run_id": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+$" },
+    "t_s": {
+      "description": "Seconds since the start of the run. Warm-up starts at 0.",
+      "type": "number",
+      "minimum": 0
+    },
+    "source": { "enum": ["generator", "cake", "controller", "system"] },
+    "metric": {
+      "enum": [
+        "latency_ms",
+        "jitter_ms",
+        "loss_ratio",
+        "throughput_kbit",
+        "frame_miss",
+        "video_stall_ms",
+        "video_bitrate_kbit",
+        "page_load_ms",
+        "queue_delay_ms",
+        "queue_backlog_bytes",
+        "tin_drops",
+        "shaper_rate_kbit",
+        "capacity_true_kbit",
+        "cpu_percent",
+        "reclassifications",
+        "flows_labelled",
+        "flows_unlabelled",
+        "inference_us"
+      ]
+    },
+    "value": { "type": "number" },
+    "host": { "type": ["string", "null"] },
+    "traffic_id": {
+      "description": "id of the traffic entry in the scenario that produced the sample.",
+      "type": ["string", "null"]
+    },
+    "profile": {
+      "enum": [
+        null,
+        "voice_call",
+        "video_call",
+        "gaming",
+        "cloud_gaming",
+        "abr_video",
+        "web_browsing",
+        "flow_storm",
+        "bulk_download",
+        "game_update",
+        "backup_upload",
+        "p2p"
+      ]
+    },
+    "true_class": {
+      "description": "Ground-truth class, known by construction from the profile.",
+      "enum": [
+        null,
+        "telephony",
+        "realtime_interactive",
+        "multimedia_conferencing",
+        "multimedia_streaming",
+        "standard",
+        "high_throughput_data",
+        "low_priority_data"
+      ]
+    },
+    "tin": { "enum": [null, "voice", "video", "best_effort", "bulk"] },
+    "direction": { "enum": [null, "up", "down"] },
+    "component": {
+      "description": "Process the sample is about, for cpu_percent.",
+      "enum": [null, "cake", "extractor", "classifier", "controller"]
+    }
+  }
+}

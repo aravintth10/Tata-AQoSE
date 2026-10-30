@@ -1,0 +1,29 @@
+# Prometheus and Grafana at the pinned versions (VERSIONS.md).
+#
+#   bin/aqos-exporter &                              serves the run in progress on :9108
+#   docker compose -f dashboards/compose.yaml up -d  (or: podman compose ...)
+#   open http://localhost:3000
+#
+# Both use the host's network, so Prometheus reaches the exporter on
+# localhost and nothing is published beyond this machine's own ports.
+services:
+  prometheus:
+    image: docker.io/prom/prometheus:v3.15.0
+    network_mode: host
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=2d
+      - --web.listen-address=127.0.0.1:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
+
+  grafana:
+    image: docker.io/grafana/grafana:13.2.3
+    network_mode: host
+    environment:
+      GF_SERVER_HTTP_ADDR: 127.0.0.1
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+    volumes:
+      - ./provisioning:/etc/grafana/provisioning:ro,Z

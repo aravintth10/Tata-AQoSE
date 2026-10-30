@@ -1,0 +1,124 @@
+{
+  "status": "passed",
+  "measured_seconds": 21600,
+  "elapsed_seconds": 21627.09,
+  "scenario": "S903",
+  "config": "O2",
+  "seed": 23,
+  "raw_results": "results-rust-soak-6h-retry",
+  "manifest": {
+    "schema_version": 1,
+    "run_id": "S903-O2-s0023",
+    "scenario_id": "S903",
+    "config": "O2",
+    "seed": 23,
+    "attempt": 1,
+    "tag": null,
+    "started_at": "2026-10-22T04:16:44+05:30",
+    "duration_s": 21600,
+    "warmup_s": 10,
+    "valid": true,
+    "invalid_reason": null,
+    "versions": {
+      "git_commit": "4eebba6+dirty",
+      "kernel": "7.2.8-100.fc43.x86_64",
+      "iproute2": "6.14.0, libbpf 1.6.1",
+      "model_version": "lgbm-v2-b3f691d8"
+    }
+  },
+  "binary_sha256": {
+    "aqos-cake-reader-rs": "bd1f0c027fe3b761804168bfd8652425efcce4be5dea7310cd53cfc47b55f9dc",
+    "aqos-classify-rs": "6d751c03d7faac4689cae2ca62f2d541c868eda66fdcd02f2a3703e94675c99d",
+    "aqos-reflector-rs": "f91f80fce1141bba868cab515f9ebf658c2f4a5d765d38c1e9767e9c24c46756",
+    "aqos-watchdog-rs": "1e5959942328958a48f7d519c369d020a189ffdf9c45be1a736276f56d9dc41e",
+    "aqosd-rs": "027bb7d83d9c9891f5b37f22cc9b863226b2a810bba6719f4a1d8e784e3176a4"
+  },
+  "controller": {
+    "cpu_s": 347.333926426,
+    "decision_rule": "expected_damage",
+    "extractor": {
+      "overflows": 0,
+      "packets": 539362,
+      "untracked": 0
+    },
+    "flows": {
+      "errors": 0,
+      "flow_gone": 0,
+      "held": 0,
+      "held_back": 3,
+      "improved": 15,
+      "labelled": 53251,
+      "mismatch": 0,
+      "over_cap": 0,
+      "rate_changes": 2039,
+      "rechecks": 312,
+      "records": 53249,
+      "refused": 0,
+      "regressed": 4,
+      "rejected": 0,
+      "relabelled": 2,
+      "rolled_back": 1,
+      "service_busy": 0,
+      "service_down": 0,
+      "timeouts": 0,
+      "triggers": 3461,
+      "unchanged": 3769,
+      "watched": 1355,
+      "windows": 85937
+    },
+    "model_version": "lgbm-v2-b3f691d8",
+    "shield": {
+      "ok": 55263,
+      "rate_step": 27
+    }
+  },
+  "resources": {
+    "aqosd-rs": {
+      "samples": 4325,
+      "rss_peak_bytes": 6414336,
+      "fd_peak": 20,
+      "process_identities": 1,
+      "rss_first_median_bytes": 4593664.0,
+      "rss_last_median_bytes": 5173248.0
+    },
+    "aqos-watchdog-rs": {
+      "samples": 4326,
+      "rss_peak_bytes": 2408448,
+      "fd_peak": 3,
+      "process_identities": 1,
+      "rss_first_median_bytes": 2408448.0,
+      "rss_last_median_bytes": 2146304.0
+    },
+    "aqos-reflector-rs": {
+      "samples": 4326,
+      "rss_peak_bytes": 1994752,
+      "fd_peak": 6,
+      "process_identities": 1,
+      "rss_first_median_bytes": 1994752.0,
+      "rss_last_median_bytes": 1994752.0
+    },
+    "aqos-classify-rs": {
+      "samples": 4326,
+      "rss_peak_bytes": 5832704,
+      "fd_peak": 8,
+      "process_identities": 1,
+      "rss_first_median_bytes": 5832704.0,
+      "rss_last_median_bytes": 5177344.0
+    },
+    "aqos-cake-reader-rs": {
+      "samples": 4324,
+      "rss_peak_bytes": 3305472,
+      "fd_peak": 9,
+      "process_identities": 1,
+      "rss_first_median_bytes": 2519040.0,
+      "rss_last_median_bytes": 2650112.0
+    }
+  },
+  "watchdog_recovery_triggered": false,
+  "limits": [
+    "One six-hour host namespace workload; not physical-router throughput or proof of leak freedom.",
+    "Exporter was not exercised in this soak.",
+    "The full Rust research scenario matrix, OpenWrt cross-compilation and physical-router validation remain outstanding.",
+    "Controller CPU excludes child tc/nft processes."
+  ]
+}

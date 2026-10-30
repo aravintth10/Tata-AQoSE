@@ -1,0 +1,15 @@
+{
+  "canonical_rust_binaries": 9,
+  "identical_to_pre_cleanup_build": true,
+  "sha256": {
+    "aqos-classify": "6d751c03d7faac4689cae2ca62f2d541c868eda66fdcd02f2a3703e94675c99d",
+    "aqos-core-bench": "f54b851313759a4a4b333a63c66bb694b8a8390576b8a6dde5f899b7b41fe3f2",
+    "aqos-extract": "7f152eda50a21289fe3714b46b33a11c3f3784dfdbc6e87af010716f315e9b8e",
+    "aqos-ctl": "bc524d6e7b5bfcbea383207657dfa4c847f49ae0fe81b2eadc687d9665e1ac25",
+    "aqosd": "027bb7d83d9c9891f5b37f22cc9b863226b2a810bba6719f4a1d8e784e3176a4",
+    "aqos-cake-reader": "bd1f0c027fe3b761804168bfd8652425efcce4be5dea7310cd53cfc47b55f9dc",
+    "aqos-reflector": "f91f80fce1141bba868cab515f9ebf658c2f4a5d765d38c1e9767e9c24c46756",
+    "aqos-exporter": "86f1497ddf4e9703fde58e849e5774d83a7ca32828b4b071a0ff5f115a9e40b5",
+    "aqos-watchdog": "1e5959942328958a48f7d519c369d020a189ffdf9c45be1a736276f56d9dc41e"
+  }
+}

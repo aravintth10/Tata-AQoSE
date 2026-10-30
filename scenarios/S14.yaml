@@ -1,0 +1,44 @@
+schema_version: 1
+id: S14
+name: HD video call on a laptop that is also sharing files, all over IPv6
+description: >
+  S6 with every connection over IPv6, end to end: the call, the
+  peer-to-peer client and the download. Written on Oct 16, after the
+  freeze, to show the classifier, the marking and CAKE's tins on IPv6, not
+  only the marking. The model saw little IPv6 in training, and the IP
+  version is one of its inputs.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 100000
+  up_kbit: 20000
+  delay_ms: 10
+hosts:
+  - laptop
+  - desktop
+traffic:
+  - id: call
+    host: laptop
+    profile: video_call
+    start_s: 0
+    stop_s: null
+    params: {kbit_up: 5000, kbit_down: 5000, ip_version: 6}
+  - id: sharing
+    host: laptop
+    profile: p2p
+    start_s: 30
+    stop_s: null
+    params: {tcp_up: 10, tcp_down: 10, ip_version: 6}
+  - id: download
+    host: desktop
+    profile: bulk_download
+    start_s: 30
+    stop_s: null
+    params: {ip_version: 6}
+events: []
+primary_metrics:
+  - latency_ms
+  - jitter_ms
+  - loss_ratio
+  - frame_miss
+  - throughput_kbit

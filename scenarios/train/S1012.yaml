@@ -1,0 +1,26 @@
+schema_version: 1
+id: S1012
+name: 'training mix 12: web_browsing'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 10000
+  up_kbit: 2000
+  delay_ms: 10
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-web-browsing
+  host: tv1
+  profile: web_browsing
+  start_s: 7.1
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

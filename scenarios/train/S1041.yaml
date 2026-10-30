@@ -1,0 +1,54 @@
+schema_version: 1
+id: S1041
+name: 'training mix 41: abr_video, gaming, cloud_gaming, backup_upload, web_browsing'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 50000
+  up_kbit: 5000
+  delay_ms: 60
+  loss_pct: 0.1
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-abr-video
+  host: phone
+  profile: abr_video
+  start_s: 0.7
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-gaming
+  host: laptop
+  profile: gaming
+  start_s: 4.4
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t2-cloud-gaming
+  host: desktop
+  profile: cloud_gaming
+  start_s: 5.8
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-backup-upload
+  host: phone
+  profile: backup_upload
+  start_s: 8.5
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-web-browsing
+  host: desktop
+  profile: web_browsing
+  start_s: 5.4
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

@@ -1,0 +1,38 @@
+{
+  "cpu_s": 0.744989,
+  "decision_rule": "expected_damage",
+  "extractor": {
+    "overflows": 0,
+    "packets": 40,
+    "untracked": 0
+  },
+  "flows": {
+    "records": 5,
+    "labelled": 5,
+    "rate_changes": 0,
+    "over_cap": 0,
+    "service_down": 0,
+    "service_busy": 0,
+    "timeouts": 0,
+    "refused": 0,
+    "rejected": 0,
+    "flow_gone": 0,
+    "mismatch": 0,
+    "errors": 0,
+    "relabelled": 0,
+    "windows": 93,
+    "unchanged": 3,
+    "held": 0,
+    "triggers": 3,
+    "rechecks": 0,
+    "watched": 1,
+    "regressed": 0,
+    "improved": 0,
+    "rolled_back": 0,
+    "held_back": 0
+  },
+  "model_version": "lgbm-v2-b3f691d8",
+  "shield": {
+    "ok": 5
+  }
+}

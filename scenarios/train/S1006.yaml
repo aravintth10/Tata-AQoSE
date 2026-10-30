@@ -1,0 +1,54 @@
+schema_version: 1
+id: S1006
+name: 'training mix 6: gaming, web_browsing, bulk_download, voice_call, gaming'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 20000
+  up_kbit: 2000
+  delay_ms: 10
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-gaming
+  host: phone
+  profile: gaming
+  start_s: 2.8
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t1-web-browsing
+  host: tv1
+  profile: web_browsing
+  start_s: 9.9
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t2-bulk-download
+  host: laptop
+  profile: bulk_download
+  start_s: 10.4
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-voice-call
+  host: laptop
+  profile: voice_call
+  start_s: 3.9
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-gaming
+  host: tv1
+  profile: gaming
+  start_s: 5.6
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

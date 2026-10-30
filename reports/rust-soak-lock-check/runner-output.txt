@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/shreyashneeraj/Work/adaptiveQos/scripts/soak-runtime.py", line 232, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/shreyashneeraj/Work/adaptiveQos/scripts/soak-runtime.py", line 149, in main
+    return child(out, args.seed)
+  File "/home/shreyashneeraj/Work/adaptiveQos/scripts/soak-runtime.py", line 135, in child
+    manifest = runner.run_one(out / "scenario.yaml", "O2", seed, results=out / "runs")
+  File "/home/shreyashneeraj/Work/adaptiveQos/ml/aqos_ml/run/runner.py", line 648, in run_one
+    lock = claim_testbed()  # before anything is written: a refused run leaves no trace
+  File "/home/shreyashneeraj/Work/adaptiveQos/ml/aqos_ml/run/runner.py", line 614, in claim_testbed
+    raise RunError(f"the testbed is in use by {holder}; wait for it, or stop it first") from None
+aqos_ml.run.runner.RunError: the testbed is in use by run 57276 (/home/shreyashneeraj/Work/adaptiveQos/scripts/soak-runtime.py --child --results /home/shreyashneeraj/Work/adaptiveQos/reports/rust-soak-churn-smoke); wait for it, or stop it first

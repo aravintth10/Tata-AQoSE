@@ -1,0 +1,18 @@
+{
+  "traffic_id": "churn",
+  "role": "client",
+  "seed": 23,
+  "status": "ok",
+  "profile": "flow_storm",
+  "plan_digest": "ceeb5e1c35019292e924f3729308ffe5bb05929f699322f6183641584b25854b",
+  "params": {
+    "flows_per_s": 5.0,
+    "udp_share": 0.5,
+    "ip_version": 4
+  },
+  "stats": {
+    "start_late_max_ms": 0.49,
+    "flows_opened": 499
+  },
+  "metric_samples": 100
+}

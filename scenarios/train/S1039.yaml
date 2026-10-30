@@ -1,0 +1,40 @@
+schema_version: 1
+id: S1039
+name: 'training mix 39: cloud_gaming, bulk_download, web_browsing'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 100000
+  up_kbit: 50000
+  delay_ms: 20
+  loss_pct: 0.1
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-cloud-gaming
+  host: tv1
+  profile: cloud_gaming
+  start_s: 9.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-bulk-download
+  host: tv1
+  profile: bulk_download
+  start_s: 0.2
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-web-browsing
+  host: laptop
+  profile: web_browsing
+  start_s: 4.5
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

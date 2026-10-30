@@ -1,0 +1,56 @@
+# Written by `python -m aqos_ml.damage scenarios`; edit ml/aqos_ml/damage.py instead.
+schema_version: 1
+id: S2307
+name: 'Damage table: game_update against the standard background, uplink2'
+description: One subject flow, forced into a tin by the D configurations, with a call,
+  a stream, a download and a peer-to-peer transfer on other hosts.
+duration_s: 60
+warmup_s: 10
+link:
+  down_kbit: 25000
+  up_kbit: 5000
+  delay_ms: 10
+hosts:
+- subject
+- bg-call
+- bg-stream
+- bg-download
+- bg-seeding
+traffic:
+- id: subject
+  host: subject
+  profile: game_update
+  start_s: 0
+  stop_s: null
+- id: meeting
+  host: subject
+  profile: video_call
+  start_s: 0
+  stop_s: null
+  params:
+    kbit_up: 2500
+    kbit_down: 2500
+- id: call
+  host: bg-call
+  profile: video_call
+  start_s: 0
+  stop_s: null
+- id: stream
+  host: bg-stream
+  profile: abr_video
+  start_s: 0
+  stop_s: null
+- id: download
+  host: bg-download
+  profile: bulk_download
+  start_s: 0
+  stop_s: null
+- id: seeding
+  host: bg-seeding
+  profile: p2p
+  start_s: 0
+  stop_s: null
+events: []
+primary_metrics:
+- latency_ms
+- throughput_kbit

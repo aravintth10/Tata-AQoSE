@@ -1,0 +1,19 @@
+# Damage of placing a flow of a true class (row) in a tin (column), 0 to 10.
+#
+# PLACEHOLDER. Only two rows come from the PRD's illustrative table (a call
+# and a download, in Voice, Best Effort and Bulk). The rest are filled in by
+# the same reasoning so that the decision engine, the rules' tuning and the
+# evaluation code have something to run against. Chunk 5B replaces every
+# number here with a measured one; nothing else changes.
+#
+# Reading it: an interactive flow is hurt by a slower tin (its own damage);
+# a data flow in a faster tin hurts everyone else (harm).
+status: placeholder
+damage:
+  telephony:               {voice: 0, video: 1, best_effort: 2, bulk: 10}
+  realtime_interactive:    {voice: 0, video: 1, best_effort: 2, bulk: 10}
+  multimedia_conferencing: {voice: 1, video: 0, best_effort: 2, bulk: 10}
+  multimedia_streaming:    {voice: 2, video: 0, best_effort: 1, bulk: 6}
+  standard:                {voice: 3, video: 2, best_effort: 0, bulk: 3}
+  high_throughput_data:    {voice: 4, video: 3, best_effort: 1, bulk: 0}
+  low_priority_data:       {voice: 5, video: 4, best_effort: 1, bulk: 0}

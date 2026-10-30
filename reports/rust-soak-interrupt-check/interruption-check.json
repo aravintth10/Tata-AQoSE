@@ -1,0 +1,7 @@
+{
+  "all_services_sampled_before_interrupt": true,
+  "exit_code": 1,
+  "status": "failed",
+  "interrupted_recorded": true,
+  "testbed_cleaned": true
+}

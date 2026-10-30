@@ -1,0 +1,64 @@
+{
+  "status": "short harness validation passed; six-hour run launched, not yet validated",
+  "focused_tests": {
+    "passed": 8,
+    "log": "reports/rust-soak-harness-tests.txt"
+  },
+  "initial_smoke": "reports/rust-soak-smoke/soak.json",
+  "churn_smoke": {
+    "report": "reports/rust-soak-churn-smoke/soak.json",
+    "measured_seconds": 90,
+    "controller_flows": {
+      "errors": 0,
+      "flow_gone": 0,
+      "held": 0,
+      "held_back": 3,
+      "improved": 0,
+      "labelled": 274,
+      "mismatch": 0,
+      "over_cap": 0,
+      "rate_changes": 31,
+      "rechecks": 1,
+      "records": 272,
+      "refused": 0,
+      "regressed": 1,
+      "rejected": 0,
+      "relabelled": 2,
+      "rolled_back": 1,
+      "service_busy": 0,
+      "service_down": 0,
+      "timeouts": 0,
+      "triggers": 18,
+      "unchanged": 15,
+      "watched": 6,
+      "windows": 405
+    },
+    "controller_peak_rss_bytes": 5640192
+  },
+  "lock_check": {
+    "expected_refusal": true,
+    "report": "reports/rust-soak-lock-check/soak.json",
+    "evidence": "reports/rust-soak-lock-check/runner-output.txt"
+  },
+  "interruption_check": {
+    "all_services_sampled_before_interrupt": true,
+    "exit_code": 1,
+    "status": "failed",
+    "interrupted_recorded": true,
+    "testbed_cleaned": true
+  },
+  "six_hour_run": {
+    "service": "aqos-rust-soak.service",
+    "results": "results-rust-soak-6h/soak.json",
+    "status_at_launch": "running",
+    "duration_s": 21600,
+    "reserve_mib": 1024,
+    "stop": "systemctl --user stop aqos-rust-soak"
+  },
+  "limits": [
+    "Short tests do not establish six-hour stability.",
+    "Host must remain awake; no sleep inhibition installed.",
+    "OpenWrt architecture, SDK and physical hardware validation still need router model/version.",
+    "Exporter is not part of this soak. CPU excludes child tc/nft processes. Memory samples are diagnostic, not a proof of leak freedom."
+  ]
+}

@@ -1,0 +1,38 @@
+description: A video call for the whole run; a bulk download joins part way.
+duration_s: 32
+events:
+- args:
+    host: laptop
+    minutes: 1
+  at_s: 6
+  type: intent_lease
+- args:
+    direction: down
+    rate_kbit: 20000
+  at_s: 10
+  type: link_rate
+hosts:
+- laptop
+- desktop
+id: S902
+link:
+  delay_ms: 10
+  down_kbit: 100000
+  up_kbit: 20000
+name: Rust capacity and intent integration
+primary_metrics:
+- latency_ms
+- throughput_kbit
+schema_version: 1
+traffic:
+- host: laptop
+  id: call
+  profile: video_call
+  start_s: 0
+  stop_s: null
+- host: desktop
+  id: download
+  profile: bulk_download
+  start_s: 4
+  stop_s: null
+warmup_s: 4

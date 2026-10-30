@@ -1,0 +1,44 @@
+schema_version: 1
+id: S6
+name: HD video call on a laptop that is also sharing files
+description: >
+  A video call at 5 Mbit/s each way, about 570 packets per second: well
+  over the packet rate at which threshold rules call a flow bulk. The same
+  laptop is running a peer-to-peer client with ten connections each way,
+  and a desktop is downloading.
+
+  CAKE shares a link fairly between devices and, on one device, between
+  flows. That protects the call from the desktop, and not from its own
+  laptop: one flow among twenty-one gets a twenty-first. The call needs
+  five times that. Only knowing which flow is the call can help it, and
+  calling it bulk because of its packet rate makes things worse.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 100000
+  up_kbit: 20000
+  delay_ms: 10
+hosts:
+  - laptop
+  - desktop
+traffic:
+  - id: call
+    host: laptop
+    profile: video_call
+    start_s: 0
+    stop_s: null
+    params: {kbit_up: 5000, kbit_down: 5000}
+  - id: sharing
+    host: laptop
+    profile: p2p
+    start_s: 30
+    stop_s: null
+    params: {tcp_up: 10, tcp_down: 10}
+  - {id: download, host: desktop, profile: bulk_download, start_s: 30, stop_s: null}
+events: []
+primary_metrics:
+  - latency_ms
+  - jitter_ms
+  - loss_ratio
+  - frame_miss
+  - throughput_kbit

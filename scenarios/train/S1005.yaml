@@ -1,0 +1,47 @@
+schema_version: 1
+id: S1005
+name: 'training mix 5: voice_call, video_call, video_call, game_update'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 20000
+  up_kbit: 2000
+  delay_ms: 60
+  loss_pct: 0.1
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-voice-call
+  host: desktop
+  profile: voice_call
+  start_s: 4.7
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-video-call
+  host: desktop
+  profile: video_call
+  start_s: 2.5
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-video-call
+  host: tv1
+  profile: video_call
+  start_s: 3.1
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-game-update
+  host: tv1
+  profile: game_update
+  start_s: 3.6
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

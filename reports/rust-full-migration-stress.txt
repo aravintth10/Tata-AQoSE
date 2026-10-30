@@ -1,0 +1,11 @@
+AQOS_FUZZ_SECONDS=10 /home/shreyashneeraj/.cargo/bin/cargo test --locked --release --manifest-path rust/aqos-runtime/Cargo.toml --test generative -- --ignored --nocapture
+   Compiling aqos-runtime-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-runtime)
+    Finished `release` profile [optimized] target(s) in 12.25s
+     Running tests/generative.rs (rust/aqos-runtime/target/release/deps/generative-b903e216f5c26334)
+
+running 1 test
+seed=20261022 cases=5952504 elapsed_s=10.000
+test randomized_proposals_json_and_packet_headers ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.00s
+

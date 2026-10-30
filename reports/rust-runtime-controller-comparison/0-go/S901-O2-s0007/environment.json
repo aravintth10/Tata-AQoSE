@@ -1,0 +1,12 @@
+{
+  "testbed_mode": "rootless",
+  "cpus": 16,
+  "python": "3.14.7",
+  "shaper_pct": "95",
+  "estimator": true,
+  "reclassifier": true,
+  "aqosd_args": "",
+  "serve_args": "",
+  "service": "rust",
+  "runtime": "go"
+}

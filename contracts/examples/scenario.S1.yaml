@@ -1,0 +1,32 @@
+schema_version: 1
+id: S1
+name: Large download starts during a video call
+description: >
+  A video call runs for the whole test. A bulk download on another host
+  starts 40 s into the measured window and runs to the end.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 100000
+  up_kbit: 20000
+  delay_ms: 10
+hosts:
+  - laptop
+  - desktop
+traffic:
+  - id: call
+    host: laptop
+    profile: video_call
+    start_s: 0
+    stop_s: null
+  - id: download
+    host: desktop
+    profile: bulk_download
+    start_s: 60
+    stop_s: null
+events: []
+primary_metrics:
+  - latency_ms
+  - jitter_ms
+  - frame_miss
+  - throughput_kbit

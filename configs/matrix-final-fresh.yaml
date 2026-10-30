@@ -1,0 +1,8 @@
+# Fresh seeds, run once after the freeze, and S11, written before the
+# freeze and never run before it: the answer to "tuned on its own test".
+# No B0: no QoS at all is not in question. 200 runs, about 11.7 hours.
+scenarios: [S11, S7, S6, S8, S5, S1, S2, S3, S4, S10]
+configs: [B2, B4, O1, O2]
+seeds: {from: 10, to: 14}
+by: seed
+tag: fresh

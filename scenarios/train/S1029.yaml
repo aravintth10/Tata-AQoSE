@@ -1,0 +1,61 @@
+schema_version: 1
+id: S1029
+name: 'training mix 29: gaming, backup_upload, p2p, cloud_gaming, video_call, bulk_download'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 200000
+  up_kbit: 40000
+  delay_ms: 40
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-gaming
+  host: phone
+  profile: gaming
+  start_s: 8.2
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t1-backup-upload
+  host: desktop
+  profile: backup_upload
+  start_s: 2.0
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-p2p
+  host: phone
+  profile: p2p
+  start_s: 3.0
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-cloud-gaming
+  host: laptop
+  profile: cloud_gaming
+  start_s: 5.2
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-video-call
+  host: desktop
+  profile: video_call
+  start_s: 5.0
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t5-bulk-download
+  host: laptop
+  profile: bulk_download
+  start_s: 9.9
+  stop_s: null
+  params:
+    ip_version: 6
+events: []
+primary_metrics:
+- latency_ms

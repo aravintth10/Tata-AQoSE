@@ -1,0 +1,31 @@
+{
+  "traffic_id": "call",
+  "role": "client",
+  "seed": 7,
+  "status": "ok",
+  "profile": "video_call",
+  "plan_digest": "9b874d8c93a62282b0d67069c78a969a91e723a309b8a9d69e9c9ded73629988",
+  "params": {
+    "fps": 30,
+    "kbit_up": 1332.033938295734,
+    "kbit_down": 1242.1963212579094,
+    "audio_payload": 125,
+    "keyframe_s": 5.243935502948184,
+    "deadline_ms": 100.0,
+    "camera": "on",
+    "ip_version": 4
+  },
+  "stats": {
+    "sent": 4888,
+    "received": 4650,
+    "skipped_before_contact": 0,
+    "send_errors": 0,
+    "frames_missed": 0,
+    "send_late_us": {
+      "mean": 72.7,
+      "p99": 236.3,
+      "max": 874.8
+    }
+  },
+  "metric_samples": 4750
+}

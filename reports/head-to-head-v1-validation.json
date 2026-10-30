@@ -1,0 +1,564 @@
+{
+  "dataset": {
+    "name": "v1",
+    "sha256": "fe91bbad5e5e48471d2e1baa907527592fe9c4df9bd34dcfe808f8e52dcc4075"
+  },
+  "split": "validation",
+  "damage_table": {
+    "file": "damage_table.yaml",
+    "status": "measured"
+  },
+  "chosen_model": "lgbm-v1-fe91bbad",
+  "flows_by_class": {
+    "telephony": 19,
+    "standard": 2843,
+    "high_throughput_data": 67,
+    "multimedia_streaming": 23,
+    "multimedia_conferencing": 443,
+    "realtime_interactive": 111,
+    "low_priority_data": 101
+  },
+  "flows": 3607,
+  "sessions": 370,
+  "results": [
+    {
+      "contestant": "Rules, qosify defaults",
+      "model_version": "qosify-rules-v1",
+      "expected_damage_balanced": 1.9907283079743576,
+      "damage_by_class": {
+        "telephony": 0.0,
+        "realtime_interactive": 5.51364001555725,
+        "multimedia_conferencing": 1.8861173825903135,
+        "multimedia_streaming": 1.0363077540341146,
+        "standard": 0.0058848072751379365,
+        "high_throughput_data": 4.127601284529651,
+        "low_priority_data": 1.3655469118340362
+      },
+      "accuracy": 0.45990023518368284,
+      "macro_f1": 0.11017749019444854,
+      "ece": null,
+      "tins": {
+        "telephony": {
+          "best_effort": 10.863,
+          "voice": 8.137
+        },
+        "realtime_interactive": {
+          "best_effort": 9.076,
+          "bulk": 98.221,
+          "voice": 3.703
+        },
+        "multimedia_conferencing": {
+          "best_effort": 211.903,
+          "bulk": 65.098,
+          "voice": 165.998
+        },
+        "multimedia_streaming": {
+          "best_effort": 9.324,
+          "bulk": 12.782,
+          "voice": 0.894
+        },
+        "standard": {
+          "best_effort": 1640.835,
+          "voice": 1199.775,
+          "bulk": 2.39
+        },
+        "high_throughput_data": {
+          "best_effort": 27.361,
+          "bulk": 39.497,
+          "voice": 0.142
+        },
+        "low_priority_data": {
+          "best_effort": 70.874,
+          "voice": 15.805,
+          "bulk": 14.321
+        }
+      },
+      "recall": {
+        "telephony": 0.0,
+        "realtime_interactive": 0.03336415385737184,
+        "multimedia_conferencing": 0.0,
+        "multimedia_streaming": 0.0,
+        "standard": 0.5771492432845371,
+        "high_throughput_data": 0.0,
+        "low_priority_data": 0.14179632248939014
+      },
+      "focus": {
+        "video_call": {
+          "flows": 443,
+          "to_bulk": 0.1469489792294783,
+          "damage": 1.88611738259018
+        },
+        "cloud_gaming": {
+          "flows": 106,
+          "to_bulk": 0.8858800089250248,
+          "damage": 5.513235194488334
+        }
+      },
+      "vs_tuned_rules": {
+        "difference": 1.2456551835235161,
+        "interval_95": [
+          1.0305419343483964,
+          1.4849350431582067
+        ]
+      }
+    },
+    {
+      "contestant": "Rules, tuned (4000 pkt/s, 1200 B)",
+      "model_version": "qosify-rules-v1",
+      "expected_damage_balanced": 0.7450731244508527,
+      "damage_by_class": {
+        "telephony": 0.0,
+        "realtime_interactive": 0.8272548552453154,
+        "multimedia_conferencing": 1.518805971864512,
+        "multimedia_streaming": 0.20512763881436577,
+        "standard": 0.0,
+        "high_throughput_data": 0.7454565185431086,
+        "low_priority_data": 1.9188668866886673
+      },
+      "accuracy": 0.41835531898134576,
+      "macro_f1": 0.10423201563974749,
+      "ece": null,
+      "tins": {
+        "telephony": {
+          "best_effort": 10.363,
+          "voice": 8.637
+        },
+        "realtime_interactive": {
+          "best_effort": 32.628,
+          "voice": 76.663,
+          "bulk": 1.709
+        },
+        "multimedia_conferencing": {
+          "best_effort": 16.662,
+          "voice": 426.338
+        },
+        "multimedia_streaming": {
+          "best_effort": 9.436,
+          "voice": 13.564
+        },
+        "standard": {
+          "best_effort": 1432.059,
+          "voice": 1410.941
+        },
+        "high_throughput_data": {
+          "best_effort": 21.596,
+          "voice": 41.212,
+          "bulk": 4.191
+        },
+        "low_priority_data": {
+          "best_effort": 15.246,
+          "voice": 85.468,
+          "bulk": 0.286
+        }
+      },
+      "recall": {
+        "telephony": 0.0,
+        "realtime_interactive": 0.6906533066177892,
+        "multimedia_conferencing": 0.0,
+        "multimedia_streaming": 0.0,
+        "standard": 0.5037141766603634,
+        "high_throughput_data": 0.0,
+        "low_priority_data": 0.0028288543140027973
+      },
+      "focus": {
+        "video_call": {
+          "flows": 443,
+          "to_bulk": 0.0,
+          "damage": 1.5188059718644336
+        },
+        "cloud_gaming": {
+          "flows": 106,
+          "to_bulk": 0.016122861236285688,
+          "damage": 0.8501786766592448
+        }
+      },
+      "vs_tuned_rules": null
+    },
+    {
+      "contestant": "Random forest, top label (O1)",
+      "model_version": "rf-v1-fe91bbad",
+      "expected_damage_balanced": 0.37868149583544003,
+      "damage_by_class": {
+        "telephony": 0.0,
+        "realtime_interactive": 0.008580008580008507,
+        "multimedia_conferencing": 0.006772009029346402,
+        "multimedia_streaming": 0.9534161490683231,
+        "standard": 0.10066446377729625,
+        "high_throughput_data": 0.3984936631182401,
+        "low_priority_data": 1.182844177274866
+      },
+      "accuracy": 0.942301803871898,
+      "macro_f1": 0.7187640565943079,
+      "ece": 0.025083978459173567,
+      "tins": {
+        "telephony": {
+          "best_effort": 7.0,
+          "video": 2.0,
+          "voice": 10.0
+        },
+        "realtime_interactive": {
+          "voice": 109.405,
+          "video": 1.214,
+          "best_effort": 0.381
+        },
+        "multimedia_conferencing": {
+          "video": 441.0,
+          "voice": 2.0
+        },
+        "multimedia_streaming": {
+          "video": 20.857,
+          "best_effort": 2.143
+        },
+        "standard": {
+          "video": 79.808,
+          "best_effort": 2736.712,
+          "voice": 25.5,
+          "bulk": 0.98
+        },
+        "high_throughput_data": {
+          "best_effort": 61.067,
+          "video": 5.933
+        },
+        "low_priority_data": {
+          "best_effort": 74.169,
+          "video": 3.393,
+          "voice": 0.714,
+          "bulk": 22.724
+        }
+      },
+      "recall": {
+        "telephony": 0.5263157894736855,
+        "realtime_interactive": 0.9774969774969771,
+        "multimedia_conferencing": 0.9954853273137694,
+        "multimedia_streaming": 0.9068322981366457,
+        "standard": 0.9434485476676862,
+        "high_throughput_data": 0.90466522762528,
+        "low_priority_data": 0.7493713657079971
+      },
+      "focus": {
+        "video_call": {
+          "flows": 443,
+          "to_bulk": 0.0,
+          "damage": 0.006772009029345372
+        },
+        "cloud_gaming": {
+          "flows": 106,
+          "to_bulk": 0.0,
+          "damage": 0.00898472596585804
+        }
+      },
+      "vs_tuned_rules": {
+        "difference": -0.3663916286154016,
+        "interval_95": [
+          -0.42476136583892576,
+          -0.2966057111214236
+        ]
+      }
+    },
+    {
+      "contestant": "Random forest, expected damage (O2)",
+      "model_version": "rf-v1-fe91bbad",
+      "expected_damage_balanced": 0.2449861396243785,
+      "damage_by_class": {
+        "telephony": 0.0,
+        "realtime_interactive": 0.039146289146288794,
+        "multimedia_conferencing": 0.006772009029346402,
+        "multimedia_streaming": 0.5,
+        "standard": 0.00364403798804104,
+        "high_throughput_data": 0.0,
+        "low_priority_data": 1.1653406412069733
+      },
+      "accuracy": 0.942301803871898,
+      "macro_f1": 0.7187640565943079,
+      "ece": 0.025083978459173567,
+      "tins": {
+        "telephony": {
+          "best_effort": 12.5,
+          "voice": 6.5
+        },
+        "realtime_interactive": {
+          "voice": 108.649,
+          "best_effort": 1.738,
+          "video": 0.613
+        },
+        "multimedia_conferencing": {
+          "video": 441.0,
+          "voice": 2.0
+        },
+        "multimedia_streaming": {
+          "best_effort": 23.0
+        },
+        "standard": {
+          "video": 1.0,
+          "best_effort": 2817.52,
+          "voice": 23.5,
+          "bulk": 0.98
+        },
+        "high_throughput_data": {
+          "best_effort": 67.0
+        },
+        "low_priority_data": {
+          "best_effort": 77.704,
+          "video": 0.143,
+          "voice": 0.429,
+          "bulk": 22.724
+        }
+      },
+      "recall": {
+        "telephony": 0.5263157894736855,
+        "realtime_interactive": 0.9774969774969771,
+        "multimedia_conferencing": 0.9954853273137694,
+        "multimedia_streaming": 0.9068322981366457,
+        "standard": 0.9434485476676862,
+        "high_throughput_data": 0.90466522762528,
+        "low_priority_data": 0.7493713657079971
+      },
+      "focus": {
+        "video_call": {
+          "flows": 443,
+          "to_bulk": 0.0,
+          "damage": 0.006772009029345372
+        },
+        "cloud_gaming": {
+          "flows": 106,
+          "to_bulk": 0.0,
+          "damage": 0.04099281221922731
+        }
+      },
+      "vs_tuned_rules": {
+        "difference": -0.5000869848264631,
+        "interval_95": [
+          -0.5879765864948667,
+          -0.41467410678673655
+        ]
+      }
+    },
+    {
+      "contestant": "LightGBM, top label (O1)",
+      "model_version": "lgbm-v1-fe91bbad",
+      "expected_damage_balanced": 0.3848027047415306,
+      "damage_by_class": {
+        "telephony": 0.0,
+        "realtime_interactive": 0.0,
+        "multimedia_conferencing": 0.009189770989588524,
+        "multimedia_streaming": 0.9534161490683231,
+        "standard": 0.11715364617465893,
+        "high_throughput_data": 0.43439409900278164,
+        "low_priority_data": 1.179465267955362
+      },
+      "accuracy": 0.9440701638167125,
+      "macro_f1": 0.7350659180425418,
+      "ece": 0.05224549141567647,
+      "tins": {
+        "telephony": {
+          "best_effort": 2.0,
+          "video": 3.0,
+          "voice": 14.0
+        },
+        "realtime_interactive": {
+          "voice": 107.076,
+          "video": 3.924
+        },
+        "multimedia_conferencing": {
+          "video": 440.953,
+          "best_effort": 2.0,
+          "voice": 0.047
+        },
+        "multimedia_streaming": {
+          "video": 20.857,
+          "best_effort": 2.143
+        },
+        "standard": {
+          "video": 91.202,
+          "best_effort": 2720.484,
+          "voice": 29.333,
+          "bulk": 1.98
+        },
+        "high_throughput_data": {
+          "best_effort": 58.702,
+          "video": 6.239,
+          "voice": 2.059
+        },
+        "low_priority_data": {
+          "best_effort": 73.518,
+          "voice": 1.522,
+          "bulk": 23.058,
+          "video": 2.903
+        }
+      },
+      "recall": {
+        "telephony": 0.7368421052631597,
+        "realtime_interactive": 0.9543543543543535,
+        "multimedia_conferencing": 0.9953783769023515,
+        "multimedia_streaming": 0.9068322981366457,
+        "standard": 0.9473142572995249,
+        "high_throughput_data": 0.7739868903685164,
+        "low_priority_data": 0.7766973125883997
+      },
+      "focus": {
+        "video_call": {
+          "flows": 443,
+          "to_bulk": 0.0,
+          "damage": 0.009189770989587126
+        },
+        "cloud_gaming": {
+          "flows": 106,
+          "to_bulk": 0.0,
+          "damage": 0.0
+        }
+      },
+      "vs_tuned_rules": {
+        "difference": -0.360270419709311,
+        "interval_95": [
+          -0.43167597951795755,
+          -0.2654614038837229
+        ]
+      }
+    },
+    {
+      "contestant": "LightGBM, expected damage (O2)",
+      "model_version": "lgbm-v1-fe91bbad",
+      "expected_damage_balanced": 0.24209935788855286,
+      "damage_by_class": {
+        "telephony": 0.0,
+        "realtime_interactive": 0.022522522522522324,
+        "multimedia_conferencing": 0.00902934537246187,
+        "multimedia_streaming": 0.5,
+        "standard": 0.004875131902919777,
+        "high_throughput_data": 0.0,
+        "low_priority_data": 1.1582685054219661
+      },
+      "accuracy": 0.9440701638167125,
+      "macro_f1": 0.7350659180425418,
+      "ece": 0.05224549141567647,
+      "tins": {
+        "telephony": {
+          "best_effort": 8.5,
+          "voice": 10.5
+        },
+        "realtime_interactive": {
+          "voice": 106.933,
+          "video": 3.067,
+          "best_effort": 1.0
+        },
+        "multimedia_conferencing": {
+          "video": 441.0,
+          "best_effort": 2.0
+        },
+        "multimedia_streaming": {
+          "best_effort": 23.0
+        },
+        "standard": {
+          "best_effort": 2816.52,
+          "voice": 24.5,
+          "bulk": 1.98
+        },
+        "high_throughput_data": {
+          "best_effort": 67.0
+        },
+        "low_priority_data": {
+          "best_effort": 77.8,
+          "video": 0.143,
+          "bulk": 23.058
+        }
+      },
+      "recall": {
+        "telephony": 0.7368421052631597,
+        "realtime_interactive": 0.9543543543543535,
+        "multimedia_conferencing": 0.9953783769023515,
+        "multimedia_streaming": 0.9068322981366457,
+        "standard": 0.9473142572995249,
+        "high_throughput_data": 0.7739868903685164,
+        "low_priority_data": 0.7766973125883997
+      },
+      "focus": {
+        "video_call": {
+          "flows": 443,
+          "to_bulk": 0.0,
+          "damage": 0.009029345372460496
+        },
+        "cloud_gaming": {
+          "flows": 106,
+          "to_bulk": 0.0,
+          "damage": 0.02358490566037736
+        }
+      },
+      "vs_tuned_rules": {
+        "difference": -0.5029737665622888,
+        "interval_95": [
+          -0.5932173300531016,
+          -0.4152920955204025
+        ]
+      }
+    }
+  ],
+  "holdout": {
+    "iscx-tor-nontor-2016": {
+      "flows": 1591,
+      "damage_by_class": {
+        "standard": 0.0008799497171590194
+      },
+      "flows_by_class": {
+        "standard": 1591
+      }
+    },
+    "iscx-vpn-nonvpn-2016": {
+      "flows": 273,
+      "damage_by_class": {
+        "telephony": 0.0,
+        "standard": 0.10797295393717425,
+        "high_throughput_data": 0.0,
+        "multimedia_streaming": 0.5
+      },
+      "flows_by_class": {
+        "telephony": 16,
+        "standard": 229,
+        "high_throughput_data": 23,
+        "multimedia_streaming": 5
+      }
+    },
+    "labayen-2020": {
+      "flows": 831,
+      "damage_by_class": {
+        "high_throughput_data": 0.028846153846153844,
+        "standard": 0.08360529556650247,
+        "multimedia_streaming": 0.47727255544593017
+      },
+      "flows_by_class": {
+        "high_throughput_data": 6,
+        "standard": 812,
+        "multimedia_streaming": 13
+      }
+    },
+    "own-captures": {
+      "flows": 3,
+      "damage_by_class": {
+        "realtime_interactive": 0.7954545454545454
+      },
+      "flows_by_class": {
+        "realtime_interactive": 3
+      }
+    },
+    "purdue-vca-2026": {
+      "flows": 437,
+      "damage_by_class": {
+        "multimedia_conferencing": 1.5488049673633604
+      },
+      "flows_by_class": {
+        "multimedia_conferencing": 437
+      }
+    },
+    "testbed": {
+      "skipped": "a class would have no data left without this source"
+    },
+    "unsw-cloud-gaming-2025": {
+      "flows": 97,
+      "damage_by_class": {
+        "realtime_interactive": 2.0956937659138886
+      },
+      "flows_by_class": {
+        "realtime_interactive": 97
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+schema_version: 1
+id: S11
+name: A family evening on a 50/10 line
+description: >
+  Written on Oct 14, before the system was frozen, and not run before
+  the final runs, so that it is a test the system was not tuned on. Every
+  number in it differs from the scenarios the system was developed on: a
+  50/10 Mbit/s line, a video call on a laptop that is also downloading
+  (not sharing files), a console game on a console that is also fetching
+  an update, a phone on a voice call next to a cloud backup, and a TV.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 50000
+  up_kbit: 10000
+  delay_ms: 20
+hosts:
+  - laptop
+  - console
+  - phone
+  - tv
+traffic:
+  - {id: call, host: laptop, profile: video_call, start_s: 0, stop_s: null}
+  - id: download
+    host: laptop
+    profile: bulk_download
+    start_s: 45
+    stop_s: null
+    params: {connections: 4}
+  - {id: game, host: console, profile: gaming, start_s: 0, stop_s: null}
+  - id: update
+    host: console
+    profile: game_update
+    start_s: 70
+    stop_s: null
+    params: {connections: 6}
+  - {id: voice, host: phone, profile: voice_call, start_s: 10, stop_s: null}
+  - id: backup
+    host: phone
+    profile: backup_upload
+    start_s: 90
+    stop_s: null
+    params: {connections: 2}
+  - {id: stream, host: tv, profile: abr_video, start_s: 0, stop_s: null}
+events: []
+primary_metrics:
+  - latency_ms
+  - jitter_ms
+  - loss_ratio
+  - frame_miss
+  - throughput_kbit

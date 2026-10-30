@@ -1,0 +1,251 @@
+{
+  "scenario": "ml/tests/scenarios/s1_short.yaml",
+  "classifier": "rust",
+  "config": "O2",
+  "binary_sha256": {
+    "go": {
+      "aqosd": "16cd4d004a07465ca1e8ca6729d7e029edcd4fca51e1c57b2fafd37e8d54f986",
+      "aqos-cake-reader": "6cc1b19f7b0f66eff7bc8d50c66792ebbcaa86419db09043cc3933280398f9db",
+      "aqos-reflector": "03c84194f2960d200213aa0b04284aaff57007a27c8bd4ab98d6cb34470f03dc",
+      "aqos-watchdog": "ebdd789ac7436553d1d6e1c9ae6abb23c8d4fd1b2c5451ca9b04a2cba540e984"
+    },
+    "rust": {
+      "aqosd": "027bb7d83d9c9891f5b37f22cc9b863226b2a810bba6719f4a1d8e784e3176a4",
+      "aqos-cake-reader": "bd1f0c027fe3b761804168bfd8652425efcce4be5dea7310cd53cfc47b55f9dc",
+      "aqos-reflector": "f91f80fce1141bba868cab515f9ebf658c2f4a5d765d38c1e9767e9c24c46756",
+      "aqos-watchdog": "c9d8d89f61529b00c622064af6041c564ab78f2fb45a744ca198ade17ae29f19"
+    }
+  },
+  "trials": {
+    "go": [
+      {
+        "trial": 0,
+        "seed": 7,
+        "cpu_s": 0.744989,
+        "process_cpu": {
+          "ml-service": 0.01,
+          "reflector": 0.05,
+          "watchdog": 0.01
+        },
+        "flows": {
+          "records": 5,
+          "labelled": 5,
+          "rate_changes": 0,
+          "over_cap": 0,
+          "service_down": 0,
+          "service_busy": 0,
+          "timeouts": 0,
+          "refused": 0,
+          "rejected": 0,
+          "flow_gone": 0,
+          "mismatch": 0,
+          "errors": 0,
+          "relabelled": 0,
+          "windows": 93,
+          "unchanged": 3,
+          "held": 0,
+          "triggers": 3,
+          "rechecks": 0,
+          "watched": 1,
+          "regressed": 0,
+          "improved": 0,
+          "rolled_back": 0,
+          "held_back": 0
+        },
+        "result": "reports/rust-runtime-controller-comparison/0-go/S901-O2-s0007"
+      },
+      {
+        "trial": 1,
+        "seed": 8,
+        "cpu_s": 0.682691,
+        "process_cpu": {
+          "ml-service": 0.0,
+          "reflector": 0.05,
+          "watchdog": 0.01
+        },
+        "flows": {
+          "records": 3,
+          "labelled": 3,
+          "rate_changes": 0,
+          "over_cap": 0,
+          "service_down": 0,
+          "service_busy": 0,
+          "timeouts": 0,
+          "refused": 0,
+          "rejected": 0,
+          "flow_gone": 0,
+          "mismatch": 0,
+          "errors": 0,
+          "relabelled": 0,
+          "windows": 59,
+          "unchanged": 7,
+          "held": 0,
+          "triggers": 7,
+          "rechecks": 0,
+          "watched": 1,
+          "regressed": 0,
+          "improved": 0,
+          "rolled_back": 0,
+          "held_back": 0
+        },
+        "result": "reports/rust-runtime-controller-comparison/1-go/S901-O2-s0008"
+      },
+      {
+        "trial": 2,
+        "seed": 9,
+        "cpu_s": 0.695324,
+        "process_cpu": {
+          "ml-service": 0.0,
+          "reflector": 0.04,
+          "watchdog": 0.01
+        },
+        "flows": {
+          "records": 2,
+          "labelled": 2,
+          "rate_changes": 0,
+          "over_cap": 0,
+          "service_down": 0,
+          "service_busy": 0,
+          "timeouts": 0,
+          "refused": 0,
+          "rejected": 0,
+          "flow_gone": 0,
+          "mismatch": 0,
+          "errors": 0,
+          "relabelled": 0,
+          "windows": 42,
+          "unchanged": 5,
+          "held": 0,
+          "triggers": 5,
+          "rechecks": 0,
+          "watched": 1,
+          "regressed": 0,
+          "improved": 0,
+          "rolled_back": 0,
+          "held_back": 0
+        },
+        "result": "reports/rust-runtime-controller-comparison/2-go/S901-O2-s0009"
+      }
+    ],
+    "rust": [
+      {
+        "trial": 0,
+        "seed": 7,
+        "cpu_s": 0.415298179,
+        "process_cpu": {
+          "ml-service": 0.02,
+          "reflector": 0.01,
+          "watchdog": 0.01
+        },
+        "flows": {
+          "errors": 0,
+          "flow_gone": 0,
+          "held": 0,
+          "held_back": 0,
+          "improved": 0,
+          "labelled": 5,
+          "mismatch": 0,
+          "over_cap": 0,
+          "rate_changes": 0,
+          "rechecks": 0,
+          "records": 5,
+          "refused": 0,
+          "regressed": 0,
+          "rejected": 0,
+          "relabelled": 0,
+          "rolled_back": 0,
+          "service_busy": 0,
+          "service_down": 0,
+          "timeouts": 0,
+          "triggers": 11,
+          "unchanged": 11,
+          "watched": 1,
+          "windows": 88
+        },
+        "result": "reports/rust-runtime-controller-comparison/0-rust/S901-O2-s0007"
+      },
+      {
+        "trial": 1,
+        "seed": 8,
+        "cpu_s": 0.380996234,
+        "process_cpu": {
+          "ml-service": 0.0,
+          "reflector": 0.01,
+          "watchdog": 0.01
+        },
+        "flows": {
+          "errors": 0,
+          "flow_gone": 0,
+          "held": 0,
+          "held_back": 0,
+          "improved": 0,
+          "labelled": 3,
+          "mismatch": 0,
+          "over_cap": 0,
+          "rate_changes": 0,
+          "rechecks": 0,
+          "records": 3,
+          "refused": 0,
+          "regressed": 0,
+          "rejected": 0,
+          "relabelled": 0,
+          "rolled_back": 0,
+          "service_busy": 0,
+          "service_down": 0,
+          "timeouts": 0,
+          "triggers": 7,
+          "unchanged": 7,
+          "watched": 1,
+          "windows": 56
+        },
+        "result": "reports/rust-runtime-controller-comparison/1-rust/S901-O2-s0008"
+      },
+      {
+        "trial": 2,
+        "seed": 9,
+        "cpu_s": 0.394703025,
+        "process_cpu": {
+          "ml-service": 0.01,
+          "reflector": 0.01,
+          "watchdog": 0.0
+        },
+        "flows": {
+          "errors": 0,
+          "flow_gone": 0,
+          "held": 0,
+          "held_back": 0,
+          "improved": 0,
+          "labelled": 2,
+          "mismatch": 0,
+          "over_cap": 0,
+          "rate_changes": 0,
+          "rechecks": 0,
+          "records": 2,
+          "refused": 0,
+          "regressed": 0,
+          "rejected": 0,
+          "relabelled": 0,
+          "rolled_back": 0,
+          "service_busy": 0,
+          "service_down": 0,
+          "timeouts": 0,
+          "triggers": 5,
+          "unchanged": 5,
+          "watched": 1,
+          "windows": 40
+        },
+        "result": "reports/rust-runtime-controller-comparison/2-rust/S901-O2-s0009"
+      }
+    ]
+  },
+  "median_controller_cpu_s": {
+    "go": 0.695324,
+    "rust": 0.394703025
+  },
+  "cpu_reduction_pct": 43.234661107627524,
+  "limits": "Short laptop namespace runs, few flows. CPU excludes child tc/nft processes. Does not measure saturation, maximum throughput, real-router performance or long-run stability.",
+  "execution_notes": [
+    "The first Go trial overlapped the end of the regression suite; subsequent trials ran without that suite. The median Go CPU value comes from a later trial.",
+    "CPU seconds are measured by each controller, not elapsed run time. All six runs were valid and had zero enforcement errors, mismatches and extractor overflows."
+  ]
+}

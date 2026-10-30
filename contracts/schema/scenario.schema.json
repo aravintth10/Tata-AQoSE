@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scenario.schema.json",
+  "title": "Scenario",
+  "description": "One experiment scenario, written as YAML. Independent of the QoS configuration and the seed, which the runner supplies. All times are seconds since the start of the run; warm-up starts at 0.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "name",
+    "duration_s",
+    "warmup_s",
+    "link",
+    "hosts",
+    "traffic",
+    "events",
+    "primary_metrics"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "id": { "type": "string", "pattern": "^S[0-9]+$" },
+    "name": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "duration_s": {
+      "description": "Measured time, after warm-up. The run lasts warmup_s + duration_s.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "warmup_s": {
+      "description": "Time at the start of the run whose samples are discarded.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "link": {
+      "description": "The emulated WAN bottleneck at the start of the run.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["down_kbit", "up_kbit", "delay_ms"],
+      "properties": {
+        "down_kbit": { "type": "integer", "minimum": 1 },
+        "up_kbit": { "type": "integer", "minimum": 1 },
+        "delay_ms": {
+          "description": "One-way base delay.",
+          "type": "number",
+          "minimum": 0
+        },
+        "jitter_ms": { "type": "number", "minimum": 0, "default": 0 },
+        "loss_pct": { "type": "number", "minimum": 0, "maximum": 100, "default": 0 }
+      }
+    },
+    "hosts": {
+      "description": "LAN hosts. Each becomes one network namespace.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9_-]*$" }
+    },
+    "traffic": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "host", "profile", "start_s", "stop_s"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_-]*$" },
+          "host": { "type": "string" },
+          "profile": {
+            "enum": [
+              "voice_call",
+              "video_call",
+              "gaming",
+              "cloud_gaming",
+              "abr_video",
+              "web_browsing",
+              "flow_storm",
+              "bulk_download",
+              "game_update",
+              "backup_upload",
+              "p2p"
+            ]
+          },
+          "start_s": { "type": "number", "minimum": 0 },
+          "stop_s": {
+            "description": "Null means until the end of the run.",
+            "type": ["number", "null"],
+            "minimum": 0
+          },
+          "params": {
+            "description": "Profile-specific settings. Defined by the generator for that profile.",
+            "type": "object"
+          }
+        }
+      }
+    },
+    "events": {
+      "description": "Changes injected during the run. May be empty.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["at_s", "type"],
+        "properties": {
+          "at_s": { "type": "number", "minimum": 0 },
+          "type": {
+            "enum": [
+              "link_rate",
+              "link_impair",
+              "traffic_param",
+              "intent_lease",
+              "kill_controller",
+              "blackhole_reflector",
+              "restore_reflector"
+            ]
+          },
+          "args": { "type": "object" }
+        }
+      }
+    },
+    "primary_metrics": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "latency_ms",
+          "jitter_ms",
+          "loss_ratio",
+          "throughput_kbit",
+          "frame_miss",
+          "video_stall_ms",
+          "video_bitrate_kbit",
+          "page_load_ms",
+          "queue_delay_ms",
+          "queue_backlog_bytes",
+          "tin_drops",
+          "shaper_rate_kbit",
+          "capacity_true_kbit",
+          "cpu_percent",
+          "reclassifications",
+          "flows_labelled",
+          "flows_unlabelled",
+          "inference_us"
+        ]
+      }
+    }
+  }
+}

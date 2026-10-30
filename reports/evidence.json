@@ -1,0 +1,984 @@
+{
+ "bulk": [
+  {
+   "scenario": "S1",
+   "entry": "download (down)",
+   "profile": "bulk_download",
+   "cake_mbit": 88.46469035714284,
+   "rules_mbit": 88.52633392857143,
+   "aqose_mbit": 88.45053857142857,
+   "ratio": 0.999838805687091,
+   "ratio_min": 0.9990678538532693,
+   "starved_max_pct": 0.7142857142857143,
+   "starved_cake_max_pct": 0.7142857142857143
+  },
+  {
+   "scenario": "S2",
+   "entry": "download (down)",
+   "profile": "bulk_download",
+   "cake_mbit": 37.81903307142857,
+   "rules_mbit": 37.84509285714286,
+   "aqose_mbit": 36.942163571428566,
+   "ratio": 0.9745508608233047,
+   "ratio_min": 0.9717148848478986,
+   "starved_max_pct": 0.7142857142857143,
+   "starved_cake_max_pct": 0.7142857142857143
+  },
+  {
+   "scenario": "S4",
+   "entry": "backup (up)",
+   "profile": "backup_upload",
+   "cake_mbit": 8.921251714285717,
+   "rules_mbit": 8.935484321428573,
+   "aqose_mbit": 8.922491464285715,
+   "ratio": 1.0011110943269512,
+   "ratio_min": 0.9984944199523191,
+   "starved_max_pct": 0.7142857142857143,
+   "starved_cake_max_pct": 0.7142857142857143
+  },
+  {
+   "scenario": "S5",
+   "entry": "backup (up)",
+   "profile": "backup_upload",
+   "cake_mbit": 2.7843167352941176,
+   "rules_mbit": 3.2895834705882345,
+   "aqose_mbit": 2.276085705882353,
+   "ratio": 0.8305165282962848,
+   "ratio_min": 0.5426177337208031,
+   "starved_max_pct": 0.5882352941176471,
+   "starved_cake_max_pct": 0.5882352941176471
+  },
+  {
+   "scenario": "S6",
+   "entry": "download (down)",
+   "profile": "bulk_download",
+   "cake_mbit": 43.76063735294118,
+   "rules_mbit": 42.390866470588236,
+   "aqose_mbit": 41.70036470588235,
+   "ratio": 0.9549491822916467,
+   "ratio_min": 0.942808450608029,
+   "starved_max_pct": 0.5882352941176471,
+   "starved_cake_max_pct": 0.5882352941176471
+  },
+  {
+   "scenario": "S6",
+   "entry": "sharing (down)",
+   "profile": "p2p",
+   "cake_mbit": 40.68829411764706,
+   "rules_mbit": 40.322647352941175,
+   "aqose_mbit": 42.413368235294115,
+   "ratio": 1.044918430802026,
+   "ratio_min": 1.0336449022928238,
+   "starved_max_pct": 0.5882352941176471,
+   "starved_cake_max_pct": 0.5882352941176471
+  },
+  {
+   "scenario": "S6",
+   "entry": "sharing (up)",
+   "profile": "p2p",
+   "cake_mbit": 14.568014117647058,
+   "rules_mbit": 14.543918470588237,
+   "aqose_mbit": 10.899594264705883,
+   "ratio": 0.7483581933543999,
+   "ratio_min": 0.745764024893365,
+   "starved_max_pct": 0.5882352941176471,
+   "starved_cake_max_pct": 0.5882352941176471
+  },
+  {
+   "scenario": "S7",
+   "entry": "update (down)",
+   "profile": "game_update",
+   "cake_mbit": 66.22911133333332,
+   "rules_mbit": 66.75106233333335,
+   "aqose_mbit": 64.95685466666667,
+   "ratio": 0.9790964688204015,
+   "ratio_min": 0.9623999202075273,
+   "starved_max_pct": 0.6666666666666666,
+   "starved_cake_max_pct": 0.6666666666666666
+  },
+  {
+   "scenario": "S8",
+   "entry": "share (down)",
+   "profile": "p2p",
+   "cake_mbit": 52.71076264705882,
+   "rules_mbit": 54.61631152941177,
+   "aqose_mbit": 53.03912411764706,
+   "ratio": 1.0062396738634107,
+   "ratio_min": 0.9987855250165983,
+   "starved_max_pct": 0.5882352941176471,
+   "starved_cake_max_pct": 0.5882352941176471
+  },
+  {
+   "scenario": "S8",
+   "entry": "share (up)",
+   "profile": "p2p",
+   "cake_mbit": 14.672014999999998,
+   "rules_mbit": 14.642784705882352,
+   "aqose_mbit": 14.354925588235295,
+   "ratio": 0.9830551288869231,
+   "ratio_min": 0.9690881572673191,
+   "starved_max_pct": 0.5882352941176471,
+   "starved_cake_max_pct": 0.5882352941176471
+  },
+  {
+   "scenario": "S8",
+   "entry": "update (down)",
+   "profile": "game_update",
+   "cake_mbit": 31.098345474999995,
+   "rules_mbit": 31.391940287500002,
+   "aqose_mbit": 30.609828118750002,
+   "ratio": 0.9838236988855755,
+   "ratio_min": 0.9795593002797247,
+   "starved_max_pct": 25.625,
+   "starved_cake_max_pct": 25.625
+  },
+  {
+   "scenario": "S10",
+   "entry": "download (down)",
+   "profile": "bulk_download",
+   "cake_mbit": 88.45430785714285,
+   "rules_mbit": 88.47119714285714,
+   "aqose_mbit": 79.15334892857142,
+   "ratio": 0.8993223468095517,
+   "ratio_min": 0.8868698788947581,
+   "starved_max_pct": 0.7142857142857143,
+   "starved_cake_max_pct": 0.7142857142857143
+  }
+ ],
+ "bulk_fresh": [
+  {
+   "scenario": "S1",
+   "entry": "download (down)",
+   "profile": "bulk_download",
+   "cake_mbit": 87.84039714285716,
+   "rules_mbit": 88.39568357142856,
+   "aqose_mbit": 87.88747928571429,
+   "ratio": 1.0004771858094967,
+   "ratio_min": 0.9998773082844133,
+   "starved_max_pct": 0.7142857142857143,
+   "starved_cake_max_pct": 0.7142857142857143
+  },
+  {
+   "scenario": "S2",
+   "entry": "download (down)",
+   "profile": "bulk_download",
+   "cake_mbit": 37.67721,
+   "rules_mbit": 37.706006142857134,
+   "aqose_mbit": 36.86359928571429,
+   "ratio": 0.9784057600261348,
+   "ratio_min": 0.9729941141552328,
+   "starved_max_pct": 0.7142857142857143,
+   "starved_cake_max_pct": 0.7142857142857143
+  },
+  {
+   "scenario": "S4",
+   "entry": "backup (up)",
+   "profile": "backup_upload",
+   "cake_mbit": 8.900568142857143,
+   "rules_mbit": 8.910826714285715,
+   "aqose_mbit": 8.897424285714285,
+   "ratio": 0.998631128936059,
+   "ratio_min": 0.9984872602246158,
+   "starved_max_pct": 0.7142857142857143,
+   "starved_cake_max_pct": 0.7142857142857143
+  },
+  {
+   "scenario": "S5",
+   "entry": "backup (up)",
+   "profile": "backup_upload",
+   "cake_mbit": 2.866971705882353,
+   "rules_mbit": 3.095247823529412,
+   "aqose_mbit": 2.663025823529412,
+   "ratio": 0.9288636571004547,
+   "ratio_min": 0.6827825885087851,
+   "starved_max_pct": 0.5882352941176471,
+   "starved_cake_max_pct": 0.5882352941176471
+  },
+  {
+   "scenario": "S6",
+   "entry": "download (down)",
+   "profile": "bulk_download",
+   "cake_mbit": 43.98267411764705,
+   "rules_mbit": 42.43757235294117,
+   "aqose_mbit": 41.78662,
+   "ratio": 0.9547882003010559,
+   "ratio_min": 0.9365480091585797,
+   "starved_max_pct": 0.5882352941176471,
+   "starved_cake_max_pct": 0.5882352941176471
+  },
+  {
+   "scenario": "S6",
+   "entry": "sharing (down)",
+   "profile": "p2p",
+   "cake_mbit": 40.54091117647059,
+   "rules_mbit": 40.61150764705882,
+   "aqose_mbit": 42.317859999999996,
+   "ratio": 1.0447517386706413,
+   "ratio_min": 1.0282509974056853,
+   "starved_max_pct": 0.5882352941176471,
+   "starved_cake_max_pct": 0.5882352941176471
+  },
+  {
+   "scenario": "S6",
+   "entry": "sharing (up)",
+   "profile": "p2p",
+   "cake_mbit": 14.5795,
+   "rules_mbit": 14.651906470588235,
+   "aqose_mbit": 10.907489352941177,
+   "ratio": 0.748298900753072,
+   "ratio_min": 0.7468716683832054,
+   "starved_max_pct": 0.5882352941176471,
+   "starved_cake_max_pct": 0.5882352941176471
+  },
+  {
+   "scenario": "S7",
+   "entry": "update (down)",
+   "profile": "game_update",
+   "cake_mbit": 68.26706133333333,
+   "rules_mbit": 69.24552133333333,
+   "aqose_mbit": 67.77628999999999,
+   "ratio": 0.9860853680654917,
+   "ratio_min": 0.9416892889588832,
+   "starved_max_pct": 0.6666666666666666,
+   "starved_cake_max_pct": 0.6666666666666666
+  },
+  {
+   "scenario": "S8",
+   "entry": "share (down)",
+   "profile": "p2p",
+   "cake_mbit": 52.98627705882353,
+   "rules_mbit": 49.167870588235296,
+   "aqose_mbit": 53.38699588235294,
+   "ratio": 1.0045986200836512,
+   "ratio_min": 1.001496651268103,
+   "starved_max_pct": 0.5882352941176471,
+   "starved_cake_max_pct": 0.5882352941176471
+  },
+  {
+   "scenario": "S8",
+   "entry": "share (up)",
+   "profile": "p2p",
+   "cake_mbit": 14.823818235294114,
+   "rules_mbit": 14.921871764705884,
+   "aqose_mbit": 14.706903529411766,
+   "ratio": 1.0011144227308906,
+   "ratio_min": 0.9604336522755962,
+   "starved_max_pct": 0.5882352941176471,
+   "starved_cake_max_pct": 0.5882352941176471
+  },
+  {
+   "scenario": "S8",
+   "entry": "update (down)",
+   "profile": "game_update",
+   "cake_mbit": 31.51039155,
+   "rules_mbit": 34.98849325,
+   "aqose_mbit": 31.1224527,
+   "ratio": 0.9841568553001876,
+   "ratio_min": 0.9839139437274306,
+   "starved_max_pct": 25.625,
+   "starved_cake_max_pct": 25.625
+  },
+  {
+   "scenario": "S10",
+   "entry": "download (down)",
+   "profile": "bulk_download",
+   "cake_mbit": 87.83642142857143,
+   "rules_mbit": 88.28911571428571,
+   "aqose_mbit": 78.98277428571427,
+   "ratio": 0.8992030071482712,
+   "ratio_min": 0.8862920219274204,
+   "starved_max_pct": 0.7142857142857143,
+   "starved_cake_max_pct": 0.7142857142857143
+  },
+  {
+   "scenario": "S11",
+   "entry": "backup (up)",
+   "profile": "backup_upload",
+   "cake_mbit": 5.9197397272727255,
+   "rules_mbit": 6.292007727272729,
+   "aqose_mbit": 6.237457545454545,
+   "ratio": 1.0536709100094497,
+   "ratio_min": 1.0472059010998513,
+   "starved_max_pct": 0.9090909090909091,
+   "starved_cake_max_pct": 0.9090909090909091
+  },
+  {
+   "scenario": "S11",
+   "entry": "download (down)",
+   "profile": "bulk_download",
+   "cake_mbit": 20.209893548387097,
+   "rules_mbit": 23.089378645161286,
+   "aqose_mbit": 21.07787225806452,
+   "ratio": 1.026900619114205,
+   "ratio_min": 1.0138346549338,
+   "starved_max_pct": 0.6451612903225806,
+   "starved_cake_max_pct": 0.6451612903225806
+  },
+  {
+   "scenario": "S11",
+   "entry": "update (down)",
+   "profile": "game_update",
+   "cake_mbit": 19.83929153846154,
+   "rules_mbit": 19.694675523076924,
+   "aqose_mbit": 18.86756615384615,
+   "ratio": 0.955012406700251,
+   "ratio_min": 0.9381223733102377,
+   "starved_max_pct": 0.7692307692307693,
+   "starved_cake_max_pct": 0.7692307692307693
+  }
+ ],
+ "fairness": [
+  {
+   "scenario": "S1",
+   "direction": "down",
+   "devices": 2,
+   "cake": 0.5182396707472339,
+   "aqose": 0.5182425871228913
+  },
+  {
+   "scenario": "S2",
+   "direction": "down",
+   "devices": 2,
+   "cake": 0.5423292327909492,
+   "aqose": 0.5436594941871837
+  },
+  {
+   "scenario": "S3",
+   "direction": "down",
+   "devices": 4,
+   "cake": 0.7429886505379573,
+   "aqose": 0.7427982748621529
+  },
+  {
+   "scenario": "S4",
+   "direction": "up",
+   "devices": 2,
+   "cake": 0.507127283159228,
+   "aqose": 0.5071251424881934
+  },
+  {
+   "scenario": "S5",
+   "direction": "down",
+   "devices": 5,
+   "cake": 0.7081592258031975,
+   "aqose": 0.7078673136696237
+  },
+  {
+   "scenario": "S5",
+   "direction": "up",
+   "devices": 2,
+   "cake": 0.515918060965648,
+   "aqose": 0.5159068604945085
+  },
+  {
+   "scenario": "S6",
+   "direction": "down",
+   "devices": 2,
+   "cake": 0.9990328606759902,
+   "aqose": 0.9959118990830185
+  },
+  {
+   "scenario": "S7",
+   "direction": "down",
+   "devices": 2,
+   "cake": 0.5781117396440874,
+   "aqose": 0.5678425898918116
+  },
+  {
+   "scenario": "S8",
+   "direction": "down",
+   "devices": 3,
+   "cake": 0.7009921407337127,
+   "aqose": 0.6969207635972162
+  },
+  {
+   "scenario": "S8",
+   "direction": "up",
+   "devices": 2,
+   "cake": 0.5025912347959482,
+   "aqose": 0.5025905637730326
+  },
+  {
+   "scenario": "S10",
+   "direction": "down",
+   "devices": 2,
+   "cake": 0.5182418189897146,
+   "aqose": 0.5204128824087391
+  }
+ ],
+ "fairness_fresh": [
+  {
+   "scenario": "S1",
+   "direction": "down",
+   "devices": 2,
+   "cake": 0.5196956155024823,
+   "aqose": 0.519686228802727
+  },
+  {
+   "scenario": "S2",
+   "direction": "down",
+   "devices": 2,
+   "cake": 0.5457749333657603,
+   "aqose": 0.5470285251661912
+  },
+  {
+   "scenario": "S3",
+   "direction": "down",
+   "devices": 4,
+   "cake": 0.7379532799536821,
+   "aqose": 0.7373301236522777
+  },
+  {
+   "scenario": "S4",
+   "direction": "up",
+   "devices": 2,
+   "cake": 0.5090707667368313,
+   "aqose": 0.5090559092879773
+  },
+  {
+   "scenario": "S5",
+   "direction": "down",
+   "devices": 5,
+   "cake": 0.7085558134111265,
+   "aqose": 0.7088082642474024
+  },
+  {
+   "scenario": "S5",
+   "direction": "up",
+   "devices": 2,
+   "cake": 0.5203822034787382,
+   "aqose": 0.5201794463064157
+  },
+  {
+   "scenario": "S6",
+   "direction": "down",
+   "devices": 2,
+   "cake": 0.9987404642680292,
+   "aqose": 0.9960325502715123
+  },
+  {
+   "scenario": "S7",
+   "direction": "down",
+   "devices": 2,
+   "cake": 0.5593533532395061,
+   "aqose": 0.5518480387227022
+  },
+  {
+   "scenario": "S8",
+   "direction": "down",
+   "devices": 3,
+   "cake": 0.6835737034496495,
+   "aqose": 0.680910450483147
+  },
+  {
+   "scenario": "S8",
+   "direction": "up",
+   "devices": 2,
+   "cake": 0.5032139236773908,
+   "aqose": 0.5032103992646997
+  },
+  {
+   "scenario": "S10",
+   "direction": "down",
+   "devices": 2,
+   "cake": 0.5196858791972591,
+   "aqose": 0.5218660374942226
+  },
+  {
+   "scenario": "S11",
+   "direction": "down",
+   "devices": 4,
+   "cake": 0.5948086793046296,
+   "aqose": 0.5928267376417254
+  },
+  {
+   "scenario": "S11",
+   "direction": "up",
+   "devices": 3,
+   "cake": 0.4941741576194994,
+   "aqose": 0.4868448938747717
+  }
+ ],
+ "interactive": [
+  {
+   "scenario": "S1",
+   "flow": "call down",
+   "B2": {
+    "jitter": 0.087874075,
+    "loss": 0.0,
+    "kbit": 1614.0660277777777
+   },
+   "B4": {
+    "jitter": 0.08830302500000001,
+    "loss": 3.158636111111111e-05,
+    "kbit": 1614.0171666666665
+   },
+   "O2": {
+    "jitter": 0.08184225,
+    "loss": 0.0,
+    "kbit": 1614.0660277777777
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S1",
+   "flow": "call up",
+   "B2": {
+    "jitter": 0.3932495,
+    "loss": 0.0,
+    "kbit": 1789.9335277777777
+   },
+   "B4": {
+    "jitter": 0.39350925,
+    "loss": 0.0,
+    "kbit": 1789.9335277777777
+   },
+   "O2": {
+    "jitter": 0.389621,
+    "loss": 0.0,
+    "kbit": 1789.9335277777777
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S2",
+   "flow": "call down",
+   "B2": {
+    "jitter": 0.456143,
+    "loss": 0.0029410755277777777,
+    "kbit": 1603.612472222222
+   },
+   "B4": {
+    "jitter": 0.5140925000000001,
+    "loss": 0.0032489936388888888,
+    "kbit": 1603.4123888888887
+   },
+   "O2": {
+    "jitter": 0.9421755,
+    "loss": 1.0808472222222223e-05,
+    "kbit": 1614.0132777777776
+   },
+   "B3": {
+    "jitter": 0.49230475,
+    "loss": 2.1659166666666668e-05,
+    "kbit": 1613.531972222222
+   }
+  },
+  {
+   "scenario": "S2",
+   "flow": "call up",
+   "B2": {
+    "jitter": 0.33752024999999997,
+    "loss": 0.0,
+    "kbit": 1789.9335277777777
+   },
+   "B4": {
+    "jitter": 0.335411,
+    "loss": 0.0,
+    "kbit": 1789.9335277777777
+   },
+   "O2": {
+    "jitter": 0.32573225,
+    "loss": 0.0,
+    "kbit": 1789.9335277777777
+   },
+   "B3": {
+    "jitter": 4.1111425,
+    "loss": 0.001972521055555556,
+    "kbit": 1783.6038888888888
+   }
+  },
+  {
+   "scenario": "S3",
+   "flow": "game down",
+   "B2": {
+    "jitter": 0.2338825,
+    "loss": 0.0,
+    "kbit": 79.58866666666665
+   },
+   "B4": {
+    "jitter": 0.29013675,
+    "loss": 0.0,
+    "kbit": 79.58866666666665
+   },
+   "O2": {
+    "jitter": 0.2333935,
+    "loss": 0.0,
+    "kbit": 79.58866666666665
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S3",
+   "flow": "game up",
+   "B2": {
+    "jitter": 0.049073475000000005,
+    "loss": 0.0,
+    "kbit": 63.577333333333335
+   },
+   "B4": {
+    "jitter": 0.053672399999999995,
+    "loss": 0.0,
+    "kbit": 63.577333333333335
+   },
+   "O2": {
+    "jitter": 0.0558535,
+    "loss": 0.0,
+    "kbit": 63.577333333333335
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S4",
+   "flow": "game down",
+   "B2": {
+    "jitter": 0.054950025,
+    "loss": 0.0,
+    "kbit": 79.58866666666665
+   },
+   "B4": {
+    "jitter": 0.05395915,
+    "loss": 0.0,
+    "kbit": 79.58866666666665
+   },
+   "O2": {
+    "jitter": 0.0537131,
+    "loss": 0.0,
+    "kbit": 79.58866666666665
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S4",
+   "flow": "game up",
+   "B2": {
+    "jitter": 0.502056,
+    "loss": 0.0,
+    "kbit": 63.577333333333335
+   },
+   "B4": {
+    "jitter": 0.504524,
+    "loss": 0.0,
+    "kbit": 63.577333333333335
+   },
+   "O2": {
+    "jitter": 0.46537375000000003,
+    "loss": 0.0,
+    "kbit": 63.577333333333335
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S5",
+   "flow": "call down",
+   "B2": {
+    "jitter": 0.69550825,
+    "loss": 0.0,
+    "kbit": 1614.0410000000002
+   },
+   "B4": {
+    "jitter": 0.71557175,
+    "loss": 0.0,
+    "kbit": 1614.2079444444446
+   },
+   "O2": {
+    "jitter": 0.663117,
+    "loss": 0.0,
+    "kbit": 1614.0399166666666
+   },
+   "B3": {
+    "jitter": 0.6712345,
+    "loss": 1.0175e-05,
+    "kbit": 1613.9909444444443
+   }
+  },
+  {
+   "scenario": "S5",
+   "flow": "call up",
+   "B2": {
+    "jitter": 8.00002,
+    "loss": 0.23991323411111112,
+    "kbit": 1323.9985277777778
+   },
+   "B4": {
+    "jitter": 15.297225000000001,
+    "loss": 0.5355918858611112,
+    "kbit": 809.08575
+   },
+   "O2": {
+    "jitter": 2.9862200000000003,
+    "loss": 6.876675000000001e-05,
+    "kbit": 1789.9086388888888
+   },
+   "B3": {
+    "jitter": 8.0722175,
+    "loss": 0.24131416691666668,
+    "kbit": 1324.4621944444443
+   }
+  },
+  {
+   "scenario": "S5",
+   "flow": "game down",
+   "B2": {
+    "jitter": 1.0559875,
+    "loss": 0.0,
+    "kbit": 79.58866666666665
+   },
+   "B4": {
+    "jitter": 2.3728675,
+    "loss": 0.0,
+    "kbit": 79.58435555555556
+   },
+   "O2": {
+    "jitter": 1.1345675000000002,
+    "loss": 0.0,
+    "kbit": 79.58866666666665
+   },
+   "B3": {
+    "jitter": 1.0329545,
+    "loss": 0.0,
+    "kbit": 79.58866666666665
+   }
+  },
+  {
+   "scenario": "S5",
+   "flow": "game up",
+   "B2": {
+    "jitter": 0.96432925,
+    "loss": 0.0,
+    "kbit": 63.574933333333334
+   },
+   "B4": {
+    "jitter": 0.8991370000000001,
+    "loss": 0.0,
+    "kbit": 63.577333333333335
+   },
+   "O2": {
+    "jitter": 0.8687287499999999,
+    "loss": 0.0,
+    "kbit": 63.577333333333335
+   },
+   "B3": {
+    "jitter": 0.9614155,
+    "loss": 0.0,
+    "kbit": 63.577333333333335
+   }
+  },
+  {
+   "scenario": "S6",
+   "flow": "call down",
+   "B2": {
+    "jitter": 27.28595,
+    "loss": 0.9105125105555556,
+    "kbit": 431.50232222222223
+   },
+   "B4": {
+    "jitter": 3.1695824999999997,
+    "loss": 0.5280289644444444,
+    "kbit": 2268.6180722222225
+   },
+   "O2": {
+    "jitter": 0.205212,
+    "loss": 0.0,
+    "kbit": 5051.490305555555
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S6",
+   "flow": "call up",
+   "B2": {
+    "jitter": 6.6463025,
+    "loss": 0.6539352249999999,
+    "kbit": 1530.0115555555553
+   },
+   "B4": {
+    "jitter": 8.747245,
+    "loss": 0.6971910444444444,
+    "kbit": 1478.3137277777778
+   },
+   "O2": {
+    "jitter": 0.56270325,
+    "loss": 0.00028051013888888887,
+    "kbit": 5046.837861111111
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S7",
+   "flow": "game down",
+   "B2": {
+    "jitter": 3.144555,
+    "loss": 0.7892064400000001,
+    "kbit": 3914.4279611111115
+   },
+   "B4": {
+    "jitter": 0.14303675000000002,
+    "loss": 0.1674314111111111,
+    "kbit": 15705.689627777778
+   },
+   "O2": {
+    "jitter": 0.27245874999999997,
+    "loss": 0.0001363869388888889,
+    "kbit": 18981.560277777782
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S7",
+   "flow": "game up",
+   "B2": {
+    "jitter": 0.0202365,
+    "loss": 0.0,
+    "kbit": 78.34513333333334
+   },
+   "B4": {
+    "jitter": 0.02004085,
+    "loss": 0.0,
+    "kbit": 78.34513333333334
+   },
+   "O2": {
+    "jitter": 0.028714049999999998,
+    "loss": 0.0,
+    "kbit": 78.34513333333334
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S8",
+   "flow": "call down",
+   "B2": {
+    "jitter": 2.4782025,
+    "loss": 0.00041475969444444444,
+    "kbit": 1182.3389555555555
+   },
+   "B4": {
+    "jitter": 3.952625,
+    "loss": 0.08236262141666667,
+    "kbit": 1040.0443222222223
+   },
+   "O2": {
+    "jitter": 0.148939,
+    "loss": 0.0,
+    "kbit": 1182.8549555555555
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S8",
+   "flow": "call up",
+   "B2": {
+    "jitter": 6.602185,
+    "loss": 0.12149594833333335,
+    "kbit": 1016.0140444444446
+   },
+   "B4": {
+    "jitter": 8.6535,
+    "loss": 0.06235083486111111,
+    "kbit": 1097.3913722222221
+   },
+   "O2": {
+    "jitter": 0.50012975,
+    "loss": 1.2345666666666666e-05,
+    "kbit": 1308.1280555555556
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S8",
+   "flow": "game down",
+   "B2": {
+    "jitter": 0.25345225,
+    "loss": 0.0,
+    "kbit": 51.05282222222222
+   },
+   "B4": {
+    "jitter": 0.25322525,
+    "loss": 0.0,
+    "kbit": 51.05282222222222
+   },
+   "O2": {
+    "jitter": 0.22224725,
+    "loss": 0.0,
+    "kbit": 51.05282222222222
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S8",
+   "flow": "game up",
+   "B2": {
+    "jitter": 0.3079425,
+    "loss": 0.0,
+    "kbit": 40.601
+   },
+   "B4": {
+    "jitter": 0.23444574999999998,
+    "loss": 0.0,
+    "kbit": 40.601
+   },
+   "O2": {
+    "jitter": 0.241373,
+    "loss": 0.0,
+    "kbit": 40.601
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S10",
+   "flow": "call down",
+   "B2": {
+    "jitter": 0.085379575,
+    "loss": 0.0,
+    "kbit": 1614.0660277777777
+   },
+   "B4": {
+    "jitter": 0.090532625,
+    "loss": 3.158636111111111e-05,
+    "kbit": 1614.0171666666665
+   },
+   "O2": {
+    "jitter": 0.085169675,
+    "loss": 0.0,
+    "kbit": 1614.0660277777777
+   },
+   "B3": null
+  },
+  {
+   "scenario": "S10",
+   "flow": "call up",
+   "B2": {
+    "jitter": 0.39510975,
+    "loss": 0.0,
+    "kbit": 1789.9335277777777
+   },
+   "B4": {
+    "jitter": 0.39465075,
+    "loss": 0.0,
+    "kbit": 1789.9335277777777
+   },
+   "O2": {
+    "jitter": 0.3803565,
+    "loss": 0.0,
+    "kbit": 1789.9335277777777
+   },
+   "B3": null
+  }
+ ],
+ "estimator": {
+  "O2": {
+   "runs": 10,
+   "detect_s": 1.0,
+   "under_s": 2.0,
+   "abs_error_pct": 6.233956043956043,
+   "time_above_pct": 2.197802197802198
+  },
+  "B3": {
+   "runs": 10,
+   "detect_s": 1.0,
+   "under_s": 3.0,
+   "abs_error_pct": 20.506098901098902,
+   "time_above_pct": 75.82417582417582
+  }
+ }
+}

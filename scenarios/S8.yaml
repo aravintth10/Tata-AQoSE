@@ -1,0 +1,64 @@
+schema_version: 1
+id: S8
+name: Flows that change what they are
+description: >
+  Three flows change behaviour after they have been labelled. A video
+  call on a laptop that is also sharing files has its camera switched
+  off 50 s into the measured time, which leaves an audio-only call, and
+  on again 50 s later. A game on a PC that is also fetching an update
+  sits in its lobby, a few packets a second, and goes into a match 70 s
+  in. The update is paused 90 s in and resumed 40 s later.
+
+  The questions: how long the controller takes to notice each change,
+  whether the call and the game keep their quality across it, and how
+  often a flow's label changes. As in S6 and S7 the call and the game
+  share their device with bulk connections, because alone on a device
+  the tin does not matter.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 100000
+  up_kbit: 20000
+  delay_ms: 10
+hosts:
+  - laptop
+  - pc
+  - tv
+traffic:
+  - {id: call, host: laptop, profile: video_call, start_s: 0, stop_s: null}
+  - {id: share, host: laptop, profile: p2p, start_s: 30, stop_s: null}
+  - id: game
+    host: pc
+    profile: gaming
+    start_s: 0
+    stop_s: null
+    params: {phase: lobby}
+  - id: update
+    host: pc
+    profile: game_update
+    start_s: 40
+    stop_s: null
+    params: {connections: 6}
+  - {id: stream, host: tv, profile: abr_video, start_s: 0, stop_s: null}
+events:
+  - at_s: 70
+    type: traffic_param
+    args: {traffic: call, param: camera, value: "off"}
+  - at_s: 90
+    type: traffic_param
+    args: {traffic: game, param: phase, value: match}
+  - at_s: 110
+    type: traffic_param
+    args: {traffic: update, param: paused, value: true}
+  - at_s: 120
+    type: traffic_param
+    args: {traffic: call, param: camera, value: "on"}
+  - at_s: 150
+    type: traffic_param
+    args: {traffic: update, param: paused, value: false}
+primary_metrics:
+  - latency_ms
+  - jitter_ms
+  - loss_ratio
+  - frame_miss
+  - throughput_kbit

@@ -1,0 +1,151 @@
+{
+  "workload": {
+    "flows": 50000,
+    "packets": 400000,
+    "pcap_bytes": 37600024,
+    "parity_sha256": "2c5f4f2c644d64452620b118d561bdffd5410d5ce246cf38fb56c73629580a36",
+    "windows": false,
+    "output": "/dev/null",
+    "warmups": 2
+  },
+  "environment": {
+    "platform": "Linux-7.2.8-100.fc43.x86_64-x86_64-with-glibc2.42",
+    "cpu_affinity": 0,
+    "cpu": "12th Gen Intel(R) Core(TM) i5-1240P",
+    "go": "go version go1.26.8-X:nodwarf5 linux/amd64",
+    "rust": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "git_head": "4eebba6d3975dad962ee30589a72a4c40347398d",
+    "working_tree": "uncommitted migration; binary hashes identify measured builds"
+  },
+  "binaries": {
+    "go": {
+      "bytes": 4612895,
+      "sha256": "607b4f63dfc6f38dec967ca54535303386d235a1d7a70644029722f4e2d877d3"
+    },
+    "rust": {
+      "bytes": 855968,
+      "sha256": "ca54ade06380ca283063a34877361d79521d4c8537c6f8797c479b848c1b6f3c"
+    }
+  },
+  "trials": {
+    "go": [
+      {
+        "trial": 0,
+        "wall_s": 0.334260659001302,
+        "user_s": 0.3,
+        "system_s": 0.02,
+        "peak_rss_kib": 66372
+      },
+      {
+        "trial": 1,
+        "wall_s": 0.3196625820128247,
+        "user_s": 0.29,
+        "system_s": 0.02,
+        "peak_rss_kib": 67652
+      },
+      {
+        "trial": 2,
+        "wall_s": 0.3187537890044041,
+        "user_s": 0.28,
+        "system_s": 0.02,
+        "peak_rss_kib": 66908
+      },
+      {
+        "trial": 3,
+        "wall_s": 0.32856740400893614,
+        "user_s": 0.29,
+        "system_s": 0.02,
+        "peak_rss_kib": 69596
+      },
+      {
+        "trial": 4,
+        "wall_s": 0.32615910001914017,
+        "user_s": 0.28,
+        "system_s": 0.03,
+        "peak_rss_kib": 66884
+      },
+      {
+        "trial": 5,
+        "wall_s": 0.3204341490054503,
+        "user_s": 0.28,
+        "system_s": 0.02,
+        "peak_rss_kib": 67396
+      },
+      {
+        "trial": 6,
+        "wall_s": 0.32840871199732646,
+        "user_s": 0.29,
+        "system_s": 0.03,
+        "peak_rss_kib": 69060
+      }
+    ],
+    "rust": [
+      {
+        "trial": 0,
+        "wall_s": 0.24661643299623393,
+        "user_s": 0.21,
+        "system_s": 0.03,
+        "peak_rss_kib": 59100
+      },
+      {
+        "trial": 1,
+        "wall_s": 0.24398592501529492,
+        "user_s": 0.21,
+        "system_s": 0.02,
+        "peak_rss_kib": 58948
+      },
+      {
+        "trial": 2,
+        "wall_s": 0.24760598500142805,
+        "user_s": 0.2,
+        "system_s": 0.03,
+        "peak_rss_kib": 59168
+      },
+      {
+        "trial": 3,
+        "wall_s": 0.24150184000609443,
+        "user_s": 0.21,
+        "system_s": 0.02,
+        "peak_rss_kib": 58960
+      },
+      {
+        "trial": 4,
+        "wall_s": 0.24563101198873483,
+        "user_s": 0.21,
+        "system_s": 0.03,
+        "peak_rss_kib": 59064
+      },
+      {
+        "trial": 5,
+        "wall_s": 0.2375895570148714,
+        "user_s": 0.2,
+        "system_s": 0.03,
+        "peak_rss_kib": 59024
+      },
+      {
+        "trial": 6,
+        "wall_s": 0.24363676100620069,
+        "user_s": 0.2,
+        "system_s": 0.03,
+        "peak_rss_kib": 58912
+      }
+    ]
+  },
+  "median": {
+    "go": {
+      "wall_s": 0.32615910001914017,
+      "user_s": 0.29,
+      "system_s": 0.02,
+      "peak_rss_kib": 67396
+    },
+    "rust": {
+      "wall_s": 0.24398592501529492,
+      "user_s": 0.21,
+      "system_s": 0.03,
+      "peak_rss_kib": 59024
+    }
+  },
+  "limits": "Offline initial-flow extraction on this host; not forwarding throughput, controller latency, window extraction, router hardware, or long-soak stability.",
+  "speedup": 1.336794735182753,
+  "rss_reduction_pct": 12.42210220191109
+}

@@ -1,0 +1,54 @@
+schema_version: 1
+id: S1045
+name: 'training mix 45: p2p, bulk_download, game_update, abr_video, game_update'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 200000
+  up_kbit: 40000
+  delay_ms: 60
+  loss_pct: 0.1
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-p2p
+  host: desktop
+  profile: p2p
+  start_s: 1.8
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-bulk-download
+  host: desktop
+  profile: bulk_download
+  start_s: 6.9
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-game-update
+  host: phone
+  profile: game_update
+  start_s: 5.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-abr-video
+  host: laptop
+  profile: abr_video
+  start_s: 0.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-game-update
+  host: phone
+  profile: game_update
+  start_s: 5.6
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

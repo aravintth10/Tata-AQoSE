@@ -1,0 +1,9 @@
+# Real WhatsApp video calls replayed in the testbed (S12, S13), against the
+# objection that the live wins only show the classifier recognising its own
+# generators. Written and run after the freeze; the system under test is
+# the frozen one. 40 runs, about 2.3 hours.
+scenarios: [S12, S13]
+configs: [B2, B4, O1, O2]
+seeds: {from: 0, to: 4}
+by: seed
+tag: realcall

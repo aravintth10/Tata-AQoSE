@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "flow_id": "3fa9c1d2e4b50761",
+  "model_version": "rf-2026-10-09-a",
+  "probs": {
+    "telephony": 0.05,
+    "realtime_interactive": 0.04,
+    "multimedia_conferencing": 0.78,
+    "multimedia_streaming": 0.06,
+    "standard": 0.04,
+    "high_throughput_data": 0.02,
+    "low_priority_data": 0.01
+  },
+  "confidence": 0.78,
+  "inference_us": 140.0
+}

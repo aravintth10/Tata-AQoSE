@@ -1,0 +1,8 @@
+# The same calls with the model from before the freeze, which never saw
+# WhatsApp: AQOS_SERVICE=python AQOS_MODEL=lgbm-v1-fe91bbad. Its sigmoid
+# calibration has no native export, so Python must be selected explicitly. 10 runs, about 35 minutes.
+scenarios: [S12, S13]
+configs: [O2]
+seeds: {from: 0, to: 4}
+by: seed
+tag: realcall-v1

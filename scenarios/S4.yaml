@@ -1,0 +1,25 @@
+schema_version: 1
+id: S4
+name: Cloud backup saturates the upload during gaming
+description: >
+  An online game for the whole test. At 40 s into the measured window a
+  backup starts on another host and fills the upload, the narrow direction
+  of a home link.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 100000
+  up_kbit: 10000
+  delay_ms: 10
+hosts:
+  - console
+  - nas
+traffic:
+  - {id: game, host: console, profile: gaming, start_s: 0, stop_s: null}
+  - {id: backup, host: nas, profile: backup_upload, start_s: 60, stop_s: null}
+events: []
+primary_metrics:
+  - latency_ms
+  - frame_miss
+  - jitter_ms
+  - throughput_kbit

@@ -1,0 +1,40 @@
+schema_version: 1
+id: S1017
+name: 'training mix 17: abr_video, voice_call, backup_upload'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 20000
+  up_kbit: 4000
+  delay_ms: 60
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-abr-video
+  host: desktop
+  profile: abr_video
+  start_s: 5.5
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-voice-call
+  host: phone
+  profile: voice_call
+  start_s: 2.4
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t2-backup-upload
+  host: laptop
+  profile: backup_upload
+  start_s: 8.9
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

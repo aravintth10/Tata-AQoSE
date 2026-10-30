@@ -1,0 +1,382 @@
+<section id="aqose" style="background:#fcfcfb;color:#14213d;font-family:'IBM Plex Sans', Arial, sans-serif;padding:0;display:flex;flex-direction:column">
+<img src="/_blob/8e8db3862dd141cbc53df5bc9aa2a359" alt="Teliport Season 4, Script Your Future" style="position:absolute;left:0px;top:2px;width:372px;height:120px;object-fit:contain">
+<img src="/_blob/448d6bc6458b1039a8279a931f00631d" alt="Tata Elxsi" style="position:absolute;left:1777px;top:14px;width:127px;height:89px;object-fit:contain">
+<h1 style="position:absolute;left:400px;top:14px;width:230px;font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1;letter-spacing:-1px;color:#14213d">AQoSE</h1>
+<p style="position:absolute;left:640px;top:16px;width:836px;font-family:'Space Grotesk', Arial, sans-serif;font-size:26px;font-weight:700;line-height:1.2;color:#14213d">Odds, not fixed thresholds: <span style="color:#6250d6">a predictive add-on for Linux CAKE</span></p>
+<p style="position:absolute;left:640px;top:54px;width:836px;font-size:17px;line-height:1.35;color:#4a5568">Fixed thresholds mistake calls and games for downloads. AQoSE predicts what each connection is from its first 8 packets, weighs the odds against the measured harm of each queue, and picks the safest. CAKE still moves every packet; AQoSE only labels flows and sets rates. <b style="color:#14213d">Never reads content.</b></p>
+<p style="position:absolute;left:402px;top:94px;width:230px;font-size:15px;font-weight:600;letter-spacing:1px;color:#4a5568">Adaptive QoS Engine</p>
+<p style="position:absolute;left:36px;top:128px;width:120px;font-size:15px;font-weight:700;letter-spacing:1px;line-height:1.3;color:#6250d6">WHAT IT<br>DOES</p>
+<div style="position:absolute;left:170px;top:128px;width:1306px;display:flex;flex-direction:row;gap:22px">
+<div style="flex:1;display:flex;flex-direction:row;gap:10px;align-items:start">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:30px;font-weight:700;line-height:1;color:#6250d6">1</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:1px">
+<p style="font-size:16px;font-weight:700;line-height:1.25;color:#14213d">Listens</p>
+<p style="font-size:14px;line-height:1.3;color:#4a5568">to the first 8 packet headers of every new connection. No payload, no decryption.</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:row;gap:10px;align-items:start">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:30px;font-weight:700;line-height:1;color:#6250d6">2</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:1px">
+<p style="font-size:16px;font-weight:700;line-height:1.25;color:#14213d">Predicts</p>
+<p style="font-size:14px;line-height:1.3;color:#4a5568">what it is: call, game, video call, streaming, web, download or backup, with odds.</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:row;gap:10px;align-items:start">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:30px;font-weight:700;line-height:1;color:#6250d6">3</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:1px">
+<p style="font-size:16px;font-weight:700;line-height:1.25;color:#14213d">Decides</p>
+<p style="font-size:14px;line-height:1.3;color:#4a5568">the CAKE queue with the least expected harm, inside hard safety guards.</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:row;gap:10px;align-items:start">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:30px;font-weight:700;line-height:1;color:#6250d6">4</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:1px">
+<p style="font-size:16px;font-weight:700;line-height:1.25;color:#14213d">Watches</p>
+<p style="font-size:14px;line-height:1.3;color:#4a5568">every second; re-checks flows that change, rolls back anything that adds delay.</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:1496px;top:142px;width:388px;font-size:14px;line-height:1.3;color:#4a5568"><b style="color:#14213d">Runs locally, no cloud.</b> Falls back to plain CAKE in 2 s if it stops. Tested in emulation.</p>
+<div style="position:absolute;left:1484px;top:16px;width:152px;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:13px;font-weight:700;letter-spacing:1px;line-height:1.2;color:#6250d6">FULL REPORT</p>
+<p style="font-size:14px;line-height:1.3;color:#4a5568">Scan the code, or open:</p>
+<p style="font-family:'Courier New', monospace;font-size:11px;font-weight:700;line-height:1.35;color:#14213d">github.com/<br>shreyashsri79/aqose</p>
+<p style="font-size:13px;line-height:1.3;color:#4a5568">PDF report, code, every result</p>
+</div>
+<img src="/_blob/ec798f94c960ed2b0a86a7a22dc2ae4c" alt="QR code linking to the AQoSE GitHub repository and full report" style="position:absolute;left:1644px;top:14px;width:120px;height:120px;object-fit:contain">
+<div style="position:absolute;left:36px;top:198px;width:1848px;height:2px;background:#14213d"></div>
+<div style="position:absolute;left:607px;top:212px;width:1px;height:818px;background:#d9dce3"></div>
+<div style="position:absolute;left:1291px;top:212px;width:1px;height:818px;background:#d9dce3"></div>
+<div style="position:absolute;left:36px;top:620px;width:1848px;height:1px;background:#d9dce3"></div>
+
+<p style="position:absolute;left:36px;top:208px;width:556px;font-size:16px;font-weight:700;letter-spacing:2px;color:#6250d6">01 · THE PROBLEM</p>
+<h3 style="position:absolute;left:36px;top:232px;width:556px;font-family:'Space Grotesk', Arial, sans-serif;font-size:27px;font-weight:700;line-height:1.15;color:#14213d">CAKE is fair to devices, blind to apps</h3>
+<svg style="position:absolute;left:36px;top:272px;width:556px;height:210px" width="556" height="210" viewBox="0 0 556 210" xmlns="http://www.w3.org/2000/svg" aria-label="A laptop runs a call and a cloud backup at once. CAKE shares the line fairly per device, then per flow, so the call is one of nine flows on its laptop.">
+<g font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+<path d="M10 70 L100 12 L190 70" fill="none" stroke="#14213d" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="22" y="64" width="156" height="136" rx="8" fill="#ffffff" stroke="#14213d" stroke-width="3"/>
+<rect x="54" y="86" width="92" height="60" rx="4" fill="#eceaf9" stroke="#14213d" stroke-width="2.5"/>
+<path d="M42 152 H158 L150 162 H50 Z" fill="#14213d"/>
+<circle cx="100" cy="106" r="10" fill="#6250d6"/>
+<path d="M82 140 Q100 114 118 140 Z" fill="#6250d6"/>
+<text x="100" y="188" font-size="14" fill="#14213d">call + backup</text>
+<path d="M178 80 q10.5 -8 21 0 t21 0 t21 0 t21 0" fill="none" stroke="#6250d6" stroke-width="3"/>
+<path d="M178 98 L262 100 M178 106 L262 107 M178 114 L262 114 M178 122 L262 121 M178 130 L262 128 M178 138 L262 135 M178 146 L262 142 M178 154 L262 149" fill="none" stroke="#898781" stroke-width="2.5"/>
+<rect x="262" y="60" width="132" height="110" rx="10" fill="#14213d"/>
+<text x="328" y="88" font-size="20" font-weight="700" fill="#ffffff">CAKE</text>
+<text x="328" y="108" font-size="13" fill="#d6dbe8">fair per device,</text>
+<text x="328" y="124" font-size="13" fill="#d6dbe8">then per flow</text>
+<rect x="274" y="138" width="10" height="16" fill="#9c8ff0"/>
+<rect x="286" y="138" width="10" height="16" fill="#b8bdc9"/>
+<rect x="298" y="138" width="10" height="16" fill="#b8bdc9"/>
+<rect x="310" y="138" width="10" height="16" fill="#b8bdc9"/>
+<rect x="322" y="138" width="10" height="16" fill="#b8bdc9"/>
+<rect x="334" y="138" width="10" height="16" fill="#b8bdc9"/>
+<rect x="346" y="138" width="10" height="16" fill="#b8bdc9"/>
+<rect x="358" y="138" width="10" height="16" fill="#b8bdc9"/>
+<rect x="370" y="138" width="10" height="16" fill="#b8bdc9"/>
+<text x="328" y="192" font-size="14" fill="#14213d">the call is 1 of 9 flows</text>
+<line x1="394" y1="115" x2="452" y2="115" stroke="#14213d" stroke-width="12"/>
+<path d="M466 140 a22 22 0 0 1 2 -44 a30 30 0 0 1 56 -8 a24 24 0 0 1 12 52 Z" fill="#eef1f7" stroke="#14213d" stroke-width="2.5"/>
+<text x="500" y="124" font-size="13" fill="#14213d">Internet</text>
+<text x="424" y="146" font-size="12" fill="#4a5568">one line</text>
+</g>
+</svg>
+<div style="position:absolute;left:36px;top:490px;width:556px;display:flex;flex-direction:row;gap:24px">
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:56px;font-weight:700;line-height:1;color:#14213d">83%</p>
+<p style="font-size:16px;line-height:1.35;color:#4a5568">of a cloud game's frames arrive late with plain CAKE while its PC downloads an update (S7)</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:56px;font-weight:700;line-height:1;color:#14213d">78%</p>
+<p style="font-size:16px;line-height:1.35;color:#4a5568">of cloud-gaming flows in our sealed test set sent to the lowest queue by qosify's default rules</p>
+</div>
+</div>
+
+<p style="position:absolute;left:632px;top:208px;width:636px;font-size:16px;font-weight:700;letter-spacing:2px;color:#6250d6">02 · INSIDE THE ROUTER</p>
+<h3 style="position:absolute;left:632px;top:232px;width:636px;font-family:'Space Grotesk', Arial, sans-serif;font-size:27px;font-weight:700;line-height:1.15;color:#14213d">Every packet stays in the kernel</h3>
+<svg style="position:absolute;left:632px;top:272px;width:605px;height:330px" width="605" height="330" viewBox="0 0 660 360" xmlns="http://www.w3.org/2000/svg" aria-label="Architecture. In the kernel, LAN traffic passes conntrack, whose mark picks one of CAKE's four tins, then the WAN. The aqosd controller reads the first 8 packet headers of each flow, the Go classifier service picks a tin by expected damage, the safety shield accepts or rejects it, and the enforcer sets the conntrack mark and CAKE's rate. A reclassifier, a capacity estimator, intent leases and a QoE verifier feed the shield; a separate watchdog falls back to plain CAKE.">
+<defs>
+<marker id="bp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#6250d6"/></marker>
+<marker id="bk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#14213d"/></marker>
+<marker id="bg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#898781"/></marker>
+</defs>
+<g font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+<text x="8" y="20" text-anchor="start" font-size="13" font-weight="700" fill="#6250d6">aqosd · controller (Go)</text>
+<rect x="8" y="84" width="140" height="48" rx="8" fill="#f1effc" stroke="#6250d6" stroke-width="1.5"/>
+<text x="78" y="104" font-size="14" font-weight="700" fill="#14213d">Reclassifier</text>
+<text x="78" y="122" font-size="12" fill="#4a5568">rate vs envelope, 1/s</text>
+<rect x="8" y="146" width="140" height="48" rx="8" fill="#f1effc" stroke="#6250d6" stroke-width="1.5"/>
+<text x="78" y="166" font-size="14" font-weight="700" fill="#14213d">Feature extractor</text>
+<text x="78" y="184" font-size="12" fill="#4a5568">first 8 packets/flow</text>
+<rect x="172" y="22" width="150" height="44" rx="8" fill="#f1effc" stroke="#6250d6" stroke-width="1.5"/>
+<text x="247" y="41" font-size="14" font-weight="700" fill="#14213d">Intent leases</text>
+<text x="247" y="58" font-size="12" fill="#4a5568">priority for a device</text>
+<rect x="172" y="84" width="150" height="110" rx="10" fill="#ffffff" stroke="#6250d6" stroke-width="2.5"/>
+<text x="247" y="101" font-size="12" font-weight="700" fill="#6250d6">aqos-classify (Go)</text>
+<rect x="182" y="108" width="130" height="36" rx="6" fill="#eceaf9"/>
+<text x="247" y="131" font-size="13" font-weight="700" fill="#14213d">259-tree classifier</text>
+<rect x="182" y="150" width="130" height="36" rx="6" fill="#eceaf9"/>
+<text x="247" y="173" font-size="13" font-weight="700" fill="#14213d">Expected damage</text>
+<rect x="346" y="14" width="150" height="44" rx="8" fill="#f1effc" stroke="#6250d6" stroke-width="1.5"/>
+<text x="421" y="33" font-size="14" font-weight="700" fill="#14213d">Capacity estimator</text>
+<text x="421" y="50" font-size="12" fill="#4a5568">delay probes, line rate</text>
+<path d="M361 110 L421 76 L481 110 L421 144 Z" fill="#6250d6"/>
+<text x="421" y="107" font-size="14" font-weight="700" fill="#ffffff">Safety</text>
+<text x="421" y="123" font-size="14" font-weight="700" fill="#ffffff">shield</text>
+<rect x="346" y="160" width="150" height="44" rx="8" fill="#f1effc" stroke="#6250d6" stroke-width="1.5"/>
+<text x="421" y="179" font-size="14" font-weight="700" fill="#14213d">Enforcer</text>
+<text x="421" y="196" font-size="12" fill="#4a5568">apply, then read back</text>
+<rect x="516" y="22" width="116" height="44" rx="8" fill="#ffffff" stroke="#898781" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="574" y="41" font-size="14" font-weight="700" fill="#14213d">Watchdog</text>
+<text x="574" y="58" font-size="12" fill="#4a5568">own process</text>
+<rect x="516" y="160" width="116" height="44" rx="8" fill="#f1effc" stroke="#6250d6" stroke-width="1.5"/>
+<text x="574" y="179" font-size="14" font-weight="700" fill="#14213d">QoE verifier</text>
+<text x="574" y="196" font-size="12" fill="#4a5568">tin delay, drops</text>
+<rect x="0" y="236" width="660" height="124" rx="12" fill="#e6e9f0"/>
+<text x="12" y="256" text-anchor="start" font-size="13" font-weight="700" fill="#14213d">Linux kernel · the only per-packet path</text>
+<text x="648" y="256" text-anchor="end" font-size="12" fill="#4a5568">watchdog: silent 2 s → plain CAKE</text>
+<rect x="12" y="270" width="64" height="58" rx="29" fill="#ffffff" stroke="#14213d" stroke-width="2"/>
+<text x="44" y="304" font-size="14" font-weight="700" fill="#14213d">LAN</text>
+<rect x="100" y="270" width="132" height="58" rx="8" fill="#ffffff" stroke="#14213d" stroke-width="2"/>
+<text x="166" y="294" font-size="14" font-weight="700" fill="#14213d">Conntrack</text>
+<text x="166" y="312" font-size="12" fill="#4a5568">mark = flow's tin</text>
+<rect x="256" y="270" width="75" height="58" fill="#1d3557"/>
+<rect x="331" y="270" width="75" height="58" fill="#457b9d"/>
+<rect x="406" y="270" width="75" height="58" fill="#a8c5da"/>
+<rect x="481" y="270" width="75" height="58" fill="#dde8f0"/>
+<rect x="256" y="270" width="300" height="58" fill="none" stroke="#14213d" stroke-width="2"/>
+<text x="293" y="304" font-size="13" font-weight="700" fill="#ffffff">Voice</text>
+<text x="368" y="304" font-size="13" font-weight="700" fill="#ffffff">Video</text>
+<text x="443" y="296" font-size="13" font-weight="700" fill="#14213d">Best</text>
+<text x="443" y="312" font-size="13" font-weight="700" fill="#14213d">Effort</text>
+<text x="518" y="304" font-size="13" font-weight="700" fill="#14213d">Bulk</text>
+<text x="406" y="348" font-size="12" fill="#4a5568">CAKE diffserv4: four queues (tins), shaped both ways</text>
+<rect x="580" y="270" width="68" height="58" rx="29" fill="#ffffff" stroke="#14213d" stroke-width="2"/>
+<text x="614" y="304" font-size="14" font-weight="700" fill="#14213d">WAN</text>
+<line x1="76" y1="299" x2="98" y2="299" stroke="#14213d" stroke-width="2" marker-end="url(#bk)"/>
+<line x1="232" y1="299" x2="254" y2="299" stroke="#14213d" stroke-width="2" marker-end="url(#bk)"/>
+<line x1="556" y1="299" x2="578" y2="299" stroke="#14213d" stroke-width="2" marker-end="url(#bk)"/>
+<line x1="78" y1="236" x2="78" y2="197" stroke="#6250d6" stroke-width="2" marker-end="url(#bp)"/>
+<text x="86" y="224" text-anchor="start" font-size="12" fill="#6250d6">packet headers</text>
+<line x1="148" y1="170" x2="170" y2="170" stroke="#6250d6" stroke-width="2" marker-end="url(#bp)"/>
+<line x1="148" y1="108" x2="170" y2="108" stroke="#6250d6" stroke-width="2" marker-end="url(#bp)"/>
+<line x1="247" y1="66" x2="247" y2="82" stroke="#6250d6" stroke-width="2" marker-end="url(#bp)"/>
+<line x1="322" y1="110" x2="359" y2="110" stroke="#6250d6" stroke-width="2" marker-end="url(#bp)"/>
+<line x1="421" y1="58" x2="421" y2="74" stroke="#6250d6" stroke-width="2" marker-end="url(#bp)"/>
+<line x1="421" y1="144" x2="421" y2="158" stroke="#6250d6" stroke-width="2" marker-end="url(#bp)"/>
+<line x1="421" y1="204" x2="421" y2="234" stroke="#6250d6" stroke-width="2" marker-end="url(#bp)"/>
+<text x="429" y="224" text-anchor="start" font-size="12" fill="#6250d6">set mark, set rate</text>
+<line x1="574" y1="236" x2="574" y2="206" stroke="#6250d6" stroke-width="2" marker-end="url(#bp)"/>
+<polyline points="516,182 500,182 500,110 483,110" fill="none" stroke="#6250d6" stroke-width="2" marker-end="url(#bp)"/>
+<text x="506" y="146" text-anchor="start" font-size="12" fill="#6250d6">roll back</text>
+<polyline points="632,44 648,44 648,234" fill="none" stroke="#898781" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#bg)"/>
+</g>
+</svg>
+
+<p style="position:absolute;left:1316px;top:208px;width:568px;font-size:16px;font-weight:700;letter-spacing:2px;color:#6250d6">03 · THE CLASSIFIER</p>
+<h3 style="position:absolute;left:1316px;top:232px;width:568px;font-family:'Space Grotesk', Arial, sans-serif;font-size:27px;font-weight:700;line-height:1.15;color:#14213d">8 packets in, one queue out, in 6 µs</h3>
+<svg style="position:absolute;left:1316px;top:272px;width:503px;height:340px" width="503" height="340" viewBox="0 0 568 384" xmlns="http://www.w3.org/2000/svg" aria-label="Classifier pipeline with a worked example: the first 8 packets become 28 numbers; 37 boosted trees give 7 class probabilities, here game 45% and background backup 55%; multiplied by the measured damage table, the expected damage is Video 1.10, Best Effort 1.95, Bulk 2.70, so the flow goes to Video. Voice is barred because P(call or game) is not above 50%.">
+<g font-family="Arial, Helvetica, sans-serif">
+<line x1="14" y1="28" x2="14" y2="284" stroke="#d9dce3" stroke-width="2"/>
+<circle cx="14" cy="28" r="11" fill="#6250d6"/>
+<circle cx="14" cy="92" r="11" fill="#6250d6"/>
+<circle cx="14" cy="156" r="11" fill="#6250d6"/>
+<circle cx="14" cy="220" r="11" fill="#6250d6"/>
+<circle cx="14" cy="284" r="11" fill="#6250d6"/>
+<g text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">
+<text x="14" y="33">1</text><text x="14" y="97">2</text><text x="14" y="161">3</text><text x="14" y="225">4</text><text x="14" y="289">5</text>
+</g>
+<line x1="36" y1="50" x2="262" y2="50" stroke="#b8bdc9" stroke-width="1.5"/>
+<rect x="40" y="10" width="12" height="40" fill="#14213d"/>
+<rect x="60" y="40" width="12" height="10" fill="#14213d"/>
+<rect x="76" y="10" width="12" height="40" fill="#14213d"/>
+<rect x="112" y="10" width="12" height="40" fill="#14213d"/>
+<rect x="128" y="28" width="12" height="22" fill="#14213d"/>
+<rect x="172" y="42" width="12" height="8" fill="#14213d"/>
+<rect x="188" y="10" width="12" height="40" fill="#14213d"/>
+<rect x="240" y="34" width="12" height="16" fill="#14213d"/>
+<path d="M90 4 H110 M90 1 V7 M110 1 V7" stroke="#6250d6" stroke-width="1.5" fill="none"/>
+<path d="M202 4 H238 M202 1 V7 M238 1 V7" stroke="#6250d6" stroke-width="1.5" fill="none"/>
+<g stroke="#14213d" stroke-width="1.5">
+<path d="M60 74 L46 92 M60 74 L74 92 M46 92 L39 110 M46 92 L53 110 M74 92 L67 110 M74 92 L81 110"/>
+<path d="M112 74 L98 92 M112 74 L126 92 M98 92 L91 110 M98 92 L105 110 M126 92 L119 110 M126 92 L133 110"/>
+<path d="M164 74 L150 92 M164 74 L178 92 M150 92 L143 110 M150 92 L157 110 M178 92 L171 110 M178 92 L185 110"/>
+</g>
+<g fill="#14213d"><circle cx="60" cy="74" r="4"/><circle cx="46" cy="92" r="4"/><circle cx="74" cy="92" r="4"/><circle cx="112" cy="74" r="4"/><circle cx="98" cy="92" r="4"/><circle cx="126" cy="92" r="4"/><circle cx="164" cy="74" r="4"/><circle cx="150" cy="92" r="4"/><circle cx="178" cy="92" r="4"/></g>
+<g fill="#6250d6"><rect x="36" y="108" width="6" height="6"/><rect x="50" y="108" width="6" height="6"/><rect x="64" y="108" width="6" height="6"/><rect x="78" y="108" width="6" height="6"/><rect x="88" y="108" width="6" height="6"/><rect x="102" y="108" width="6" height="6"/><rect x="116" y="108" width="6" height="6"/><rect x="130" y="108" width="6" height="6"/><rect x="140" y="108" width="6" height="6"/><rect x="154" y="108" width="6" height="6"/><rect x="168" y="108" width="6" height="6"/><rect x="182" y="108" width="6" height="6"/></g>
+<text x="232" y="98" text-anchor="middle" font-size="18" font-weight="700" fill="#14213d">… × 259</text>
+<line x1="36" y1="178" x2="262" y2="178" stroke="#b8bdc9" stroke-width="1.5"/>
+<rect x="40" y="176" width="20" height="2" fill="#b8bdc9"/>
+<rect x="70" y="142" width="20" height="36" fill="#6250d6"/>
+<rect x="100" y="176" width="20" height="2" fill="#b8bdc9"/>
+<rect x="130" y="176" width="20" height="2" fill="#b8bdc9"/>
+<rect x="160" y="176" width="20" height="2" fill="#b8bdc9"/>
+<rect x="190" y="176" width="20" height="2" fill="#b8bdc9"/>
+<rect x="220" y="134" width="20" height="44" fill="#6250d6"/>
+<text x="80" y="137" text-anchor="middle" font-size="12" font-weight="700" fill="#14213d">game 45%</text>
+<text x="230" y="129" text-anchor="middle" font-size="12" font-weight="700" fill="#14213d">backup 55%</text>
+<g>
+<rect x="40" y="194" width="48" height="6" fill="#f6efe9"/><rect x="90" y="194" width="48" height="6" fill="#f6efe9"/><rect x="140" y="194" width="48" height="6" fill="#f6efe9"/><rect x="190" y="194" width="48" height="6" fill="#f6efe9"/>
+<rect x="40" y="201" width="48" height="6" fill="#f6efe9"/><rect x="90" y="201" width="48" height="6" fill="#f6efe9"/><rect x="140" y="201" width="48" height="6" fill="#deb29f"/><rect x="190" y="201" width="48" height="6" fill="#bd5c38"/>
+<rect x="40" y="208" width="48" height="6" fill="#e8cabd"/><rect x="90" y="208" width="48" height="6" fill="#f6efe9"/><rect x="140" y="208" width="48" height="6" fill="#e3beae"/><rect x="190" y="208" width="48" height="6" fill="#deb29f"/>
+<rect x="40" y="215" width="48" height="6" fill="#f6efe9"/><rect x="90" y="215" width="48" height="6" fill="#edd7cc"/><rect x="140" y="215" width="48" height="6" fill="#f1e3da"/><rect x="190" y="215" width="48" height="6" fill="#e8cabd"/>
+<rect x="40" y="222" width="48" height="6" fill="#f6efe9"/><rect x="90" y="222" width="48" height="6" fill="#d59a82"/><rect x="140" y="222" width="48" height="6" fill="#f6efe9"/><rect x="190" y="222" width="48" height="6" fill="#b4441b"/>
+<rect x="40" y="229" width="48" height="6" fill="#f1e3da"/><rect x="90" y="229" width="48" height="6" fill="#cc8165"/><rect x="140" y="229" width="48" height="6" fill="#f6efe9"/><rect x="190" y="229" width="48" height="6" fill="#b4441b"/>
+<rect x="40" y="236" width="48" height="6" fill="#e3beae"/><rect x="90" y="236" width="48" height="6" fill="#e3beae"/><rect x="140" y="236" width="48" height="6" fill="#e8cabd"/><rect x="190" y="236" width="48" height="6" fill="#f6efe9"/>
+<rect x="38" y="199.5" width="202" height="9" fill="none" stroke="#6250d6" stroke-width="1.5"/>
+<rect x="38" y="234.5" width="202" height="9" fill="none" stroke="#6250d6" stroke-width="1.5"/>
+</g>
+<rect x="36" y="258" width="54" height="52" rx="6" fill="#1d3557"/>
+<rect x="94" y="258" width="54" height="52" rx="6" fill="#457b9d" stroke="#6250d6" stroke-width="4"/>
+<rect x="152" y="258" width="54" height="52" rx="6" fill="#a8c5da"/>
+<rect x="210" y="258" width="54" height="52" rx="6" fill="#dde8f0"/>
+<g text-anchor="middle" font-size="11" font-weight="700">
+<text x="63" y="276" fill="#ffffff">Voice</text><text x="121" y="276" fill="#ffffff">Video</text><text x="179" y="276" fill="#14213d">Best Eff.</text><text x="237" y="276" fill="#14213d">Bulk</text>
+</g>
+<g text-anchor="middle" font-size="15" font-weight="700">
+<text x="63" y="299" fill="#ffffff">barred</text><text x="121" y="299" fill="#ffffff">1.10</text><text x="179" y="299" fill="#14213d">1.95</text><text x="237" y="299" fill="#14213d">2.70</text>
+</g>
+<g fill="#14213d">
+<text x="282" y="20" font-size="15" font-weight="700">First 8 packets of a flow</text>
+<text x="282" y="38" font-size="13" fill="#4a5568">sizes, gaps, ports, protocol</text>
+<text x="282" y="54" font-size="13" fill="#4a5568">headers only, never content → 28 numbers</text>
+<text x="282" y="84" font-size="15" font-weight="700">Boosted trees (LightGBM)</text>
+<text x="282" y="102" font-size="13" fill="#4a5568">259 trees: 37 rounds × 7 classes</text>
+<text x="282" y="118" font-size="13" fill="#4a5568">Go port: same answers as Python</text>
+<text x="282" y="148" font-size="15" font-weight="700">7 class probabilities (RFC 4594)</text>
+<text x="282" y="166" font-size="13" fill="#4a5568">call, game, video call, streaming, web,</text>
+<text x="282" y="182" font-size="13" fill="#4a5568">download, background</text>
+<text x="282" y="212" font-size="15" font-weight="700">× measured damage table</text>
+<text x="282" y="230" font-size="13" fill="#4a5568">how much each class suffers in each</text>
+<text x="282" y="246" font-size="13" fill="#4a5568">queue, measured in the testbed (0–7)</text>
+<text x="282" y="276" font-size="15" font-weight="700">Lowest expected damage wins</text>
+<text x="282" y="294" font-size="13" fill="#4a5568">game 45%, backup 55% → Video, not Bulk</text>
+<text x="282" y="310" font-size="13" fill="#4a5568">the likeliest label alone points to Bulk</text>
+</g>
+<rect x="0" y="326" width="568" height="56" rx="8" fill="#eceaf9"/>
+<text x="14" y="349" font-size="14" font-weight="700" fill="#6250d6">Guards</text>
+<text x="78" y="349" font-size="13" fill="#14213d">Voice only if P(call or game) &gt; 50%.</text>
+<text x="78" y="369" font-size="13" fill="#14213d">Bulk only if over 80% sure; never for UDP or a flow's first packets.</text>
+</g>
+</svg>
+
+<p style="position:absolute;left:36px;top:632px;width:556px;font-size:16px;font-weight:700;letter-spacing:2px;color:#6250d6">04 · THE CLASSIFY LOOP</p>
+<h3 style="position:absolute;left:36px;top:656px;width:556px;font-family:'Space Grotesk', Arial, sans-serif;font-size:27px;font-weight:700;line-height:1.15;color:#14213d">Decide once, keep watching, undo harm</h3>
+<svg style="position:absolute;left:36px;top:700px;width:524px;height:330px" width="524" height="330" viewBox="0 0 556 350" xmlns="http://www.w3.org/2000/svg" aria-label="The loop: 1 sense the first 8 packets of a new flow; 2 classify and pick the lowest-harm queue; 3 the shield checks it and conntrack marks the flow into a CAKE tin; 4 every second check the flow is still inside its class envelope. A breach sends it back to classify; worse delay rolls the change back.">
+<defs><marker id="lp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#6250d6"/></marker>
+<marker id="lg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#898781"/></marker></defs>
+<g font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+<circle cx="278" cy="178" r="118" fill="none" stroke="#d9dce3" stroke-width="2" stroke-dasharray="4 6"/>
+<line x1="104" y1="45" x2="188" y2="45" stroke="#898781" stroke-width="2" marker-end="url(#lg)"/>
+<text x="62" y="50" font-size="13" fill="#4a5568">new flow</text>
+<path d="M357 90 A118 118 0 0 1 387 134" fill="none" stroke="#6250d6" stroke-width="3" marker-end="url(#lp)"/>
+<path d="M387 222 A118 118 0 0 1 360 263" fill="none" stroke="#6250d6" stroke-width="3" marker-end="url(#lp)"/>
+<path d="M196 263 A118 118 0 0 1 169 222" fill="none" stroke="#6250d6" stroke-width="3" marker-end="url(#lp)"/>
+<line x1="180" y1="179" x2="374" y2="179" stroke="#6250d6" stroke-width="3" marker-end="url(#lp)"/>
+<text x="278" y="168" font-size="13" font-weight="700" fill="#14213d">breach: classify again</text>
+<text x="278" y="198" font-size="13" font-weight="700" fill="#14213d">delay worse: roll back</text>
+<rect x="192" y="6" width="172" height="78" rx="10" fill="#ffffff" stroke="#6250d6" stroke-width="2"/>
+<text x="278" y="28" font-size="14" font-weight="700" fill="#6250d6">1 · SENSE</text>
+<text x="278" y="48" font-size="13" fill="#14213d">first 8 packets of a</text>
+<text x="278" y="66" font-size="13" fill="#14213d">new flow, headers only</text>
+<rect x="378" y="140" width="172" height="78" rx="10" fill="#ffffff" stroke="#6250d6" stroke-width="2"/>
+<text x="464" y="162" font-size="14" font-weight="700" fill="#6250d6">2 · CLASSIFY</text>
+<text x="464" y="182" font-size="13" fill="#14213d">259 trees → class odds</text>
+<text x="464" y="200" font-size="13" fill="#14213d">→ lowest-harm queue</text>
+<rect x="192" y="268" width="172" height="78" rx="10" fill="#ffffff" stroke="#6250d6" stroke-width="2"/>
+<text x="278" y="290" font-size="14" font-weight="700" fill="#6250d6">3 · ENFORCE</text>
+<text x="278" y="310" font-size="13" fill="#14213d">shield checks it, then</text>
+<text x="278" y="328" font-size="13" fill="#14213d">conntrack mark → tin</text>
+<rect x="6" y="140" width="172" height="78" rx="10" fill="#ffffff" stroke="#6250d6" stroke-width="2"/>
+<text x="92" y="162" font-size="14" font-weight="700" fill="#6250d6">4 · WATCH</text>
+<text x="92" y="182" font-size="13" fill="#14213d">every second: still in</text>
+<text x="92" y="200" font-size="13" fill="#14213d">its class envelope?</text>
+</g>
+</svg>
+
+<p style="position:absolute;left:632px;top:632px;width:636px;font-size:16px;font-weight:700;letter-spacing:2px;color:#6250d6">05 · RESULTS, IN EMULATION</p>
+<h3 style="position:absolute;left:632px;top:656px;width:636px;font-family:'Space Grotesk', Arial, sans-serif;font-size:27px;font-weight:700;line-height:1.15;color:#14213d">Where CAKE fails, AQoSE fixes it</h3>
+<svg style="position:absolute;left:632px;top:700px;width:636px;height:332px" width="636" height="332" viewBox="0 0 636 332" xmlns="http://www.w3.org/2000/svg" aria-label="Late frames, median of 10 seeds, plain CAKE, threshold rules and AQoSE. HD call on a laptop sharing files (S6): 94%, 94%, 0.6%; p95 delay 1.8 s to 18 ms. Cloud game while its PC updates (S7): 83%, 19%, 1.0%; delay 799 to 20 ms. Work call on a busy evening (S5): 93%, 79%, 0.1%; delay 36 to 24 ms. Line drops to a fifth (S2): 56%, 56%, 0.9%; delay 502 to 20 ms. Against plain CAKE over 90 seed-paired runs: 49 better, 41 tied, 0 worse. On fresh seeds 21 better, 29 tied, 0 worse. Never worse than threshold rules; better than cake-autorate in 20 of 20 runs.">
+<defs>
+<pattern id="rw" x="0" y="0" width="7.05" height="16" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="5.6" height="16" rx="1.5" fill="#6250d6"/></pattern>
+<pattern id="rt" x="0" y="0" width="7.05" height="16" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="5.6" height="16" rx="1.5" fill="#c9cdd6"/></pattern>
+</defs>
+<g font-family="Arial, Helvetica, sans-serif" fill="#14213d">
+<text x="0" y="13" font-size="12" font-weight="700">Late frames:</text>
+<rect x="84" y="2" width="12" height="12" rx="2" fill="#2a78d6"/><text x="102" y="13" font-size="12">Plain CAKE</text>
+<rect x="184" y="2" width="12" height="12" rx="2" fill="#eb6834"/><text x="202" y="13" font-size="12">Threshold rules</text>
+<rect x="309" y="2" width="12" height="12" rx="2" fill="#6250d6"/><text x="327" y="13" font-size="12" font-weight="700">AQoSE</text>
+<text x="636" y="13" font-size="12" text-anchor="end" fill="#4a5568">p95 delay, CAKE → AQoSE</text>
+
+<text x="0" y="42" font-size="14" font-weight="700">HD call, laptop</text><text x="0" y="60" font-size="13" fill="#4a5568">sharing files · S6</text>
+<rect x="176" y="28" width="283" height="13" rx="2" fill="#2a78d6"/><text x="465" y="39" font-size="12" fill="#4a5568">94%</text>
+<rect x="176" y="44" width="283" height="13" rx="2" fill="#eb6834"/><text x="465" y="55" font-size="12" fill="#4a5568">94%</text>
+<rect x="176" y="60" width="5" height="13" rx="1" fill="#6250d6"/><text x="187" y="72" font-size="14" font-weight="700">0.6%</text>
+<text x="636" y="54" font-size="14" font-weight="700" text-anchor="end">1.8 s → 18 ms</text>
+<line x1="0" y1="78" x2="636" y2="78" stroke="#e6e9f0" stroke-width="1"/>
+
+<text x="0" y="100" font-size="14" font-weight="700">Cloud game while</text><text x="0" y="118" font-size="13" fill="#4a5568">its PC updates · S7</text>
+<rect x="176" y="86" width="250" height="13" rx="2" fill="#2a78d6"/><text x="432" y="97" font-size="12" fill="#4a5568">83%</text>
+<rect x="176" y="102" width="58" height="13" rx="2" fill="#eb6834"/><text x="240" y="113" font-size="12" fill="#4a5568">19%</text>
+<rect x="176" y="118" width="3" height="13" fill="#6250d6"/><text x="185" y="130" font-size="14" font-weight="700">1.0%</text>
+<text x="636" y="112" font-size="14" font-weight="700" text-anchor="end">799 → 20 ms</text>
+<line x1="0" y1="136" x2="636" y2="136" stroke="#e6e9f0" stroke-width="1"/>
+
+<text x="0" y="158" font-size="14" font-weight="700">Work call on a</text><text x="0" y="176" font-size="13" fill="#4a5568">busy evening · S5</text>
+<rect x="176" y="144" width="279" height="13" rx="2" fill="#2a78d6"/><text x="461" y="155" font-size="12" fill="#4a5568">93%</text>
+<rect x="176" y="160" width="236" height="13" rx="2" fill="#eb6834"/><text x="418" y="171" font-size="12" fill="#4a5568">79%</text>
+<rect x="176" y="176" width="2" height="13" fill="#6250d6"/><text x="184" y="188" font-size="14" font-weight="700">0.1%</text>
+<text x="636" y="170" font-size="14" font-weight="700" text-anchor="end">36 → 24 ms</text>
+<line x1="0" y1="194" x2="636" y2="194" stroke="#e6e9f0" stroke-width="1"/>
+
+<text x="0" y="216" font-size="14" font-weight="700">Line drops to</text><text x="0" y="234" font-size="13" fill="#4a5568">a fifth · S2</text>
+<rect x="176" y="202" width="167" height="13" rx="2" fill="#2a78d6"/><text x="349" y="213" font-size="12" fill="#4a5568">56%</text>
+<rect x="176" y="218" width="167" height="13" rx="2" fill="#eb6834"/><text x="349" y="229" font-size="12" fill="#4a5568">56%</text>
+<rect x="176" y="234" width="3" height="13" fill="#6250d6"/><text x="185" y="246" font-size="14" font-weight="700">0.9%</text>
+<text x="636" y="228" font-size="14" font-weight="700" text-anchor="end">502 → 20 ms</text>
+
+<text x="0" y="270" font-size="13" fill="#4a5568">Against plain CAKE, every seed-paired run (9 scenarios × 10 seeds = 90):</text>
+<rect x="0" y="276" width="345.45" height="16" fill="url(#rw)"/>
+<rect x="345.45" y="276" width="289.05" height="16" fill="url(#rt)"/>
+<text x="0" y="308" font-size="13" font-weight="700">49 better</text>
+<text x="345.45" y="308" font-size="13" font-weight="700">41 tied</text>
+<text x="636" y="308" font-size="13" font-weight="700" text-anchor="end">0 worse</text>
+<text x="0" y="328" font-size="13" font-weight="700">Fresh seeds: 21 better, 29 tied, 0 worse</text>
+<text x="636" y="328" font-size="13" text-anchor="end">Never worse than rules · 20/20 vs cake-autorate</text>
+</g>
+</svg>
+
+<p style="position:absolute;left:1316px;top:632px;width:568px;font-size:16px;font-weight:700;letter-spacing:2px;color:#6250d6">06 · MODEL AND SAFETY</p>
+<h3 style="position:absolute;left:1316px;top:656px;width:568px;font-family:'Space Grotesk', Arial, sans-serif;font-size:27px;font-weight:700;line-height:1.15;color:#14213d">Small, fast, and fails safe</h3>
+<div style="position:absolute;left:1316px;top:700px;width:568px;display:grid;grid-template-columns:1fr 1fr;gap:14px">
+<div style="display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:34px;font-weight:700;line-height:1.05;color:#14213d">0.97 · 0.73</p>
+<p style="font-size:15px;line-height:1.3;color:#4a5568">accuracy · macro-F1 on the sealed test set: 1,213 unseen flows, opened once</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:34px;font-weight:700;line-height:1.05;color:#14213d">6 µs</p>
+<p style="font-size:15px;line-height:1.3;color:#4a5568">per flow in Go; no Python on the router, same answers</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:34px;font-weight:700;line-height:1.05;color:#14213d">3.6%</p>
+<p style="font-size:15px;line-height:1.3;color:#4a5568">of one CPU core for the whole controller; the classifier 0.04%</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:34px;font-weight:700;line-height:1.05;color:#14213d">2 s</p>
+<p style="font-size:15px;line-height:1.3;color:#4a5568">for the watchdog to restore plain CAKE after a crash</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:34px;font-weight:700;line-height:1.05;color:#14213d">10.9 M</p>
+<p style="font-size:15px;line-height:1.3;color:#4a5568">fuzzed bad proposals; none got past the safety shield</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:34px;font-weight:700;line-height:1.05;color:#14213d">57% → 2.4%</p>
+<p style="font-size:15px;line-height:1.3;color:#4a5568">late frames on a real WhatsApp video call, replayed: CAKE, then AQoSE</p>
+</div>
+</div>
+<p style="position:absolute;left:1316px;top:980px;width:568px;font-size:15px;line-height:1.35;color:#4a5568"><b style="color:#14213d">Built with</b> Linux tc-CAKE diffserv4 · conntrack marks · Go controller, classifier and watchdog · LightGBM trained in Python · rootless network-namespace testbed</p>
+
+<p style="position:absolute;left:36px;top:1040px;width:1848px;font-size:14px;line-height:1.3;color:#4a5568"><b style="color:#14213d">How it was tested:</b> 9 emulated home situations × 6 router setups (no QoS, plain CAKE, cake-autorate, threshold rules, top label, AQoSE), 10 seeds of identical traffic each; then, after the system was frozen, 5 fresh seeds, a new scenario and replayed real WhatsApp calls. Paired statistics, bootstrap intervals, A/A noise band. <b style="color:#14213d">Limits:</b> one laptop, no real router or Wi-Fi yet; generated calls don't lower their bitrate when squeezed; weaker on apps from sources never seen in training.</p>
+<aside>Reference slide for the design team, not the final layout. Final numbers, Oct 16: the frozen system on seeds 0 to 9 (results-final), fresh seeds 10 to 14 (results-fresh), replayed real calls (results-realcall), the sealed test set opened once (head-to-head-v2-test). The QR code and the link go to the public GitHub repository (github.com/shreyashsri79/aqose), whose README links the PDF report. Worked example in panel 3 uses the real measured damage table: game 45%, backup 55% gives Voice 1.10 (barred by the voice bar), Video 1.10, Best Effort 1.95, Bulk 2.70, so Video. Colours: purple #6250d6 is AQoSE in every chart; plain CAKE #2a78d6, threshold rules #eb6834, top label #1baf7a, no QoS #898781. The full report is reports/paper/aqose-report.pdf.</aside>
+</section>

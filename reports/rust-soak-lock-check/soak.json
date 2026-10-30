@@ -1,0 +1,27 @@
+{
+  "status": "failed",
+  "measured_seconds": 60,
+  "seed": 23,
+  "binary_sha256": {
+    "aqos-cake-reader-rs": "bd1f0c027fe3b761804168bfd8652425efcce4be5dea7310cd53cfc47b55f9dc",
+    "aqos-classify-rs": "6d751c03d7faac4689cae2ca62f2d541c868eda66fdcd02f2a3703e94675c99d",
+    "aqos-reflector-rs": "f91f80fce1141bba868cab515f9ebf658c2f4a5d765d38c1e9767e9c24c46756",
+    "aqos-watchdog-rs": "1e5959942328958a48f7d519c369d020a189ffdf9c45be1a736276f56d9dc41e",
+    "aqosd-rs": "027bb7d83d9c9891f5b37f22cc9b863226b2a810bba6719f4a1d8e784e3176a4"
+  },
+  "reserve_mib": 1024,
+  "limits": "Host namespace stability only; not router throughput or leak proof. CPU samples exclude child tc/nft commands. Exporter is not exercised.",
+  "monitor_pid": 59773,
+  "runner_pid": 59792,
+  "problems": [
+    "missing or invalid run evidence: [Errno 2] No such file or directory: '/home/shreyashneeraj/Work/adaptiveQos/reports/rust-soak-lock-check/runs/S903-O2-s0023/manifest.json'",
+    "no resource samples for aqos-cake-reader-rs",
+    "no resource samples for aqos-classify-rs",
+    "no resource samples for aqos-reflector-rs",
+    "no resource samples for aqos-watchdog-rs",
+    "no resource samples for aqosd-rs",
+    "runner exit 1"
+  ],
+  "elapsed_s": 1.034,
+  "resources": {}
+}

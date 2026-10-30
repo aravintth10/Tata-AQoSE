@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "run_id": "S903-O2-s0023",
+  "scenario_id": "S903",
+  "config": "O2",
+  "seed": 23,
+  "attempt": 1,
+  "tag": null,
+  "started_at": "2026-10-22T03:17:47+05:30",
+  "duration_s": 90,
+  "warmup_s": 10,
+  "valid": true,
+  "invalid_reason": null,
+  "versions": {
+    "git_commit": "4eebba6+dirty",
+    "kernel": "7.2.8-100.fc43.x86_64",
+    "iproute2": "6.14.0, libbpf 1.6.1",
+    "model_version": "lgbm-v2-b3f691d8"
+  }
+}

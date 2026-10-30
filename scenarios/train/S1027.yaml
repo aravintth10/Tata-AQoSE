@@ -1,0 +1,61 @@
+schema_version: 1
+id: S1027
+name: 'training mix 27: abr_video, abr_video, bulk_download, video_call, gaming, video_call'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 20000
+  up_kbit: 10000
+  delay_ms: 60
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-abr-video
+  host: phone
+  profile: abr_video
+  start_s: 9.5
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-abr-video
+  host: laptop
+  profile: abr_video
+  start_s: 4.5
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-bulk-download
+  host: laptop
+  profile: bulk_download
+  start_s: 9.2
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-video-call
+  host: laptop
+  profile: video_call
+  start_s: 3.5
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-gaming
+  host: desktop
+  profile: gaming
+  start_s: 10.4
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t5-video-call
+  host: phone
+  profile: video_call
+  start_s: 10.3
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

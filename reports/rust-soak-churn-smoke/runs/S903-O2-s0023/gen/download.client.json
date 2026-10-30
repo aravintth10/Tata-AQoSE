@@ -1,0 +1,17 @@
+{
+  "traffic_id": "download",
+  "role": "client",
+  "seed": 23,
+  "status": "ok",
+  "profile": "bulk_download",
+  "plan_digest": "73b86759308eb123ea1c2ab2e35583172b462a86c13d362c9b5cc744644d3d09",
+  "params": {
+    "connections": 2,
+    "paused": false,
+    "ip_version": 4
+  },
+  "stats": {
+    "flows_opened": 2
+  },
+  "metric_samples": 96
+}

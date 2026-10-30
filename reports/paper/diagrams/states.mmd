@@ -1,0 +1,18 @@
+stateDiagram-v2
+    direction TB
+    [*] --> Unlabelled: packet 1, conntrack mark 0
+    Unlabelled --> Classifying: packet 8, initial record
+    Classifying --> Labelled: shield accepts, mark read back
+    Classifying --> Unlabelled: timeout, error, reject
+    Labelled --> Rechecking: outside its envelope long enough, or routine recheck
+    Rechecking --> Labelled: same tin, back off 5 to 40 s
+    Rechecking --> Labelled: new tin accepted
+    Labelled --> Labelled: verifier undoes a promotion
+    Rechecking --> Pinned: third tin change in 60 s
+    Pinned --> [*]: connection closes
+    Labelled --> [*]: connection closes
+    Unlabelled --> [*]: connection closes
+    note right of Pinned
+        Unlabelled for the rest of its life,
+        so plain CAKE
+    end note

@@ -1,0 +1,62 @@
+schema_version: 1
+id: S1042
+name: 'training mix 42: backup_upload, game_update, bulk_download, abr_video, voice_call,
+  video_call'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 50000
+  up_kbit: 25000
+  delay_ms: 40
+  loss_pct: 0.1
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-backup-upload
+  host: laptop
+  profile: backup_upload
+  start_s: 2.5
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t1-game-update
+  host: phone
+  profile: game_update
+  start_s: 3.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-bulk-download
+  host: phone
+  profile: bulk_download
+  start_s: 11.6
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-abr-video
+  host: laptop
+  profile: abr_video
+  start_s: 10.0
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-voice-call
+  host: tv1
+  profile: voice_call
+  start_s: 7.6
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t5-video-call
+  host: laptop
+  profile: video_call
+  start_s: 4.7
+  stop_s: null
+  params:
+    ip_version: 6
+events: []
+primary_metrics:
+- latency_ms

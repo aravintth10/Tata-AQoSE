@@ -1,0 +1,7 @@
+# cake-autorate, the community's adaptive shaper, where the line's speed
+# matters: the link drop (S2) and the narrow busy evening (S5). 20 runs.
+scenarios: [S2, S5]
+configs: [B3]
+seeds: {from: 0, to: 9}
+by: seed
+tag: final

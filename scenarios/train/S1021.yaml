@@ -1,0 +1,54 @@
+schema_version: 1
+id: S1021
+name: 'training mix 21: cloud_gaming, video_call, abr_video, gaming, abr_video'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 50000
+  up_kbit: 10000
+  delay_ms: 60
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-cloud-gaming
+  host: laptop
+  profile: cloud_gaming
+  start_s: 8.2
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-video-call
+  host: desktop
+  profile: video_call
+  start_s: 2.5
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t2-abr-video
+  host: desktop
+  profile: abr_video
+  start_s: 2.0
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-gaming
+  host: laptop
+  profile: gaming
+  start_s: 9.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-abr-video
+  host: tv1
+  profile: abr_video
+  start_s: 3.6
+  stop_s: null
+  params:
+    ip_version: 6
+events: []
+primary_metrics:
+- latency_ms

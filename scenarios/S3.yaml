@@ -1,0 +1,30 @@
+schema_version: 1
+id: S3
+name: Three TVs streaming plus a gaming device
+description: >
+  Three adaptive video streams on three hosts for the whole test, and an
+  online game on a fourth. Fair queueing is expected to handle this well
+  by itself; the scenario is here to report a tie honestly if it is one.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 25000
+  up_kbit: 5000
+  delay_ms: 10
+hosts:
+  - tv1
+  - tv2
+  - tv3
+  - console
+traffic:
+  - {id: stream1, host: tv1, profile: abr_video, start_s: 0, stop_s: null}
+  - {id: stream2, host: tv2, profile: abr_video, start_s: 5, stop_s: null}
+  - {id: stream3, host: tv3, profile: abr_video, start_s: 10, stop_s: null}
+  - {id: game, host: console, profile: gaming, start_s: 0, stop_s: null}
+events: []
+primary_metrics:
+  - latency_ms
+  - frame_miss
+  - video_stall_ms
+  - video_bitrate_kbit
+  - throughput_kbit

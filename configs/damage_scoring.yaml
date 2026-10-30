@@ -1,0 +1,63 @@
+# How a flow's measurements become a cost between 0 and 1, for the damage
+# table (chunk 5B). Read by `python -m aqos_ml.damage score`. Changing a
+# number here needs `score` again, not new runs.
+#
+# Each pair is [fine, ruined]: the cost is 0 at or below the first number,
+# 1 at or above the second, and linear between. A flow's cost is that of
+# its worst aspect, in its worse direction. Starting values.
+interactive:
+  # Latency is the 95th percentile, one way. 150 ms is ITU-T G.114's limit
+  # for a conversation nobody notices; 400 ms is its limit for any call.
+  voice_call:   {latency_p95_ms: [150, 400], jitter_ms: [30, 100], loss_ratio: [0.01, 0.10]}
+  video_call:   {latency_p95_ms: [150, 400], jitter_ms: [30, 100], loss_ratio: [0.01, 0.10], frame_miss_ratio: [0.01, 0.20]}
+  # Games: the generators' own frame deadline is 50 ms.
+  gaming:       {latency_p95_ms: [50, 150], jitter_ms: [15, 50], loss_ratio: [0.01, 0.10], frame_miss_ratio: [0.01, 0.20]}
+  cloud_gaming: {latency_p95_ms: [50, 150], jitter_ms: [15, 50], loss_ratio: [0.01, 0.10], frame_miss_ratio: [0.01, 0.20]}
+streaming:
+  # Share of the time spent stalled, and how far the mean bitrate sat below
+  # the top rung. A stall is worse than a lower picture quality, so the
+  # bitrate term counts for half.
+  stall_fraction: [0.0, 0.10]
+  bitrate_drop: [0.0, 1.0]
+  bitrate_weight: 0.5
+web:
+  # Median time to load a page. 1 s keeps a person's train of thought.
+  page_load_median_ms: [1000, 5000]
+  # And how many times slower than the same pages load when nothing is
+  # misplaced. The generated pages are lighter than real ones, so the
+  # slowdown says more than the milliseconds do.
+  slowdown: [1.5, 5.0]
+data:
+  # The share of its usual throughput a transfer lost, where "usual" is
+  # what the same transfer got when nothing was misplaced. This is where a
+  # judgement is made about what a slow download is worth:
+  #   - a download somebody started and is waiting for is fine down to
+  #     three quarters of its usual speed, and ruined when it stops;
+  #   - background transfers (backups, peer-to-peer) are what Bulk is for:
+  #     nobody is waiting, so only near-starvation counts.
+  # Change these and run `score` to see what the table would say.
+  high_throughput_data: [0.25, 1.0]
+  low_priority_data: [0.75, 1.0]
+#
+# Damage of a cell = the subject's own cost above its best tin
+#                  + harm_weight x (sum of the other flows' costs, above
+#                    what they were with the subject in Best Effort).
+harm_weight: 1.0
+# A flow whose cost is at least this in every tin does not work on that link
+# at all, and that measurement is left out: it says nothing about where the
+# flow belongs. The generated cloud game is the case in point. It sends at
+# a fixed rate; when the link cannot carry that rate it is broken wherever
+# it is put, and floods the link's own buffer for everyone, where a real
+# game would lower its picture quality.
+unworkable: 0.9
+# The table is rounded to this, on its scale of 0 to 10. A few seeds cannot
+# tell 0.05 from 0.10, and the decision engine picks the lowest number: with
+# a finer table, noise would choose between tins that are really the same.
+# Equal cells go to Best Effort.
+resolution: 0.5
+
+# A flow that makes room for the others by being put somewhere worse is
+# credited with their relief only if its own cost rises by no more than
+# this. Above it, the relief counts for nothing: sacrificing one call to
+# save another on the same device is not a placement rule for calls.
+relief_free: 0.1

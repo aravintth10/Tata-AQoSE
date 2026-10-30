@@ -1,0 +1,21 @@
+schema_version: 1
+id: S99
+name: every profile, short
+duration_s: 4
+warmup_s: 1
+link: {down_kbit: 100000, up_kbit: 20000, delay_ms: 10}
+hosts: [laptop, desktop, tv1]
+traffic:
+  - {id: voice, host: laptop, profile: voice_call, start_s: 0, stop_s: null}
+  - {id: call, host: laptop, profile: video_call, start_s: 0, stop_s: null}
+  - {id: game, host: desktop, profile: gaming, start_s: 0, stop_s: null, params: {ip_version: 6}}
+  - {id: cloud, host: desktop, profile: cloud_gaming, start_s: 1, stop_s: 4}
+  - {id: tv, host: tv1, profile: abr_video, start_s: 0, stop_s: null}
+  - {id: web, host: laptop, profile: web_browsing, start_s: 0, stop_s: null, params: {think_s: 1}}
+  - {id: bulk, host: desktop, profile: bulk_download, start_s: 1, stop_s: null}
+  - {id: update, host: desktop, profile: game_update, start_s: 2, stop_s: 4}
+  - {id: backup, host: laptop, profile: backup_upload, start_s: 1, stop_s: null}
+  - {id: torrent, host: tv1, profile: p2p, start_s: 1, stop_s: null}
+  - {id: storm, host: tv1, profile: flow_storm, start_s: 1, stop_s: null, params: {ip_version: 6}}
+events: []
+primary_metrics: [latency_ms]

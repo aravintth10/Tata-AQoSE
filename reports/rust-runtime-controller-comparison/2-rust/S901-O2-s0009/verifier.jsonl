@@ -1,0 +1,1 @@
+{"changed_at_s":0.007710959,"from":"","kind":"promotion","probe_delay_ms":[-1.0,3.563131872021949,4.335177733785261],"reason":"too few samples to judge","rolled_back":false,"t_s":10.129283601,"target":"86320bfd4dbfe3ad","tin_delay_ms":[-1.0,0.4452,0.7054],"to":"video","verdict":"neutral"}

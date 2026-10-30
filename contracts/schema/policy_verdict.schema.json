@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "policy_verdict.schema.json",
+  "title": "Policy verdict",
+  "description": "Safety shield's answer to one proposal. Sent to the enforcer and written to the action log.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "proposal_id", "ts_ns", "verdict", "reason", "applied"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "proposal_id": { "type": "string", "pattern": "^[0-9a-f]{16}$" },
+    "ts_ns": { "type": "integer", "minimum": 0 },
+    "verdict": { "enum": ["accept", "clamp", "reject"] },
+    "reason": { "type": "string", "minLength": 1 },
+    "applied": {
+      "description": "What the enforcer must apply. Equal to the proposal on accept, changed on clamp, null on reject.",
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tin", "dscp"],
+          "properties": {
+            "tin": { "enum": ["voice", "video", "best_effort", "bulk"] },
+            "dscp": { "enum": ["EF", "CS4", "AF41", "AF31", "CS0", "AF11", "CS1"] }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["rate_kbit"],
+          "properties": {
+            "rate_kbit": { "type": "integer", "minimum": 1 }
+          }
+        }
+      ]
+    }
+  },
+  "if": { "properties": { "verdict": { "const": "reject" } } },
+  "then": { "properties": { "applied": { "type": "null" } } },
+  "else": { "properties": { "applied": { "type": "object" } } }
+}

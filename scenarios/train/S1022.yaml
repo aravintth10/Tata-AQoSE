@@ -1,0 +1,54 @@
+schema_version: 1
+id: S1022
+name: 'training mix 22: cloud_gaming, gaming, voice_call, bulk_download, abr_video'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 10000
+  up_kbit: 2000
+  delay_ms: 20
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-cloud-gaming
+  host: desktop
+  profile: cloud_gaming
+  start_s: 6.7
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-gaming
+  host: laptop
+  profile: gaming
+  start_s: 6.0
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-voice-call
+  host: phone
+  profile: voice_call
+  start_s: 1.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-bulk-download
+  host: tv1
+  profile: bulk_download
+  start_s: 8.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-abr-video
+  host: phone
+  profile: abr_video
+  start_s: 0.7
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

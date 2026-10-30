@@ -1,0 +1,62 @@
+schema_version: 1
+id: S1000
+name: 'training mix 0: video_call, abr_video, bulk_download, cloud_gaming, cloud_gaming,
+  backup_upload'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 50000
+  up_kbit: 25000
+  delay_ms: 10
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-video-call
+  host: desktop
+  profile: video_call
+  start_s: 4.6
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-abr-video
+  host: phone
+  profile: abr_video
+  start_s: 3.1
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-bulk-download
+  host: phone
+  profile: bulk_download
+  start_s: 5.2
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-cloud-gaming
+  host: tv1
+  profile: cloud_gaming
+  start_s: 3.2
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-cloud-gaming
+  host: laptop
+  profile: cloud_gaming
+  start_s: 3.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t5-backup-upload
+  host: phone
+  profile: backup_upload
+  start_s: 8.2
+  stop_s: null
+  params:
+    ip_version: 6
+events: []
+primary_metrics:
+- latency_ms

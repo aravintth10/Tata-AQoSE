@@ -1,0 +1,38 @@
+{
+  "id": 412,
+  "ok": true,
+  "classification": {
+    "schema_version": 1,
+    "flow_id": "3fa9c1d2e4b50761",
+    "model_version": "rf-2026-10-09-a",
+    "probs": {
+      "telephony": 0.05,
+      "realtime_interactive": 0.04,
+      "multimedia_conferencing": 0.78,
+      "multimedia_streaming": 0.06,
+      "standard": 0.04,
+      "high_throughput_data": 0.02,
+      "low_priority_data": 0.01
+    },
+    "confidence": 0.78,
+    "inference_us": 140.0
+  },
+  "proposal": {
+    "schema_version": 1,
+    "proposal_id": "0000000000000a17",
+    "ts_ns": 41250400000,
+    "source": "decision_engine",
+    "kind": "flow_label",
+    "reason": "Looks like a video call (78% confident); the Video tin has the lowest expected damage.",
+    "flow_label": {
+      "flow_id": "3fa9c1d2e4b50761",
+      "host_id": "a1b2c3d4e5f60718",
+      "tin": "video",
+      "dscp": "AF41",
+      "previous_tin": null,
+      "top_class": "multimedia_conferencing",
+      "expected_damage": 0.6,
+      "decision_rule": "expected_damage"
+    }
+  }
+}

@@ -1,0 +1,62 @@
+schema_version: 1
+id: S1008
+name: 'training mix 8: web_browsing, gaming, backup_upload, abr_video, bulk_download,
+  p2p'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 100000
+  up_kbit: 50000
+  delay_ms: 10
+  loss_pct: 0.5
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-web-browsing
+  host: tv1
+  profile: web_browsing
+  start_s: 9.5
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-gaming
+  host: phone
+  profile: gaming
+  start_s: 5.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-backup-upload
+  host: desktop
+  profile: backup_upload
+  start_s: 2.7
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-abr-video
+  host: tv1
+  profile: abr_video
+  start_s: 8.0
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-bulk-download
+  host: phone
+  profile: bulk_download
+  start_s: 5.5
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t5-p2p
+  host: laptop
+  profile: p2p
+  start_s: 11.4
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

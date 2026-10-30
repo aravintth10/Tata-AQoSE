@@ -1,0 +1,10 @@
+# Direct dependencies, pinned on 2026-10-09 against Python 3.14.
+# requirements.lock has the full resolved set; install from that.
+scikit-learn==1.9.1
+lightgbm==4.7.0
+numpy==2.5.3
+pandas==3.0.6
+PyYAML==6.0.3
+jsonschema==4.26.0
+pytest==9.1.1
+matplotlib==3.11.2

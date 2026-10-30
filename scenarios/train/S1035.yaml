@@ -1,0 +1,47 @@
+schema_version: 1
+id: S1035
+name: 'training mix 35: abr_video, voice_call, p2p, cloud_gaming'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 20000
+  up_kbit: 10000
+  delay_ms: 40
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-abr-video
+  host: tv1
+  profile: abr_video
+  start_s: 8.4
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t1-voice-call
+  host: laptop
+  profile: voice_call
+  start_s: 3.2
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-p2p
+  host: desktop
+  profile: p2p
+  start_s: 2.0
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t3-cloud-gaming
+  host: desktop
+  profile: cloud_gaming
+  start_s: 2.8
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

@@ -1,0 +1,47 @@
+schema_version: 1
+id: S1047
+name: 'training mix 47: web_browsing, voice_call, voice_call, bulk_download'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 10000
+  up_kbit: 5000
+  delay_ms: 10
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-web-browsing
+  host: laptop
+  profile: web_browsing
+  start_s: 2.2
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-voice-call
+  host: desktop
+  profile: voice_call
+  start_s: 6.6
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t2-voice-call
+  host: tv1
+  profile: voice_call
+  start_s: 4.9
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-bulk-download
+  host: phone
+  profile: bulk_download
+  start_s: 1.5
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

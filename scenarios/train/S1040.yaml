@@ -1,0 +1,40 @@
+schema_version: 1
+id: S1040
+name: 'training mix 40: p2p, web_browsing, video_call'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 10000
+  up_kbit: 5000
+  delay_ms: 60
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-p2p
+  host: laptop
+  profile: p2p
+  start_s: 6.3
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t1-web-browsing
+  host: desktop
+  profile: web_browsing
+  start_s: 1.8
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-video-call
+  host: tv1
+  profile: video_call
+  start_s: 4.2
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

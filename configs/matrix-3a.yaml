@@ -1,0 +1,5 @@
+# Chunk 3A's check: S1 with and without CAKE.
+scenarios: [S1]
+configs: [B0, B2]
+seeds: [7]
+tag: null

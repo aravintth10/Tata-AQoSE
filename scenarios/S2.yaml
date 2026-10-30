@@ -1,0 +1,38 @@
+schema_version: 1
+id: S2
+name: WAN drops from 100 to 20 Mbit/s
+description: >
+  The traffic of S1: a video call for the whole test and a bulk download
+  from 40 s. At 80 s into the measured window the download capacity of the
+  link falls to a fifth and stays there. A fixed shaper is now far above
+  the link, so the queue moves out of CAKE's reach until the rate is
+  lowered.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 100000
+  up_kbit: 20000
+  delay_ms: 10
+hosts:
+  - laptop
+  - desktop
+traffic:
+  - id: call
+    host: laptop
+    profile: video_call
+    start_s: 0
+    stop_s: null
+  - id: download
+    host: desktop
+    profile: bulk_download
+    start_s: 60
+    stop_s: null
+events:
+  - at_s: 100
+    type: link_rate
+    args: {direction: down, rate_kbit: 20000}
+primary_metrics:
+  - latency_ms
+  - frame_miss
+  - queue_delay_ms
+  - shaper_rate_kbit

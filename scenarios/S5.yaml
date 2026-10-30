@@ -1,0 +1,44 @@
+schema_version: 1
+id: S5
+name: Priority for the work laptop during a busy evening
+description: >
+  The load of S3, three TVs streaming and a game console, plus a work
+  laptop on a video call that is also backing up to the cloud. 60 s into
+  the measured time its owner asks for priority for the laptop for 45
+  minutes. The questions: what the call gains, what the TVs and the
+  console keep, and whether the lease is still there, with the right time
+  left, at the end.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 25000
+  up_kbit: 5000
+  delay_ms: 10
+hosts:
+  - tv1
+  - tv2
+  - tv3
+  - console
+  - laptop
+traffic:
+  - {id: stream1, host: tv1, profile: abr_video, start_s: 0, stop_s: null}
+  - {id: stream2, host: tv2, profile: abr_video, start_s: 5, stop_s: null}
+  - {id: stream3, host: tv3, profile: abr_video, start_s: 10, stop_s: null}
+  - {id: game, host: console, profile: gaming, start_s: 0, stop_s: null}
+  - {id: call, host: laptop, profile: video_call, start_s: 0, stop_s: null}
+  - id: backup
+    host: laptop
+    profile: backup_upload
+    start_s: 30
+    stop_s: null
+    params: {connections: 2}
+events:
+  - at_s: 80
+    type: intent_lease
+    args: {host: laptop, minutes: 45}
+primary_metrics:
+  - latency_ms
+  - frame_miss
+  - video_stall_ms
+  - video_bitrate_kbit
+  - throughput_kbit

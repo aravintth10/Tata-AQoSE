@@ -1,0 +1,54 @@
+
+S901-B4-s0007: valid
+  call       down  frame misses total 1
+  call       up    frame misses total 0
+  call       down  latency ms   p50    10.2  p95    15.0  p99    17.6
+  call       up    latency ms   p50    10.5  p95    11.2  p99    12.2
+  best_effort down  cake delay   mean   2.29 ms  max   5.04 ms
+  best_effort up    cake delay   mean   0.11 ms  max   0.43 ms
+  bulk       down  cake delay   mean   5.19 ms  max  16.75 ms
+  bulk       up    cake delay   mean   0.19 ms  max   0.59 ms
+  call       down  throughput   mean    1.2 Mbit/s
+  call       up    throughput   mean    1.3 Mbit/s
+  download   down  throughput   mean   89.1 Mbit/s
+{"cpu_s": 0.244376231, "decision_rule": "rules", "extractor": {"overflows": 0, "packets": 40, "untracked": 0}, "flows": {"errors": 0, "flow_gone": 0, "held": 5, "held_back": 0, "improved": 0, "labelled": 10, "mismatch": 0, "over_cap": 0, "rate_changes": 0, "rechecks": 0, "records": 5, "refused": 0, "regressed": 0, "rejected": 0, "relabelled": 5, "rolled_back": 0, "service_busy": 0, "service_down": 0, "timeouts": 0, "triggers": 0, "unchanged": 7, "watched": 0, "windows": 17}, "model_version": "qosify-rules-v1", "shield": {"ok": 10}}
+.
+S901-O2-s0007: valid
+  call       down  frame misses total 0
+  call       up    frame misses total 1
+  call       down  latency ms   p50    10.1  p95    10.3  p99    11.4
+  call       up    latency ms   p50    10.5  p95    11.3  p99    12.5
+  best_effort down  cake delay   mean   2.68 ms  max   3.74 ms
+  best_effort up    cake delay   mean   0.03 ms  max   0.09 ms
+  video      down  cake delay   mean   0.05 ms  max   0.07 ms
+  video      up    cake delay   mean   0.46 ms  max   0.59 ms
+  call       down  throughput   mean    1.2 Mbit/s
+  call       up    throughput   mean    1.3 Mbit/s
+  download   down  throughput   mean   89.1 Mbit/s
+{"cpu_s": 0.394975618, "decision_rule": "expected_damage", "extractor": {"overflows": 0, "packets": 40, "untracked": 0}, "flows": {"errors": 0, "flow_gone": 0, "held": 0, "held_back": 0, "improved": 0, "labelled": 5, "mismatch": 0, "over_cap": 0, "rate_changes": 0, "rechecks": 0, "records": 5, "refused": 0, "regressed": 0, "rejected": 0, "relabelled": 0, "rolled_back": 0, "service_busy": 0, "service_down": 0, "timeouts": 0, "triggers": 11, "unchanged": 11, "watched": 1, "windows": 88}, "model_version": "lgbm-v2-b3f691d8", "shield": {"ok": 5}}
+     0.0 s  applied   Looks like a video call (97% confident); the Video tin has the lowest expected damage.
+     8.0 s  applied   Looks like a large download (96% confident); the Best Effort tin has the lowest expected damage.
+     8.0 s  applied   Looks like a large download (96% confident); the Best Effort tin has the lowest expected damage.
+     8.0 s  applied   Looks like a large download (94% confident); the Best Effort tin has the lowest expected damage.
+     8.1 s  applied   Looks like a large download (95% confident); the Best Effort tin has the lowest expected damage.
+
+S901-O1-s0007: valid
+  call       down  frame misses total 0
+  call       up    frame misses total 1
+  call       down  latency ms   p50    10.1  p95    10.3  p99    11.9
+  call       up    latency ms   p50    10.5  p95    11.3  p99    12.5
+  best_effort down  cake delay   mean   2.36 ms  max   4.26 ms
+  best_effort up    cake delay   mean   0.04 ms  max   0.09 ms
+  video      down  cake delay   mean   0.05 ms  max   0.07 ms
+  video      up    cake delay   mean   0.46 ms  max   0.58 ms
+  call       down  throughput   mean    1.2 Mbit/s
+  call       up    throughput   mean    1.3 Mbit/s
+  download   down  throughput   mean   89.1 Mbit/s
+{"cpu_s": 0.449506681, "decision_rule": "top_label", "extractor": {"overflows": 0, "packets": 40, "untracked": 0}, "flows": {"errors": 0, "flow_gone": 0, "held": 0, "held_back": 0, "improved": 0, "labelled": 5, "mismatch": 0, "over_cap": 0, "rate_changes": 0, "rechecks": 0, "records": 5, "refused": 0, "regressed": 0, "rejected": 0, "relabelled": 0, "rolled_back": 0, "service_busy": 0, "service_down": 0, "timeouts": 0, "triggers": 11, "unchanged": 11, "watched": 1, "windows": 88}, "model_version": "lgbm-v2-b3f691d8", "shield": {"ok": 5}}
+     0.0 s  applied   Looks like a video call (97% confident); Video is the tin for that class.
+     8.0 s  applied   Looks like a large download (96% confident); Best Effort is the tin for that class.
+     8.0 s  applied   Looks like a large download (96% confident); Best Effort is the tin for that class.
+     8.1 s  applied   Looks like a large download (93% confident); Best Effort is the tin for that class.
+     8.1 s  applied   Looks like a large download (95% confident); Best Effort is the tin for that class.
+.
+2 passed in 93.75s (0:01:33)

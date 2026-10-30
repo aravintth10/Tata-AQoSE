@@ -1,0 +1,50 @@
+description: 30 Hz gaming, a two-connection download, and five short flows/s.
+duration_s: 60
+events:
+- args:
+    direction: down
+    rate_kbit: 20000
+  at_s: 20
+  type: link_rate
+- args:
+    direction: down
+    rate_kbit: 100000
+  at_s: 40
+  type: link_rate
+hosts:
+- laptop
+- desktop
+id: S903
+link:
+  delay_ms: 10
+  down_kbit: 100000
+  up_kbit: 20000
+name: Continuous Rust stability
+primary_metrics:
+- latency_ms
+- throughput_kbit
+schema_version: 1
+traffic:
+- host: laptop
+  id: call
+  params:
+    tick_hz: 30
+  profile: gaming
+  start_s: 0
+  stop_s: null
+- host: desktop
+  id: download
+  params:
+    connections: 2
+  profile: bulk_download
+  start_s: 4
+  stop_s: null
+- host: desktop
+  id: churn
+  params:
+    flows_per_s: 5
+    udp_share: 0.5
+  profile: flow_storm
+  start_s: 0
+  stop_s: null
+warmup_s: 10

@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "service_request.schema.json",
+  "title": "Service request",
+  "description": "Controller to the ML service (aqos_ml.serve), one JSON object per line on a Unix socket. Every request gets exactly one response line carrying the same id; responses may arrive in a different order.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "op",
+    "id"
+  ],
+  "properties": {
+    "op": {
+      "enum": [
+        "classify",
+        "health"
+      ]
+    },
+    "id": {
+      "description": "Chosen by the controller and echoed in the response.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "record": {
+      "description": "A feature record (feature_record.schema.json).",
+      "type": "object"
+    },
+    "previous_tin": {
+      "description": "Tin the flow is in now. Null for a flow that has never been labelled.",
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "enum": [
+            "voice",
+            "video",
+            "best_effort",
+            "bulk"
+          ]
+        }
+      ]
+    },
+    "leased_classes": {
+      "description": "Classes an active lease protects on this flow's host. Empty when there is none.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "telephony",
+          "realtime_interactive",
+          "multimedia_conferencing",
+          "multimedia_streaming",
+          "standard",
+          "high_throughput_data",
+          "low_priority_data"
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "op": {
+            "const": "classify"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "record",
+          "previous_tin",
+          "leased_classes"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "op": {
+            "const": "health"
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "record"
+              ]
+            },
+            {
+              "required": [
+                "previous_tin"
+              ]
+            },
+            {
+              "required": [
+                "leased_classes"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

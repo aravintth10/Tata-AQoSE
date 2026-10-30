@@ -1,0 +1,19 @@
+scenarios:
+- scenarios/train/S1000.yaml
+- scenarios/train/S1001.yaml
+- scenarios/train/S1002.yaml
+- scenarios/train/S1003.yaml
+- scenarios/train/S1004.yaml
+- scenarios/train/S1005.yaml
+- scenarios/train/S1006.yaml
+- scenarios/train/S1007.yaml
+- scenarios/train/S1008.yaml
+- scenarios/train/S1009.yaml
+- scenarios/train/S1010.yaml
+- scenarios/train/S1011.yaml
+configs:
+- B2
+seeds:
+- 1
+tag: train
+extract: true

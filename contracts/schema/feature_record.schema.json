@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "feature_record.schema.json",
+  "title": "Feature record",
+  "description": "Feature extractor to classifier. Headers, sizes and timing only. No addresses, no payload.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "flow_id",
+    "host_id",
+    "kind",
+    "ts_ns",
+    "ip_version",
+    "protocol",
+    "src_port",
+    "dst_port",
+    "pkt_sizes",
+    "pkt_gaps_us",
+    "window"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "flow_id": {
+      "description": "Salted hash of the 5-tuple. The controller keeps the mapping back to the conntrack entry.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$"
+    },
+    "host_id": {
+      "description": "Salted hash of the LAN host. Used for leases and fairness, never as a model feature.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$"
+    },
+    "kind": {
+      "description": "initial: emitted once, after the 8th packet. window: emitted for a reclassification check.",
+      "enum": ["initial", "window"]
+    },
+    "ts_ns": {
+      "description": "CLOCK_MONOTONIC time at which the record was emitted.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "ip_version": { "enum": [4, 6] },
+    "protocol": {
+      "description": "IP protocol number (6 TCP, 17 UDP).",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 255
+    },
+    "src_port": {
+      "description": "Port on the initiator side of the flow.",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 65535
+    },
+    "dst_port": {
+      "description": "Port on the responder side of the flow.",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 65535
+    },
+    "pkt_sizes": {
+      "description": "L3 length in bytes of the first 8 packets, IP header included. Positive is LAN to WAN, negative is WAN to LAN.",
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "integer",
+        "minimum": -65535,
+        "maximum": 65535,
+        "not": { "const": 0 }
+      }
+    },
+    "pkt_gaps_us": {
+      "description": "Microseconds between consecutive packets of pkt_sizes.",
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": { "type": "integer", "minimum": 0 }
+    },
+    "window": {
+      "description": "Statistics over the last 1 to 5 one-second conntrack samples. Null when no full sample exists yet.",
+      "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/window" }]
+    }
+  },
+  "if": { "properties": { "kind": { "const": "window" } } },
+  "then": { "properties": { "window": { "$ref": "#/$defs/window" } } },
+  "$defs": {
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "samples",
+        "pkts_up_per_s",
+        "pkts_down_per_s",
+        "bytes_up_per_s",
+        "bytes_down_per_s",
+        "mean_pkt_size_up",
+        "mean_pkt_size_down",
+        "pkt_size_spread",
+        "rate_cv",
+        "burstiness"
+      ],
+      "properties": {
+        "samples": {
+          "description": "Number of one-second samples the statistics cover.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "pkts_up_per_s": { "type": "number", "minimum": 0 },
+        "pkts_down_per_s": { "type": "number", "minimum": 0 },
+        "bytes_up_per_s": { "type": "number", "minimum": 0 },
+        "bytes_down_per_s": { "type": "number", "minimum": 0 },
+        "mean_pkt_size_up": {
+          "description": "bytes_up / pkts_up over the window. 0 when no packets.",
+          "type": "number",
+          "minimum": 0
+        },
+        "mean_pkt_size_down": {
+          "description": "bytes_down / pkts_down over the window. 0 when no packets.",
+          "type": "number",
+          "minimum": 0
+        },
+        "pkt_size_spread": {
+          "description": "Standard deviation of the per-second mean packet size, both directions combined.",
+          "type": "number",
+          "minimum": 0
+        },
+        "rate_cv": {
+          "description": "Regularity of timing: coefficient of variation of the per-second packet count.",
+          "type": "number",
+          "minimum": 0
+        },
+        "burstiness": {
+          "description": "Peak per-second bytes divided by mean per-second bytes. 1 is perfectly steady; 0 when the window is idle.",
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

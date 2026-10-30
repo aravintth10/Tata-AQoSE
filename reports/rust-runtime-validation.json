@@ -1,0 +1,120 @@
+{
+  "status": "runtime implemented; optional backend pending long-run and router validation",
+  "selection": {
+    "runtime": "AQOS_RUNTIME=rust",
+    "classifier": "AQOS_SERVICE=rust",
+    "default": "go"
+  },
+  "migrated": [
+    "extractor",
+    "flow table",
+    "controller",
+    "shield",
+    "enforcer",
+    "capacity estimator and UDP prober",
+    "reclassifier",
+    "verifier and rollback",
+    "intent API and lease persistence",
+    "CAKE reader",
+    "reflector",
+    "metrics exporter",
+    "independent watchdog"
+  ],
+  "retained": [
+    "Go namespace testbed",
+    "Python training, reporting, traffic generators and experiment runner"
+  ],
+  "checks": {
+    "rust_and_differential": {
+      "report": "reports/rust-runtime-tests.txt",
+      "result": "16 passed"
+    },
+    "kernel": {
+      "report": "reports/rust-runtime-kernel-tests.txt",
+      "result": "6 passed"
+    },
+    "controller": {
+      "report": "reports/rust-runtime-controller-tests.txt",
+      "result": "2 passed"
+    },
+    "regressions": {
+      "report": "reports/rust-runtime-regressions.txt",
+      "result": "215 passed, 37 skipped"
+    },
+    "runner": {
+      "report": "reports/rust-runtime-runner-tests.txt",
+      "result": "14 passed"
+    }
+  },
+  "rust_tests": 29,
+  "controller_scenarios": [
+    "B4 short call/download",
+    "O1 short call/download",
+    "O2 short call/download"
+  ],
+  "kernel_checks": [
+    "IPv4 and IPv6 live capture and marking",
+    "foreign mark bits preserved",
+    "enforcement mismatch restoration",
+    "partial marking cleanup",
+    "watchdog recovery under 3 seconds after absent/stopped heartbeat",
+    "watchdog retry after injected command failure"
+  ],
+  "measurements": {
+    "extractor_speedup": 1.336794735182753,
+    "extractor_peak_rss_reduction_pct": 12.42210220191109,
+    "controller_cpu_reduction_pct": 43.234661107627524,
+    "extractor_report": "reports/rust-runtime-benchmark.json",
+    "controller_report": "reports/rust-runtime-controller-comparison/comparison.json"
+  },
+  "binaries": {
+    "aqos-cake-reader-rs": {
+      "bytes": 603176,
+      "sha256": "bd1f0c027fe3b761804168bfd8652425efcce4be5dea7310cd53cfc47b55f9dc"
+    },
+    "aqos-classify-rs": {
+      "bytes": 1744808,
+      "sha256": "6d751c03d7faac4689cae2ca62f2d541c868eda66fdcd02f2a3703e94675c99d"
+    },
+    "aqos-core-bench-rs": {
+      "bytes": 1670496,
+      "sha256": "f54b851313759a4a4b333a63c66bb694b8a8390576b8a6dde5f899b7b41fe3f2"
+    },
+    "aqos-ctl-rs": {
+      "bytes": 644904,
+      "sha256": "7f018a3378d089453eed67750f490e7c6cbbc1f1606a29c16fcfc2dc0a56879c"
+    },
+    "aqos-exporter-rs": {
+      "bytes": 471704,
+      "sha256": "86f1497ddf4e9703fde58e849e5774d83a7ca32828b4b071a0ff5f115a9e40b5"
+    },
+    "aqos-extract-rs": {
+      "bytes": 855968,
+      "sha256": "ca54ade06380ca283063a34877361d79521d4c8537c6f8797c479b848c1b6f3c"
+    },
+    "aqos-reflector-rs": {
+      "bytes": 349856,
+      "sha256": "f91f80fce1141bba868cab515f9ebf658c2f4a5d765d38c1e9767e9c24c46756"
+    },
+    "aqos-watchdog-rs": {
+      "bytes": 587096,
+      "sha256": "c9d8d89f61529b00c622064af6041c564ab78f2fb45a744ca198ade17ae29f19"
+    },
+    "aqosd-rs": {
+      "bytes": 2198320,
+      "sha256": "027bb7d83d9c9891f5b37f22cc9b863226b2a810bba6719f4a1d8e784e3176a4"
+    }
+  },
+  "outstanding": [
+    "full scenario matrix",
+    "six-hour soak (not scheduled)",
+    "OpenWrt hardware validation",
+    "decision to change default backend"
+  ],
+  "limitations": [
+    "Host namespace measurements do not establish router throughput or QoE improvements.",
+    "Controller CPU excludes child tc/nft processes.",
+    "First Go CPU trial overlapped the end of regression checks; the median comes from a later trial.",
+    "Offline benchmark measures initial extraction, not sliding windows."
+  ]
+}

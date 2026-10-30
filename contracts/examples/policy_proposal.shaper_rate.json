@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "proposal_id": "0000000000000a18",
+  "ts_ns": 95000000000,
+  "source": "capacity_estimator",
+  "kind": "shaper_rate",
+  "reason": "Delay stayed low under load for 10 s; raising the download rate.",
+  "shaper_rate": {
+    "direction": "down",
+    "rate_kbit": 60000,
+    "previous_rate_kbit": 20000
+  }
+}

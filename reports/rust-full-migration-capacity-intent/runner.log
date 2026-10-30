@@ -1,0 +1,5 @@
+00:37:30 testbed up (rootless): scenario S902, 2 hosts, ping4 and ping6 pass
+link: down 100000 kbit, up 20000 kbit, delay 10 ms, jitter 0 ms, loss 0%
+00:37:30 B2: cake diffserv4, down 95000 kbit on ifb0, up 19000 kbit on wan0
+00:37:39 event at 6 s: intent_lease {'host': 'laptop', 'minutes': 1} -> {"id":"f3dfba9defdc7110","host":"10.77.0.10","expires":"2026-10-21T19:08:39.647654977Z","seconds_left":60}
+00:37:43 event at 10 s: link_rate direction=down rate_kbit=20000 -> link: down 20000 kbit, up 20000 kbit, delay 10 ms, jitter 0 ms, loss 0%

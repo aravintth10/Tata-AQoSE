@@ -1,0 +1,303 @@
+gofmt -l . | (! grep .)
+go vet ./...
+go test ./...
+?   	adaptiveqos/cmd/aqos-cake-reader	[no test files]
+?   	adaptiveqos/cmd/aqos-classify	[no test files]
+?   	adaptiveqos/cmd/aqos-core-bench	[no test files]
+?   	adaptiveqos/cmd/aqos-ctl	[no test files]
+?   	adaptiveqos/cmd/aqos-exporter	[no test files]
+?   	adaptiveqos/cmd/aqos-extract	[no test files]
+?   	adaptiveqos/cmd/aqos-reflector	[no test files]
+?   	adaptiveqos/cmd/aqos-testbed	[no test files]
+?   	adaptiveqos/cmd/aqos-watchdog	[no test files]
+?   	adaptiveqos/cmd/aqosd	[no test files]
+ok  	adaptiveqos/contracts	(cached)
+ok  	adaptiveqos/internal/cake	(cached)
+ok  	adaptiveqos/internal/capacity	(cached)
+?   	adaptiveqos/internal/capture	[no test files]
+ok  	adaptiveqos/internal/classify	(cached)
+ok  	adaptiveqos/internal/controller	(cached)
+?   	adaptiveqos/internal/enforce	[no test files]
+ok  	adaptiveqos/internal/exporter	(cached)
+ok  	adaptiveqos/internal/extract	(cached)
+?   	adaptiveqos/internal/heartbeat	[no test files]
+ok  	adaptiveqos/internal/intent	(cached)
+?   	adaptiveqos/internal/netfilter	[no test files]
+ok  	adaptiveqos/internal/reclass	(cached)
+?   	adaptiveqos/internal/runclock	[no test files]
+ok  	adaptiveqos/internal/shield	(cached)
+ok  	adaptiveqos/internal/testbed	(cached)
+ok  	adaptiveqos/internal/verify	(cached)
+mkdir -p bin
+go build -o bin/aqos-testbed ./cmd/aqos-testbed
+/home/shreyashneeraj/.cargo/bin/cargo build --locked --release --manifest-path rust/aqos-classify/Cargo.toml
+    Finished `release` profile [optimized] target(s) in 0.02s
+mkdir -p bin
+cp rust/aqos-classify/target/release/aqos-classify-rs bin/
+cp rust/aqos-classify/target/release/aqos-core-bench-rs bin/
+/home/shreyashneeraj/.cargo/bin/cargo build --locked --release --manifest-path rust/aqos-runtime/Cargo.toml
+   Compiling aqos-runtime-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-runtime)
+    Finished `release` profile [optimized] target(s) in 3.42s
+/home/shreyashneeraj/.cargo/bin/cargo build --locked --release --manifest-path rust/aqos-watchdog/Cargo.toml
+   Compiling aqos-watchdog-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-watchdog)
+    Finished `release` profile [optimized] target(s) in 3.31s
+mkdir -p bin
+cp rust/aqos-runtime/target/release/aqos-extract-rs rust/aqos-runtime/target/release/aqos-ctl-rs rust/aqos-runtime/target/release/aqosd-rs rust/aqos-runtime/target/release/aqos-cake-reader-rs rust/aqos-runtime/target/release/aqos-reflector-rs rust/aqos-runtime/target/release/aqos-exporter-rs bin/
+cp rust/aqos-watchdog/target/release/aqos-watchdog-rs bin/
+mkdir -p bin/go
+go build -o bin/go/ ./cmd/...
+/home/shreyashneeraj/.cargo/bin/cargo fmt --manifest-path rust/aqos-classify/Cargo.toml -- --check
+/home/shreyashneeraj/.cargo/bin/cargo clippy --locked --manifest-path rust/aqos-classify/Cargo.toml --all-targets -- -D warnings
+    Checking aqos-classify-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-classify)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.40s
+/home/shreyashneeraj/.cargo/bin/cargo test --locked --manifest-path rust/aqos-classify/Cargo.toml
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running unittests src/lib.rs (rust/aqos-classify/target/debug/deps/aqos_classify_rs-707e4748ee9875fc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (rust/aqos-classify/target/debug/deps/aqos_classify_rs-059bdcdb5446a5a3)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/aqos-core-bench-rs.rs (rust/aqos-classify/target/debug/deps/aqos_core_bench_rs-a06dba1ea3eef794)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/parity.rs (rust/aqos-classify/target/debug/deps/parity-7ef369d82540df50)
+
+running 5 tests
+test nan_routing_and_leaf_roots_match_lightgbm_semantics ... ok
+test rejects_malformed_models_before_inference ... ok
+test split_boundaries_missing_values_and_nonzero_roots ... ok
+test probability_and_record_validation_and_bulk_guards ... ok
+test all_reference_probabilities_and_decisions_match ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.58s
+
+   Doc-tests aqos_classify_rs
+
+running 1 test
+test src/lib.rs - Probabilities (line 395) - compile fail ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+AQOS_RUST_TEST=1 .venv/bin/pytest -q ml/tests/test_rust_backend.py
+......                                                                   [100%]
+6 passed in 15.52s
+/home/shreyashneeraj/.cargo/bin/cargo fmt --manifest-path rust/aqos-runtime/Cargo.toml -- --check
+/home/shreyashneeraj/.cargo/bin/cargo fmt --manifest-path rust/aqos-watchdog/Cargo.toml -- --check
+/home/shreyashneeraj/.cargo/bin/cargo clippy --locked --manifest-path rust/aqos-runtime/Cargo.toml --all-targets -- -D warnings
+    Checking aqos-runtime-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-runtime)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.22s
+/home/shreyashneeraj/.cargo/bin/cargo clippy --locked --manifest-path rust/aqos-watchdog/Cargo.toml --all-targets -- -D warnings
+    Checking aqos-watchdog-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-watchdog)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.14s
+/home/shreyashneeraj/.cargo/bin/cargo test --locked --manifest-path rust/aqos-runtime/Cargo.toml
+   Compiling aqos-runtime-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.81s
+     Running unittests src/lib.rs (rust/aqos-runtime/target/debug/deps/aqos_runtime_rs-31f2abdc67545413)
+
+running 12 tests
+test intent::tests::http_framing_and_unknown_hosts_cannot_create_leases ... ok
+test client::tests::cancelled_or_unknown_replies_cannot_complete_new_request ... ok
+test client::tests::malformed_response_cannot_bypass_deadline ... ok
+test netfilter::tests::malformed_lengths_fail ... ok
+test exporter::tests::histogram_and_gauges_follow_existing_contract ... ok
+test client::tests::queue_limits_deadline_and_disconnect_fail_without_stale_results ... ok
+test netfilter::tests::tuple_roundtrip ... ok
+test netfilter::tests::aligned_attrs ... ok
+test exporter::tests::partial_lines_rotation_and_truncation ... ok
+test intent::tests::leases_persist_privately_and_failed_deletes_restore_memory ... ok
+test command::tests::communicates ... ok
+test command::tests::timeout_kills_children_and_closes_pipes ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/bin/aqos-cake-reader-rs.rs (rust/aqos-runtime/target/debug/deps/aqos_cake_reader_rs-1d9c83d7468ac743)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/aqos-ctl-rs.rs (rust/aqos-runtime/target/debug/deps/aqos_ctl_rs-264922b39c24dcd5)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/aqos-exporter-rs.rs (rust/aqos-runtime/target/debug/deps/aqos_exporter_rs-0a7e1a7524152a37)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/aqos-extract-rs.rs (rust/aqos-runtime/target/debug/deps/aqos_extract_rs-18663fd0337e0d96)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/aqos-reflector-rs.rs (rust/aqos-runtime/target/debug/deps/aqos_reflector_rs-361eb7ef074475e6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/aqosd-rs.rs (rust/aqos-runtime/target/debug/deps/aqosd_rs-0cdec3f1e01b7d3e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/control.rs (rust/aqos-runtime/target/debug/deps/control-70c855e71af54a7c)
+
+running 7 tests
+test download_congestion_is_measured_before_upload_is_cut ... ok
+test one_answer_on_time_prevents_two_silent_targets_looking_like_congestion ... ok
+test quiet_and_unreachable_reflectors_do_not_lower_rates ... ok
+test verifier_requires_two_consistent_windows_and_counts_missing_data ... ok
+test simulated_capacity_drop_drains_and_recovers ... ok
+test all_ml_reclassifier_sequences_match ... ok
+test leases_validate_known_hosts_limit_duplicates_and_expiry ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/safety.rs (rust/aqos-runtime/target/debug/deps/safety-32a382fdd5cf194f)
+
+running 8 tests
+test byte_counter_reset_discards_window_instead_of_wrapping ... ok
+test overflow_never_emits_a_partial_flow ... ok
+test required_null_fields_cannot_be_omitted ... ok
+test increases_wait_but_decreases_do_not ... ok
+test stale_unknown_starved_and_invalid_proposals_fail_closed ... ok
+test pinning_preserves_confirmed_state_until_clear_succeeds ... ok
+test rates_never_escape_absolute_and_step_bounds ... ok
+test parser_never_indexes_outside_malformed_headers ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests aqos_runtime_rs
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+/home/shreyashneeraj/.cargo/bin/cargo test --locked --manifest-path rust/aqos-watchdog/Cargo.toml
+   Compiling aqos-watchdog-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-watchdog)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.25s
+     Running unittests src/main.rs (rust/aqos-watchdog/target/debug/deps/aqos_watchdog_rs-2ff5dfbcdbc7769d)
+
+running 2 tests
+test command::tests::communicates ... ok
+test command::tests::timeout_kills_children_and_closes_pipes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+/home/shreyashneeraj/.cargo/bin/cargo build --locked --manifest-path rust/aqos-runtime/Cargo.toml
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+AQOS_EXTRACT_BIN=rust/aqos-runtime/target/debug/aqos-extract-rs AQOS_RUNTIME_TEST=1 .venv/bin/pytest -q ml/tests/test_extract.py ml/tests/test_rust_runtime.py
+................                                                         [100%]
+16 passed in 0.97s
+.venv/bin/pytest -q
+.....................................................................ss. [ 28%]
+..........................................sssssssss.......s...FFF....ss. [ 56%]
+........................................................................ [ 84%]
+.....F..ss..ssssssssssssssssssssss.....                                  [100%]
+=================================== FAILURES ===================================
+_________________________ test_loopback_media_is_clean _________________________
+
+run = (PosixPath('/tmp/pytest-of-shreyashneeraj/pytest-31/run0'), {('voice', 'server'): (0, ''), ('call', 'server'): (0, ''), ('game', 'server'): (0, ''), ('cloud', 'server'): (0, ''), ...})
+
+    def test_loopback_media_is_clean(run):
+        """With no bottleneck nothing may be lost, late or stalled, so anything
+        else here is the generators' own error."""
+        out, _ = run
+        by = defaultdict(list)
+        for s in read_jsonl(out / "metrics.jsonl"):
+            by[s["traffic_id"], s["metric"]].append(s["value"])
+        for tid in ("voice", "call", "game", "cloud"):
+            assert max(by[tid, "loss_ratio"]) == 0, tid
+            latency = sorted(by[tid, "latency_ms"])
+            assert 0 < latency[len(latency) // 2] < 5, tid
+            assert latency[int(len(latency) * 0.99)] < 20, tid
+        for tid in ("call", "game", "cloud"):
+>           assert sum(by[tid, "frame_miss"]) == 0, tid
+E           AssertionError: call
+E           assert 105 == 0
+E            +  where 105 = sum([0, 0, 0, 105, 0, 0])
+
+ml/tests/test_gen_local.py:104: AssertionError
+_______________________ test_media_rates_match_the_plan ________________________
+
+run = (PosixPath('/tmp/pytest-of-shreyashneeraj/pytest-31/run0'), {('voice', 'server'): (0, ''), ('call', 'server'): (0, ''), ('game', 'server'): (0, ''), ('cloud', 'server'): (0, ''), ...})
+
+    def test_media_rates_match_the_plan(run):
+        out, _ = run
+        summary = json.loads((out / "gen" / "voice.client.json").read_text())
+        by = defaultdict(list)
+        for s in read_jsonl(out / "metrics.jsonl"):
+            if s["traffic_id"] == "voice" and s["metric"] == "throughput_kbit":
+                by[s["direction"]].append(s["value"])
+        for direction in ("up", "down"):
+            want = summary["params"]["payload_" + direction] * 8 * 50 / 1000
+            full_seconds = sorted(by[direction])[len(by[direction]) // 2]
+>           assert full_seconds == pytest.approx(want, rel=0.1)
+E           assert 17.688 == 42.0 ± 4.2
+E             
+E             comparison failed
+E             Obtained: 17.688
+E             Expected: 42.0 ± 4.2
+
+ml/tests/test_gen_local.py:121: AssertionError
+_________________________ test_send_timing_is_reported _________________________
+
+run = (PosixPath('/tmp/pytest-of-shreyashneeraj/pytest-31/run0'), {('voice', 'server'): (0, ''), ('call', 'server'): (0, ''), ('game', 'server'): (0, ''), ('cloud', 'server'): (0, ''), ...})
+
+    def test_send_timing_is_reported(run):
+        """How late each packet left is recorded for every media sender. The
+        testbed run checks the figure at full cloud-gaming rate."""
+        out, _ = run
+        for name in ("cloud.server", "call.client", "voice.client"):
+            stats = json.loads((out / "gen" / f"{name}.json").read_text())["stats"]
+            assert stats["sent"] > 0
+>           assert 0 <= stats["send_late_us"]["mean"] < 20_000, (name, stats)
+E           AssertionError: ('call.client', {'sent': 1017, 'received': 272, 'skipped_before_contact': 0, 'send_errors': 0, ...})
+E           assert 1281932.1 < 20000
+
+ml/tests/test_gen_local.py:131: AssertionError
+________________ test_classifier_configurations_default_to_rust ________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fc8111158c0>
+
+    def test_classifier_configurations_default_to_rust(monkeypatch):
+        from aqos_ml.run import runner
+        monkeypatch.delenv("AQOS_SERVICE", raising=False)
+        monkeypatch.delenv("AQOS_SERVE_ARGS", raising=False)
+        version = (runner.MODELS / "chosen-v2.txt").read_text().strip()
+        if not (runner.MODELS / version / "trees.json").exists() or not runner.CLASSIFY_RUST.exists():
+            import pytest
+            pytest.skip("trees.json or bin/aqos-classify missing: python -m aqos_ml.export; make build")
+        o1 = runner.service_command("O1", "s.sock", ["--model", version, "--mode", "top_label"], version)
+        assert o1[0] == runner.CLASSIFY_RUST and o1[o1.index("-mode") + 1] == "top_label"
+        rules = runner.service_command("B4", "s.sock", ["--rules"], "qosify-rules-v1")
+        assert "aqos_ml.serve" in rules
+        monkeypatch.setenv("AQOS_SERVE_ARGS", "--feature-noise 1.0")
+>       with pytest.raises(runner.RunError, match="not supported"):
+             ^^^^^^
+E       UnboundLocalError: cannot access local variable 'pytest' where it is not associated with a value
+
+ml/tests/test_run.py:198: UnboundLocalError
+=========================== short test summary info ============================
+FAILED ml/tests/test_gen_local.py::test_loopback_media_is_clean - AssertionEr...
+FAILED ml/tests/test_gen_local.py::test_media_rates_match_the_plan - assert 1...
+FAILED ml/tests/test_gen_local.py::test_send_timing_is_reported - AssertionEr...
+FAILED ml/tests/test_run.py::test_classifier_configurations_default_to_rust
+4 failed, 213 passed, 38 skipped in 63.69s (0:01:03)
+make: *** [Makefile:81: test-py] Error 1

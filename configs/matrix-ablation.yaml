@@ -1,0 +1,8 @@
+# Expected damage against top label with a weaker classifier: the same
+# runs at each level of feature noise, AQOS_SERVICE=python AQOS_SERVE_ARGS="--feature-noise N",
+# one results directory per level. 12 runs per level.
+scenarios: [S6, S5]
+configs: [O1, O2]
+seeds: {from: 0, to: 2}
+by: seed
+tag: ablation

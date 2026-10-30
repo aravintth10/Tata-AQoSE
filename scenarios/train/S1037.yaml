@@ -1,0 +1,61 @@
+schema_version: 1
+id: S1037
+name: 'training mix 37: gaming, p2p, abr_video, abr_video, bulk_download, video_call'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 10000
+  up_kbit: 5000
+  delay_ms: 20
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-gaming
+  host: tv1
+  profile: gaming
+  start_s: 8.4
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-p2p
+  host: tv1
+  profile: p2p
+  start_s: 1.5
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-abr-video
+  host: laptop
+  profile: abr_video
+  start_s: 6.1
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t3-abr-video
+  host: laptop
+  profile: abr_video
+  start_s: 9.3
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t4-bulk-download
+  host: phone
+  profile: bulk_download
+  start_s: 6.9
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t5-video-call
+  host: laptop
+  profile: video_call
+  start_s: 9.4
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

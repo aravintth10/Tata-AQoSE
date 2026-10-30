@@ -1,0 +1,81 @@
+{
+  "status": "complete router-runtime migration; Rust is the default",
+  "defaults": {
+    "AQOS_RUNTIME": "rust",
+    "AQOS_SERVICE": "rust"
+  },
+  "canonical_rust_commands": [
+    "aqos-classify",
+    "aqos-extract",
+    "aqos-ctl",
+    "aqosd",
+    "aqos-cake-reader",
+    "aqos-reflector",
+    "aqos-exporter",
+    "aqos-watchdog"
+  ],
+  "build": "make build",
+  "staged_install": "make install-runtime DESTDIR=<package-root> PREFIX=/usr",
+  "go_references": "make build-go-reference; isolated under bin/go; AQOS_RUNTIME=go AQOS_SERVICE=go for comparisons",
+  "retained_tools": {
+    "Go": "experiment namespace testbed and comparison implementations",
+    "Python": "training, reporting, generators, experiment runner, B4 rules and explicit research classifiers"
+  },
+  "checks": {
+    "default_checks": {
+      "log": "reports/rust-full-migration-checks.txt",
+      "result": "218 passed, 38 skipped"
+    },
+    "full_integration": {
+      "log": "reports/rust-full-migration-testbed.txt",
+      "result": "22 passed"
+    },
+    "capacity_and_intent": {
+      "log": "reports/rust-full-migration-capacity-intent.txt",
+      "result": "1 passed"
+    },
+    "report_and_runner": {
+      "log": "reports/rust-full-migration-runner-report.txt",
+      "result": "19 passed"
+    },
+    "rust_stress": {
+      "log": "reports/rust-full-migration-stress.txt",
+      "result": "test result: ok."
+    }
+  },
+  "integration_tests_passed": 23,
+  "watchdog": {
+    "SIGKILL_trials": 10,
+    "SIGSTOP_trials": 10,
+    "recovery_s": [
+      2.05,
+      2.11
+    ],
+    "forwarding_after_recovery": true
+  },
+  "stress": {
+    "kind": "seeded generative stress, not coverage-guided fuzzing",
+    "seed": 20261022,
+    "cases": 5952504,
+    "elapsed_s": 10.0
+  },
+  "capacity_and_intent": {
+    "scenario": "S902",
+    "artifacts": "reports/rust-full-migration-capacity-intent",
+    "initial_down_kbit": 95000,
+    "link_drop_to_kbit": 20000,
+    "lowest_applied_down_kbit": 17991,
+    "rate_changes": 8,
+    "intent_http_request_succeeded": true,
+    "verifier_emitted_verdicts": true,
+    "enforcement_errors": 0,
+    "readback_mismatches": 0,
+    "capture_overflows": 0
+  },
+  "packaging": "reports/rust-full-migration-install.json",
+  "validation_limits": [
+    "The six-hour soak and full research scenario matrix have not been run for this migration.",
+    "OpenWrt cross-compilation and physical-router validation are outstanding.",
+    "The first check attempt had test-scoping and localhost timing failures; the corrected rerun passed. Both logs are retained."
+  ]
+}

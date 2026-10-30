@@ -1,0 +1,36 @@
+schema_version: 1
+id: S10
+name: The delay probes go silent, then the controller is killed
+description: >
+  The traffic of S1: a video call for the whole test and a download from
+  40 s. Two faults follow. 80 s in, two of the three reflectors the
+  capacity estimator probes become unreachable for 30 s: with too little
+  to judge the link by, it must fall back to a low fixed rate and hold it,
+  then recover. 140 s in, the controller is killed outright: the watchdog
+  must put the router back to plain CAKE within 3 s. The call should stay
+  usable through both.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 100000
+  up_kbit: 20000
+  delay_ms: 10
+hosts:
+  - laptop
+  - desktop
+traffic:
+  - {id: call, host: laptop, profile: video_call, start_s: 0, stop_s: null}
+  - {id: download, host: desktop, profile: bulk_download, start_s: 60, stop_s: null}
+events:
+  - at_s: 100
+    type: blackhole_reflector
+    args: {reflectors: [0, 1]}
+  - at_s: 130
+    type: restore_reflector
+  - at_s: 160
+    type: kill_controller
+primary_metrics:
+  - latency_ms
+  - frame_miss
+  - shaper_rate_kbit
+  - throughput_kbit

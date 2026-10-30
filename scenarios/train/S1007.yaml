@@ -1,0 +1,47 @@
+schema_version: 1
+id: S1007
+name: 'training mix 7: gaming, backup_upload, abr_video, gaming'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 50000
+  up_kbit: 5000
+  delay_ms: 60
+  loss_pct: 0.5
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-gaming
+  host: tv1
+  profile: gaming
+  start_s: 9.6
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t1-backup-upload
+  host: laptop
+  profile: backup_upload
+  start_s: 5.7
+  stop_s: null
+  params:
+    ip_version: 4
+- id: t2-abr-video
+  host: tv1
+  profile: abr_video
+  start_s: 1.9
+  stop_s: null
+  params:
+    ip_version: 6
+- id: t3-gaming
+  host: phone
+  profile: gaming
+  start_s: 6.5
+  stop_s: null
+  params:
+    ip_version: 6
+events: []
+primary_metrics:
+- latency_ms

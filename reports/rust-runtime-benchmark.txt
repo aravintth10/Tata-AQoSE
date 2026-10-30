@@ -1,0 +1,18 @@
+{
+  "median": {
+    "go": {
+      "wall_s": 0.32615910001914017,
+      "user_s": 0.29,
+      "system_s": 0.02,
+      "peak_rss_kib": 67396
+    },
+    "rust": {
+      "wall_s": 0.24398592501529492,
+      "user_s": 0.21,
+      "system_s": 0.03,
+      "peak_rss_kib": 59024
+    }
+  },
+  "speedup": 1.336794735182753,
+  "rss_reduction_pct": 12.42210220191109
+}

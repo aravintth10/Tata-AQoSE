@@ -1,0 +1,26 @@
+schema_version: 1
+id: S1026
+name: 'training mix 26: game_update'
+duration_s: 38
+warmup_s: 2
+link:
+  down_kbit: 20000
+  up_kbit: 10000
+  delay_ms: 40
+  loss_pct: 0
+hosts:
+- laptop
+- desktop
+- tv1
+- phone
+traffic:
+- id: t0-game-update
+  host: laptop
+  profile: game_update
+  start_s: 6.0
+  stop_s: null
+  params:
+    ip_version: 4
+events: []
+primary_metrics:
+- latency_ms

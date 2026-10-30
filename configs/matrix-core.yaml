@@ -1,0 +1,11 @@
+# The full matrix (chunk 8A): every core scenario on the five core
+# configurations, ten seeds. 450 runs, about 27 hours; safe to stop and
+# start again. Seed by seed, so that stopping early leaves whole seeds.
+# Commit first: each run's manifest records the commit it ran from.
+#
+#   PYTHONPATH=ml .venv/bin/python -m aqos_ml.run matrix configs/matrix-core.yaml --results results-core
+scenarios: [S7, S6, S8, S5, S1, S2, S3, S4, S10]
+configs: [B0, B2, B4, O1, O2]
+seeds: {from: 0, to: 9}
+by: seed
+tag: core

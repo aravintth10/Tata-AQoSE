@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "policy_proposal.schema.json",
+  "title": "Policy proposal",
+  "description": "Anything that wants to change CAKE state sends one of these to the safety shield. Exactly one of flow_label or shaper_rate is set, matching kind.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "proposal_id", "ts_ns", "source", "kind", "reason"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "proposal_id": { "type": "string", "pattern": "^[0-9a-f]{16}$" },
+    "ts_ns": { "type": "integer", "minimum": 0 },
+    "source": {
+      "enum": [
+        "decision_engine",
+        "reclassifier",
+        "capacity_estimator",
+        "intent_service",
+        "verifier",
+        "user_override"
+      ]
+    },
+    "kind": { "enum": ["flow_label", "shaper_rate"] },
+    "reason": {
+      "description": "Plain-language explanation, shown in the dashboard and the action log.",
+      "type": "string",
+      "minLength": 1
+    },
+    "flow_label": { "$ref": "#/$defs/flow_label" },
+    "shaper_rate": { "$ref": "#/$defs/shaper_rate" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "flow_label" } } },
+      "then": { "required": ["flow_label"], "not": { "required": ["shaper_rate"] } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "shaper_rate" } } },
+      "then": { "required": ["shaper_rate"], "not": { "required": ["flow_label"] } }
+    }
+  ],
+  "$defs": {
+    "tin": { "enum": ["voice", "video", "best_effort", "bulk"] },
+    "flow_label": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "flow_id",
+        "host_id",
+        "tin",
+        "dscp",
+        "previous_tin",
+        "top_class",
+        "expected_damage",
+        "decision_rule"
+      ],
+      "properties": {
+        "flow_id": { "type": "string", "pattern": "^[0-9a-f]{16}$" },
+        "host_id": { "type": "string", "pattern": "^[0-9a-f]{16}$" },
+        "tin": { "$ref": "#/$defs/tin" },
+        "dscp": {
+          "description": "Must map to tin in taxonomy.json.",
+          "enum": ["EF", "CS4", "AF41", "AF31", "CS0", "AF11", "CS1"]
+        },
+        "previous_tin": {
+          "description": "Tin the flow is in now. Null for a flow that has never been labelled.",
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/tin" }]
+        },
+        "top_class": {
+          "description": "Most likely class. Null when no classification was involved.",
+          "enum": [
+            null,
+            "telephony",
+            "realtime_interactive",
+            "multimedia_conferencing",
+            "multimedia_streaming",
+            "standard",
+            "high_throughput_data",
+            "low_priority_data"
+          ]
+        },
+        "expected_damage": {
+          "description": "Expected damage of the chosen tin. Null when the rule does not compute one.",
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "decision_rule": {
+          "enum": ["top_label", "expected_damage", "rules", "override", "fallback"]
+        }
+      }
+    },
+    "shaper_rate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["direction", "rate_kbit", "previous_rate_kbit"],
+      "properties": {
+        "direction": { "enum": ["up", "down"] },
+        "rate_kbit": { "type": "integer", "minimum": 1 },
+        "previous_rate_kbit": { "type": ["integer", "null"], "minimum": 1 }
+      }
+    }
+  }
+}

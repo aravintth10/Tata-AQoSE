@@ -1,0 +1,36 @@
+gofmt -l . | (! grep .)
+go vet ./...
+go test ./...
+?   	adaptiveqos/cmd/aqos-cake-reader	[no test files]
+?   	adaptiveqos/cmd/aqos-classify	[no test files]
+?   	adaptiveqos/cmd/aqos-core-bench	[no test files]
+?   	adaptiveqos/cmd/aqos-ctl	[no test files]
+?   	adaptiveqos/cmd/aqos-exporter	[no test files]
+?   	adaptiveqos/cmd/aqos-extract	[no test files]
+?   	adaptiveqos/cmd/aqos-reflector	[no test files]
+?   	adaptiveqos/cmd/aqos-testbed	[no test files]
+?   	adaptiveqos/cmd/aqos-watchdog	[no test files]
+?   	adaptiveqos/cmd/aqosd	[no test files]
+ok  	adaptiveqos/contracts	(cached)
+ok  	adaptiveqos/internal/cake	(cached)
+ok  	adaptiveqos/internal/capacity	(cached)
+?   	adaptiveqos/internal/capture	[no test files]
+ok  	adaptiveqos/internal/classify	(cached)
+ok  	adaptiveqos/internal/controller	(cached)
+?   	adaptiveqos/internal/enforce	[no test files]
+ok  	adaptiveqos/internal/exporter	(cached)
+ok  	adaptiveqos/internal/extract	(cached)
+?   	adaptiveqos/internal/heartbeat	[no test files]
+ok  	adaptiveqos/internal/intent	(cached)
+?   	adaptiveqos/internal/netfilter	[no test files]
+ok  	adaptiveqos/internal/reclass	(cached)
+?   	adaptiveqos/internal/runclock	[no test files]
+ok  	adaptiveqos/internal/shield	(cached)
+ok  	adaptiveqos/internal/testbed	(cached)
+ok  	adaptiveqos/internal/verify	(cached)
+.venv/bin/pytest -q
+.....................................................................ss. [ 28%]
+..........................................sssssssss.......s..........ss. [ 57%]
+........................................................................ [ 85%]
+......ss..sssssssssssssssssssss.....                                     [100%]
+215 passed, 37 skipped in 65.22s (0:01:05)

@@ -1,0 +1,46 @@
+schema_version: 1
+id: S12
+name: A real WhatsApp video call, replayed, on a laptop that is also sharing files
+description: >
+  S6 with the call taken from a real capture instead of the generator: a
+  WhatsApp video call recorded on Oct 14 (trace whatsapp-video-005937),
+  replayed packet for packet, with its own sizes, timing and first
+  packets, about 0.3 Mbit/s each way. The model chosen for the final runs
+  never trained on this call (it was in the validation split), and the
+  model before it never saw WhatsApp at all.
+
+  Written on Oct 15, after the freeze, to answer whether the live wins
+  only show the classifier recognising its own generators. The line is
+  50/4 Mbit/s so that the call, one flow among about twenty on its
+  laptop's upload, needs more than a fair share, as the HD call does in
+  S6.
+duration_s: 180
+warmup_s: 20
+link:
+  down_kbit: 50000
+  up_kbit: 4000
+  delay_ms: 10
+hosts:
+  - laptop
+  - desktop
+traffic:
+  - id: call
+    host: laptop
+    profile: video_call
+    start_s: 0
+    stop_s: null
+    params: {trace: whatsapp-video-005937}
+  - id: sharing
+    host: laptop
+    profile: p2p
+    start_s: 30
+    stop_s: null
+    params: {tcp_up: 10, tcp_down: 10}
+  - {id: download, host: desktop, profile: bulk_download, start_s: 30, stop_s: null}
+events: []
+primary_metrics:
+  - latency_ms
+  - jitter_ms
+  - loss_ratio
+  - frame_miss
+  - throughput_kbit

@@ -1,0 +1,28 @@
+schema_version: 1
+id: S901
+name: S1 in miniature, for tests
+description: A video call for the whole run; a bulk download joins part way.
+duration_s: 20
+warmup_s: 4
+link:
+  down_kbit: 100000
+  up_kbit: 20000
+  delay_ms: 10
+hosts:
+  - laptop
+  - desktop
+traffic:
+  - id: call
+    host: laptop
+    profile: video_call
+    start_s: 0
+    stop_s: null
+  - id: download
+    host: desktop
+    profile: bulk_download
+    start_s: 8
+    stop_s: null
+events: []
+primary_metrics:
+  - latency_ms
+  - throughput_kbit

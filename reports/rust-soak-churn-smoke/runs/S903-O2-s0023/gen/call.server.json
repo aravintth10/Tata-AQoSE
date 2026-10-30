@@ -1,0 +1,29 @@
+{
+  "traffic_id": "call",
+  "role": "server",
+  "seed": 23,
+  "status": "ok",
+  "profile": "gaming",
+  "plan_digest": "905aabe0deb3977a6a19530568f8c2910b4ab5aa49b7196fd8ebf9e3280b2bc9",
+  "params": {
+    "tick_hz": 30,
+    "payload_up": 161,
+    "payload_down": 136,
+    "deadline_ms": 50.0,
+    "phase": "match",
+    "ip_version": 4
+  },
+  "stats": {
+    "sent": 2999,
+    "received": 3000,
+    "skipped_before_contact": 1,
+    "send_errors": 0,
+    "frames_missed": 0,
+    "send_late_us": {
+      "mean": 144.4,
+      "p99": 473.8,
+      "max": 1716.0
+    }
+  },
+  "metric_samples": 3404
+}

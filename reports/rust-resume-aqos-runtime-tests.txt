@@ -1,0 +1,100 @@
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling aqos-runtime-rs v0.1.0 (/home/shreyashneeraj/Work/adaptiveQos/rust/aqos-runtime)
+    Finished `release` profile [optimized] target(s) in 2m 03s
+     Running unittests src/lib.rs (rust/aqos-runtime/target/release/deps/aqos_runtime_rs-fcaffa77f161d327)
+
+running 12 tests
+test client::tests::cancelled_or_unknown_replies_cannot_complete_new_request ... ok
+test client::tests::queue_limits_deadline_and_disconnect_fail_without_stale_results ... ok
+test client::tests::malformed_response_cannot_bypass_deadline ... ok
+test intent::tests::http_framing_and_unknown_hosts_cannot_create_leases ... ok
+test exporter::tests::histogram_and_gauges_follow_existing_contract ... ok
+test exporter::tests::partial_lines_rotation_and_truncation ... ok
+test netfilter::tests::malformed_lengths_fail ... ok
+test netfilter::tests::aligned_attrs ... ok
+test intent::tests::leases_persist_privately_and_failed_deletes_restore_memory ... ok
+test netfilter::tests::tuple_roundtrip ... ok
+test command::tests::communicates ... ok
+test command::tests::timeout_kills_children_and_closes_pipes ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/bin/aqos-cake-reader-rs.rs (rust/aqos-runtime/target/release/deps/aqos_cake_reader_rs-5d1e07441a0c55a3)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/aqos-ctl-rs.rs (rust/aqos-runtime/target/release/deps/aqos_ctl_rs-2c604c551a8d2cb6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/aqos-exporter-rs.rs (rust/aqos-runtime/target/release/deps/aqos_exporter_rs-0bf2ae38a19d8c2e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/aqos-extract-rs.rs (rust/aqos-runtime/target/release/deps/aqos_extract_rs-09e84b8e0e213054)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/aqos-reflector-rs.rs (rust/aqos-runtime/target/release/deps/aqos_reflector_rs-892fa585d932b022)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/aqosd-rs.rs (rust/aqos-runtime/target/release/deps/aqosd_rs-c98c3f3c8e793a8b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/control.rs (rust/aqos-runtime/target/release/deps/control-9a51af6fe978c106)
+
+running 7 tests
+test one_answer_on_time_prevents_two_silent_targets_looking_like_congestion ... ok
+test download_congestion_is_measured_before_upload_is_cut ... ok
+test quiet_and_unreachable_reflectors_do_not_lower_rates ... ok
+test verifier_requires_two_consistent_windows_and_counts_missing_data ... ok
+test simulated_capacity_drop_drains_and_recovers ... ok
+test all_ml_reclassifier_sequences_match ... ok
+test leases_validate_known_hosts_limit_duplicates_and_expiry ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/generative.rs (rust/aqos-runtime/target/release/deps/generative-b903e216f5c26334)
+
+running 1 test
+test randomized_proposals_json_and_packet_headers ... ignored, time-bounded stress: make fuzz FUZZTIME=150s
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/safety.rs (rust/aqos-runtime/target/release/deps/safety-3e62574f837f83ff)
+
+running 8 tests
+test byte_counter_reset_discards_window_instead_of_wrapping ... ok
+test overflow_never_emits_a_partial_flow ... ok
+test required_null_fields_cannot_be_omitted ... ok
+test pinning_preserves_confirmed_state_until_clear_succeeds ... ok
+test stale_unknown_starved_and_invalid_proposals_fail_closed ... ok
+test increases_wait_but_decreases_do_not ... ok
+test rates_never_escape_absolute_and_step_bounds ... ok
+test parser_never_indexes_outside_malformed_headers ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests aqos_runtime_rs
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "run_manifest.schema.json",
+  "title": "Run manifest",
+  "description": "Written once per run next to metrics.jsonl. A crashed run still gets a manifest, with valid set to false.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "scenario_id",
+    "config",
+    "seed",
+    "attempt",
+    "tag",
+    "started_at",
+    "duration_s",
+    "warmup_s",
+    "valid",
+    "invalid_reason",
+    "versions"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "run_id": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+$" },
+    "scenario_id": { "type": "string", "pattern": "^S[0-9]+$" },
+    "config": {
+      "description": "B0 to O2 are the configurations compared. D1 to D4 are measurement set-ups for the damage table and are never compared.",
+      "enum": ["B0", "B1", "B2", "B3", "B4", "O1", "O2", "D1", "D2", "D3", "D4"]
+    },
+    "seed": { "type": "integer", "minimum": 0 },
+    "attempt": {
+      "description": "1 for the first try, higher for retries of an invalid run.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "tag": {
+      "description": "Free label for grouping runs, for example the two arms of an A/A comparison or an ablation.",
+      "type": ["string", "null"]
+    },
+    "started_at": {
+      "description": "Wall-clock start, RFC 3339.",
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
+    },
+    "duration_s": { "type": "integer", "minimum": 1 },
+    "warmup_s": { "type": "integer", "minimum": 0 },
+    "valid": { "type": "boolean" },
+    "invalid_reason": { "type": ["string", "null"] },
+    "versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["git_commit", "kernel", "iproute2", "model_version"],
+      "properties": {
+        "git_commit": { "type": "string", "minLength": 1 },
+        "kernel": { "type": "string", "minLength": 1 },
+        "iproute2": { "type": "string", "minLength": 1 },
+        "model_version": { "type": ["string", "null"] }
+      }
+    }
+  },
+  "if": { "properties": { "valid": { "const": false } } },
+  "then": { "properties": { "invalid_reason": { "type": "string", "minLength": 1 } } },
+  "else": { "properties": { "invalid_reason": { "type": "null" } } }
+}

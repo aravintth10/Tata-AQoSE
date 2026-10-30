@@ -1,0 +1,571 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>AQoSE explainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#fcfcfb;font-family:'IBM Plex Sans',Arial,sans-serif;color:#14213d}
+.scene{position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0;overflow:hidden}
+.dark{background:#14213d;color:#f4f3ef}
+.light{background:#fcfcfb}
+.h{font-family:'Space Grotesk',Arial,sans-serif;font-weight:700;letter-spacing:-0.5px}
+.a{position:absolute}
+.kick{font-size:22px;font-weight:700;letter-spacing:3px;color:#6250d6}
+.title{font-family:'Space Grotesk',Arial,sans-serif;font-weight:700;font-size:64px;line-height:1.08;letter-spacing:-1px}
+.cap{position:absolute;left:0;top:952px;width:1920px;height:128px;display:flex;align-items:center;justify-content:center;font-size:30px;line-height:1.35;text-align:center;color:#14213d;background:#f0eefb}
+.cap span{max-width:1560px}
+.dark .cap{background:#1d2b4f;color:#f4f3ef}
+.muted{color:#4a5568}
+.dark .muted{color:#c9cde0}
+.chip{display:inline-block;padding:8px 18px;border-radius:999px;background:#eceaf9;color:#14213d;font-size:24px;font-weight:600}
+.num{font-family:'Space Grotesk',Arial,sans-serif;font-weight:700;letter-spacing:-1px}
+svg{position:absolute;left:0;top:0;overflow:visible}
+text{font-family:'IBM Plex Sans',Arial,sans-serif}
+#progress{position:absolute;left:0;top:1074px;height:6px;background:#6250d6;z-index:10}
+</style></head>
+<body>
+
+<!-- S1 · TITLE ============================================================ -->
+<div class="scene dark" id="s1" data-a="0" data-b="7">
+<svg id="s1bg" width="1920" height="1080"></svg>
+<div class="a" style="left:96px;top:72px;background:#fcfcfb;border-radius:14px;padding:8px 14px" data-in="0.2"><img src="teliport.png" style="height:84px;display:block"></div>
+<div class="a" style="left:1700px;top:72px;background:#fcfcfb;border-radius:14px;padding:8px 14px" data-in="0.2"><img src="tata-elxsi.png" style="height:84px;display:block"></div>
+<div class="a h" style="left:0;top:300px;width:1920px;text-align:center;font-size:220px;line-height:1;letter-spacing:-6px" data-in="0.4" data-dy="60">AQoSE</div>
+<div class="a h" style="left:0;top:540px;width:1920px;text-align:center;font-size:54px;color:#f4f3ef" data-in="1.1">Adaptive QoS Engine</div>
+<div class="a" style="left:0;top:628px;width:1920px;text-align:center;font-size:38px;color:#b7acff" data-in="1.9">A predictive add-on that tells Linux CAKE which connection is the call</div>
+<div class="a muted" style="left:0;top:820px;width:1920px;text-align:center;font-size:28px" data-in="2.8">Tata Elxsi Teliport · Season 4 &nbsp;·&nbsp; Shreyash Neeraj · Mridul Jaiswal · Sachi Jha</div>
+</div>
+
+<!-- S2 · THE PROBLEM ======================================================= -->
+<div class="scene light" id="s2" data-a="7" data-b="25.5">
+<div class="a kick" style="left:96px;top:70px" data-in="7.3">01 · THE PROBLEM</div>
+<div class="a title" style="left:96px;top:108px;width:1700px" data-in="7.5">A video call on a laptop.</div>
+<div class="a title" style="left:96px;top:184px;width:1700px;color:#6250d6" data-in="10.6">Then the same laptop starts sharing files.</div>
+<svg id="home1" width="1920" height="1080"></svg>
+<div class="a" style="left:356px;top:356px;width:160px;text-align:right" data-in="8.2" data-dy="0">
+  <div style="font-size:18px;font-weight:700;color:#4a5568;letter-spacing:1px">LATE FRAMES</div>
+  <div class="num" style="font-size:52px;line-height:1" id="late1" data-count="0,94.3,12.6,5,1" data-suf="%">0%</div>
+</div>
+<div class="a" style="left:890px;top:660px;width:520px;font-size:24px;line-height:1.35" data-in="8.4" data-dy="10"><b>CAKE</b> shares the line fairly: between devices, then between each device's connections.</div>
+<div class="a" style="left:1440px;top:640px;width:440px" data-in="16.6" data-dx="30" data-dy="0">
+  <div class="num" style="font-size:72px;line-height:1;color:#14213d">1 of 21</div>
+  <div style="font-size:26px;line-height:1.35" class="muted">connections on its laptop: the call gets a twenty-first of the laptop's share</div>
+</div>
+<div class="cap" data-in="18.4" data-dy="0"><span><b>94% of the call's video frames arrive late</b> with plain CAKE.<br><span class="muted" style="font-size:24px">Emulated scenario S6, median of 10 runs. CAKE is working as designed; it just doesn't know which connection is the call.</span></span></div>
+</div>
+
+<!-- S3 · WHY TOOLS MISS IT ================================================ -->
+<div class="scene light" id="s3" data-a="25.5" data-b="37.5">
+<div class="a kick" style="left:96px;top:70px" data-in="25.8">WHY NOTHING FIXES THIS TODAY</div>
+<div class="a title" style="left:96px;top:108px;width:1700px" data-in="26">The router has to be told what each connection is.</div>
+<div class="a" style="left:96px;top:270px;width:820px" data-in="26.8">
+  <div class="h" style="font-size:40px">Priority marks</div>
+  <div style="font-size:26px;line-height:1.4;margin-top:12px" class="muted">CAKE does prioritise packets that carry a priority mark (DSCP). But most apps never set one, and ISPs often strip them.</div>
+</div>
+<svg id="hdr" width="1920" height="1080"></svg>
+<div class="a" style="left:1020px;top:270px;width:800px" data-in="29.6">
+  <div class="h" style="font-size:40px">Threshold rules</div>
+  <div style="font-size:26px;line-height:1.4;margin-top:12px" class="muted">Tools like qosify say "many packets per second means bulk". An HD call sends 400–600 packets/s; a cloud game over 1,000.</div>
+</div>
+<div class="cap" data-in="33.4" data-dy="0"><span>On our sealed test set, qosify's default rules sent <b>78% of cloud-gaming flows</b> and <b>14% of video calls</b> to the slowest queue.</span></div>
+</div>
+
+<!-- S4 · HOW AQOSE DECIDES ================================================= -->
+<div class="scene light" id="s4" data-a="37.5" data-b="64.5">
+<div class="a kick" style="left:96px;top:70px" data-in="37.8">02 · HOW AQoSE WORKS</div>
+<div class="a title" style="left:96px;top:108px;width:1750px" data-in="38" data-out="44">It reads only the first 8 packets of each new connection.</div>
+<div class="a title" style="left:96px;top:108px;width:1750px" data-in="44.4" data-out="50">259 small decision trees turn them into odds.</div>
+<div class="a title" style="left:96px;top:108px;width:1750px" data-in="50.4" data-out="57.6">Unsure? It weighs the odds against measured harm.</div>
+<div class="a title" style="left:96px;top:108px;width:1750px" data-in="58">Then it writes one label, once.</div>
+<svg id="how" width="1920" height="1080"></svg>
+<!-- 4a texts -->
+<div class="a" style="left:1150px;top:540px;width:680px" data-in="41.6" data-out="44">
+  <div style="display:flex;flex-wrap:wrap;gap:12px">
+   <span class="chip">8 packet sizes</span><span class="chip">7 gaps</span><span class="chip">ports, protocol, IP version</span><span class="chip">9 rate and burst stats</span>
+  </div>
+  <div class="num" style="font-size:56px;margin-top:22px">= 28 numbers</div>
+  <div style="font-size:26px" class="muted">headers only, never content</div>
+</div>
+<div class="a" style="left:1150px;top:300px;width:680px" data-in="40.4" data-out="44">
+  <div class="num" style="font-size:64px;line-height:1;color:#6250d6">≈ 0.13 s</div>
+  <div style="font-size:26px" class="muted">after the connection opens</div>
+</div>
+<!-- 4b texts -->
+<div class="a" style="left:1240px;top:300px;width:600px" data-in="47.2" data-out="50">
+  <div class="num" style="font-size:96px;line-height:1;color:#6250d6">6 µs</div>
+  <div style="font-size:28px;line-height:1.4" class="muted">per connection, in Go on the router.<br>LightGBM: 37 rounds × 7 classes = 259 trees.</div>
+</div>
+<!-- 4c texts -->
+<div class="a" style="left:96px;top:820px;width:1700px;font-size:26px;line-height:1.4" class="muted" data-in="55.2" data-out="57.6"><span class="muted">Guards on top: Voice only if it's over 50% likely a call or game. Bulk only if over 80% sure, and never for UDP or a connection's first packets.</span></div>
+<!-- 4d texts -->
+<div class="a" style="left:96px;top:300px;width:700px;font-size:30px;line-height:1.45" data-in="59.4"><b>Written into the kernel's connection tracker</b>, then read back to check.<br><span class="muted">CAKE applies it to every packet, both directions. AQoSE is never on the packet path: if it stops, packets still flow.</span></div>
+</div>
+
+<!-- S5 · THE FIX =========================================================== -->
+<div class="scene light" id="s5" data-a="64.5" data-b="76.5">
+<div class="a kick" style="left:96px;top:70px" data-in="64.8">03 · THE SAME LAPTOP, WITH AQoSE</div>
+<div class="a title" style="left:96px;top:108px;width:1700px" data-in="65">The call gets its own lane.</div>
+<svg id="home2" width="1920" height="1080"></svg>
+<div class="a" style="left:356px;top:356px;width:160px;text-align:right" data-in="65.4" data-dy="0">
+  <div style="font-size:18px;font-weight:700;color:#4a5568;letter-spacing:1px">LATE FRAMES</div>
+  <div class="num" style="font-size:52px;line-height:1;color:#6250d6" id="late2" data-count="94.3,0.6,66.4,3.4,1" data-suf="%">94.3%</div>
+</div>
+<div class="a" style="left:1300px;top:650px;width:600px" data-in="70.4" data-dx="30" data-dy="0">
+  <div class="num" style="font-size:64px;line-height:1">1.8 s → <span style="color:#6250d6">18 ms</span></div>
+  <div style="font-size:26px" class="muted">p95 delay on the call</div>
+</div>
+<div class="a" style="left:890px;top:686px;width:330px;font-size:22px;line-height:1.35" class="muted" data-in="66"><span class="muted">File sharing still runs, in Best Effort and Bulk.</span></div>
+<div class="cap" data-in="71.6" data-dy="0"><span>Same laptop, same file sharing, same line: <b>94% → 0.6% late frames</b>.<br><span class="muted" style="font-size:24px">Emulated scenario S6, median of 10 runs.</span></span></div>
+</div>
+
+<!-- S6 · WATCHING AND SAFETY ============================================== -->
+<div class="scene light" id="s6" data-a="76.5" data-b="88.5">
+<div class="a kick" style="left:96px;top:70px" data-in="76.8">04 · AFTER THE LABEL</div>
+<div class="a title" style="left:96px;top:108px;width:1750px" data-in="77">It keeps checking, and it fails safe.</div>
+<svg id="watch" width="1920" height="1080"></svg>
+<div class="a" style="left:96px;top:600px;width:800px;font-size:26px;line-height:1.45" data-in="81.6"><span class="muted">No model runs in the check. Only when a connection stays out of its class's normal range for 2–6 s is it classified again:</span><br><span class="num" style="font-size:56px;color:#6250d6" data-count="0,3.3,82,1.6,1" data-suf="%">0%</span> <span style="font-size:26px">of checks (165,684 checks → 5,453 classifications)</span></div>
+<div class="a" style="left:1040px;top:300px;width:800px;display:flex;flex-direction:column;gap:30px">
+ <div style="display:flex;gap:22px;align-items:flex-start" data-in="79.4"><div class="num" style="font-size:40px;color:#6250d6;width:60px">1</div><div style="font-size:27px;line-height:1.4"><b>Safety shield</b> checks every change.<br><span class="muted">10.9 million fuzzed bad proposals, none got through.</span></div></div>
+ <div style="display:flex;gap:22px;align-items:flex-start" data-in="81"><div class="num" style="font-size:40px;color:#6250d6;width:60px">2</div><div style="font-size:27px;line-height:1.4"><b>Read back</b> every label written.<br><span class="muted">A mismatch is undone at once.</span></div></div>
+ <div style="display:flex;gap:22px;align-items:flex-start" data-in="82.6"><div class="num" style="font-size:40px;color:#6250d6;width:60px">3</div><div style="font-size:27px;line-height:1.4"><b>Verifier</b> watches delay after a change.<br><span class="muted">If delay rises, the change is rolled back.</span></div></div>
+ <div style="display:flex;gap:22px;align-items:flex-start" data-in="84.2"><div class="num" style="font-size:40px;color:#6250d6;width:60px">4</div><div style="font-size:27px;line-height:1.4"><b>Watchdog</b>, a separate process.<br><span class="muted">If AQoSE stops, plain CAKE is back in about 2 s (20 of 20 runs).</span></div></div>
+</div>
+<div class="cap" data-in="85.6" data-dy="0"><span>Every way out ends in plain CAKE, never in something worse.</span></div>
+</div>
+
+<!-- S7 · RESULTS =========================================================== -->
+<div class="scene dark" id="s7" data-a="88.5" data-b="102.5">
+<div class="a kick" style="left:96px;top:70px;color:#b7acff" data-in="88.8">05 · RESULTS, IN EMULATION</div>
+<div class="a title" style="left:96px;top:108px;width:1750px" data-in="89">Where plain CAKE fails, AQoSE fixes it.</div>
+<svg id="res" width="1920" height="1080"></svg>
+<div class="a" style="left:1330px;top:270px;width:520px;display:flex;flex-direction:column;gap:26px">
+ <div data-in="95"><div class="num" style="font-size:64px;line-height:1">0 <span style="font-size:32px;color:#c9cde0">of 140</span></div><div style="font-size:23px;line-height:1.35" class="muted">paired runs worse than plain CAKE (70 better, 70 tied)</div></div>
+ <div data-in="96.2"><div class="num" style="font-size:64px;line-height:1">20 <span style="font-size:32px;color:#c9cde0">of 20</span></div><div style="font-size:23px;line-height:1.35" class="muted">runs better than cake-autorate</div></div>
+ <div data-in="97.4"><div class="num" style="font-size:64px;line-height:1">0.969 <span style="font-size:32px;color:#c9cde0">· 0.73</span></div><div style="font-size:23px;line-height:1.35" class="muted">accuracy · macro-F1 on 1,213 unseen flows</div></div>
+ <div data-in="98.6"><div class="num" style="font-size:64px;line-height:1">98%</div><div style="font-size:23px;line-height:1.35" class="muted">bulk throughput kept (median); fairness between devices unchanged</div></div>
+</div>
+<div class="cap" data-in="99.4" data-dy="0"><span>Medians of 10 runs per scenario (replayed real call: 5). Where a call is alone on its device, CAKE already works and AQoSE ties it.</span></div>
+</div>
+
+<!-- S8 · CLOSE ============================================================= -->
+<div class="scene dark" id="s8" data-a="102.5" data-b="111">
+<div class="a h" style="left:0;top:180px;width:1920px;text-align:center;font-size:150px;line-height:1;letter-spacing:-4px" data-in="102.8">AQoSE</div>
+<div class="a" style="left:0;top:360px;width:1920px;text-align:center;font-size:36px;color:#b7acff" data-in="103.4">Recognise the call. Give it its lane. Never make things worse.</div>
+<div class="a muted" style="left:0;top:440px;width:1920px;text-align:center;font-size:28px;line-height:1.5" data-in="104.2">Tested in emulation on one laptop. Next: a real router, in real homes.</div>
+<div class="a" style="left:690px;top:560px;background:#fcfcfb;border-radius:16px;padding:12px" data-in="104.8" data-s="0.9"><img src="repo-qr.png" style="width:200px;height:200px;display:block"></div>
+<div class="a" style="left:940px;top:600px;width:600px" data-in="105.2" data-dx="20" data-dy="0">
+ <div style="font-size:24px;letter-spacing:2px;font-weight:700;color:#b7acff">REPORT, CODE, EVERY RESULT</div>
+ <div class="num" style="font-size:44px;margin-top:8px">github.com/shreyashsri79/aqose</div>
+</div>
+<div class="a muted" style="left:0;top:880px;width:1920px;text-align:center;font-size:28px" data-in="105.8">Shreyash Neeraj · Mridul Jaiswal · Sachi Jha &nbsp;·&nbsp; Tata Elxsi Teliport, Season 4</div>
+</div>
+
+<div id="progress"></div>
+
+<script>
+const DUR = 111;
+const NS = 'http://www.w3.org/2000/svg';
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const eo = x => 1 - Math.pow(1 - x, 3);
+const eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const hash = n => { const s = Math.sin(n * 127.1) * 43758.5453; return s - Math.floor(s); };
+function el(parent, tag, attrs, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text !== undefined) e.textContent = text;
+  parent.appendChild(e); return e;
+}
+function show(e, o) { e.style.opacity = o; }
+
+/* ---------- generic reveals, counters, grows ---------- */
+let REV = [], CNT = [], GRW = [];
+function scan() {
+  REV = [...document.querySelectorAll('[data-in]')].map(e => ({ e, i: +e.dataset.in, o: e.dataset.out ? +e.dataset.out : null,
+    dy: e.dataset.dy !== undefined ? +e.dataset.dy : 26, dx: +(e.dataset.dx || 0), d: +(e.dataset.d || 0.7), s: e.dataset.s ? +e.dataset.s : null }));
+  CNT = [...document.querySelectorAll('[data-count]')].map(e => { const [a, b, t0, dur, dec] = e.dataset.count.split(',').map(Number); return { e, a, b, t0, dur, dec, suf: e.dataset.suf || '' }; });
+  GRW = [...document.querySelectorAll('[data-grow]')].map(e => { const [w, t0, dur] = e.dataset.grow.split(',').map(Number); return { e, w, t0, dur }; });
+}
+function generic(t) {
+  for (const r of REV) {
+    const p = eo(prog(t, r.i, r.i + r.d)), q = r.o != null ? 1 - prog(t, r.o, r.o + 0.45) : 1;
+    r.e.style.opacity = p * q;
+    let tr = `translate(${(1 - p) * r.dx}px,${(1 - p) * r.dy}px)`;
+    if (r.s != null) tr += ` scale(${r.s + (1 - r.s) * p})`;
+    r.e.style.transform = tr;
+  }
+  for (const c of CNT) {
+    const v = c.a + (c.b - c.a) * eio(prog(t, c.t0, c.t0 + c.dur));
+    c.e.textContent = v.toFixed(c.dec).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + c.suf;
+  }
+  for (const g of GRW) g.e.setAttribute('width', Math.max(0, g.w * eo(prog(t, g.t0, g.t0 + g.dur))));
+}
+
+/* ---------- packets along paths ---------- */
+function mkPath(pts) { const L = [0]; for (let i = 1; i < pts.length; i++) L.push(L[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1])); return { pts, L, len: L[L.length - 1] }; }
+function at(P, d) { let i = 1; while (i < P.L.length - 1 && P.L[i] < d) i++; const s = (d - P.L[i - 1]) / ((P.L[i] - P.L[i - 1]) || 1); const a = P.pts[i - 1], b = P.pts[i]; return [a[0] + (b[0] - a[0]) * s, a[1] + (b[1] - a[1]) * s]; }
+class Stream {
+  constructor(g, pts, o) {
+    Object.assign(this, { n: 30, period: 0.15, speed: 300, r: 6, fill: '#6250d6', t0: 0, drop: null, dropAt: null }, o);
+    this.P = mkPath(pts); this.c = [];
+    for (let i = 0; i < this.n; i++) this.c.push(el(g, 'circle', { r: this.r, fill: this.fill, opacity: 0 }));
+  }
+  update(t) {
+    const ph = t - this.t0, cyc = this.n * this.period;
+    for (let i = 0; i < this.n; i++) {
+      const c = this.c[i];
+      if (ph < i * this.period) { c.setAttribute('opacity', 0); continue; }
+      let a = (ph - i * this.period) % cyc; const d = a * this.speed, spawn = t - a;
+      if (d > this.P.len) { c.setAttribute('opacity', 0); continue; }
+      let fill = this.fill, r = this.r, op = 1, dd = d;
+      if (this.drop && this.drop(spawn, i) && d > this.dropAt) {
+        if (d < this.dropAt + 40) { dd = this.dropAt; fill = '#d64545'; r = this.r * (1 + (d - this.dropAt) / 40); op = 1 - (d - this.dropAt) / 40; }
+        else { c.setAttribute('opacity', 0); continue; }
+      }
+      const [x, y] = at(this.P, dd);
+      c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('fill', fill); c.setAttribute('r', r); c.setAttribute('opacity', op);
+    }
+  }
+}
+
+/* ---------- the home drawing (S2 before, S5 after) ---------- */
+function laptop(g) {
+  el(g, 'rect', { x: 150, y: 330, width: 380, height: 250, rx: 14, fill: '#ffffff', stroke: '#14213d', 'stroke-width': 4 });
+  el(g, 'rect', { x: 168, y: 348, width: 344, height: 214, rx: 6, fill: '#eceaf9' });
+  const face = el(g, 'g', {});
+  el(face, 'circle', { cx: 262, cy: 430, r: 40, fill: '#6250d6' });
+  el(face, 'path', { d: 'M196 548 Q262 466 328 548 Z', fill: '#6250d6' });
+  el(g, 'path', { d: 'M110 588 H570 L540 618 H140 Z', fill: '#14213d' });
+  el(g, 'text', { x: 340, y: 664, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 700, fill: '#14213d' }, 'one laptop');
+  return face;
+}
+function router(g) {
+  el(g, 'line', { x1: 910, y1: 380, x2: 890, y2: 330, stroke: '#14213d', 'stroke-width': 7, 'stroke-linecap': 'round' });
+  el(g, 'line', { x1: 1140, y1: 380, x2: 1160, y2: 330, stroke: '#14213d', 'stroke-width': 7, 'stroke-linecap': 'round' });
+  el(g, 'rect', { x: 860, y: 380, width: 330, height: 260, rx: 22, fill: '#14213d' });
+  el(g, 'text', { x: 1025, y: 422, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 700, fill: '#ffffff' }, 'Router · CAKE');
+}
+function cloud(g) {
+  el(g, 'path', { d: 'M1580 590 a52 52 0 0 1 6 -104 a72 72 0 0 1 132 -24 a58 58 0 0 1 40 128 Z', fill: '#eef1f7', stroke: '#14213d', 'stroke-width': 4 });
+  el(g, 'text', { x: 1672, y: 556, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 700, fill: '#14213d' }, 'Internet');
+}
+const LANES = [['VOICE', '#1d3557', '#ffffff', 459], ['VIDEO', '#457b9d', '#ffffff', 501], ['BEST EFFORT', '#a8c5da', '#14213d', 543], ['BULK', '#dde8f0', '#14213d', 585]];
+
+const H1 = {}, H2 = {};
+function buildHome(svg, H, after) {
+  const back = el(svg, 'g', {}), lines = el(svg, 'g', {}), mid = el(svg, 'g', {}), front = el(svg, 'g', {});
+  H.face = laptop(back); router(back); cloud(back);
+  el(back, 'line', { x1: 1190, y1: 510, x2: 1560, y2: 512, stroke: '#14213d', 'stroke-width': 12, 'stroke-linecap': 'round', opacity: 0.12 });
+  H.grey = []; H.lines = [];
+  const callPts = after ? [[540, 450], [870, 501], [1165, 501], [1190, 510], [1570, 510]] : [[540, 450], [860, 500], [1190, 510], [1570, 510]];
+  el(lines, 'polyline', { points: callPts.map(p => p.join(',')).join(' '), fill: 'none', stroke: '#6250d6', 'stroke-width': 3, opacity: 0.35 });
+  for (let j = 0; j < 20; j++) {
+    const y0 = 466 + j * 5.5;
+    let pts;
+    if (!after) pts = [[540, y0], [860, 505 + (j - 10) * 1.6], [1190, 512], [1570, 514]];
+    else { const ly = j < 12 ? 543 : 585; pts = [[540, y0], [870, ly], [1165, ly], [1190, 513], [1570, 514]]; }
+    const t0 = after ? 58 + j * 0.13 : 11.2 + j * 0.2;
+    H.lines.push([el(lines, 'polyline', { points: pts.map(p => p.join(',')).join(' '), fill: 'none', stroke: '#9aa1b2', 'stroke-width': 1.5, opacity: 0 }), t0]);
+    H.grey.push(new Stream(mid, pts, { n: 16, period: 0.36, speed: 240, r: 4.5, fill: '#8a90a2', t0 }));
+  }
+  if (!after) {
+    H.slices = []; for (let k = 0; k < 21; k++) H.slices.push(el(front, 'rect', { x: 885, y: 470, width: 0, height: 64, fill: k === 0 ? '#9c8ff0' : '#5f6b85', stroke: '#14213d', 'stroke-width': 1.5 }));
+    el(front, 'text', { x: 1025, y: 566, 'text-anchor': 'middle', 'font-size': 20, fill: '#d6dbe8' }, 'the laptop\'s share,');
+    el(front, 'text', { x: 1025, y: 592, 'text-anchor': 'middle', 'font-size': 20, fill: '#d6dbe8' }, 'split per connection');
+    H.call = new Stream(front, callPts, { n: 40, period: 0.11, speed: 300, r: 7.5, t0: 7.3,
+      drop: (spawn, i) => spawn > 12.4 && (i % 12) !== 0, dropAt: Math.hypot(320, 50) - 4 });
+  } else {
+    for (const [name, fill, tc, cy] of LANES) {
+      el(mid, 'rect', { x: 885, y: cy - 19, width: 280, height: 38, rx: 5, fill, opacity: 0.95 });
+      el(mid, 'text', { x: 897, y: cy + 7, 'font-size': 17, 'font-weight': 700, fill: tc, opacity: 0.9 }, name);
+    }
+    H.call = new Stream(front, callPts, { n: 40, period: 0.11, speed: 300, r: 7.5, fill: '#ffffff', t0: 63.2 });
+    H.callRing = new Stream(front, callPts, { n: 40, period: 0.11, speed: 300, r: 7.5, fill: 'none', t0: 63.2 });
+    H.callRing.c.forEach(c => { c.setAttribute('stroke', '#6250d6'); c.setAttribute('stroke-width', 3); });
+  }
+}
+function updHome(H, t, after) {
+  let active = 0;
+  for (const [ln, t0] of H.lines) { const o = clamp((t - t0) / 0.4); ln.setAttribute('opacity', o * 0.8); if (t >= t0) active++; }
+  H.grey.forEach(s => s.update(t)); H.call.update(t); if (H.callRing) H.callRing.update(t);
+  if (!after) {
+    const n = 1 + active, w = 280 / n;
+    H.slices.forEach((r, k) => { if (k < n) { r.setAttribute('x', 885 + k * w); r.setAttribute('width', w); r.setAttribute('opacity', 1); } else r.setAttribute('opacity', 0); });
+    const late = 94.3 * eio(prog(t, 12.6, 17.6));
+    let jx = 0, op = 1, blur = 0;
+    if (late > 30) { const k = Math.floor(t * 7); jx = (hash(k) - 0.5) * 16; op = hash(k + 3) > 0.45 ? 1 : 0.25; blur = late / 22; }
+    H.face.style.transform = `translate(${jx}px,0)`; H.face.style.opacity = op; H.face.style.filter = `blur(${blur}px)`;
+  } else {
+    const late = 94.3 + (0.6 - 94.3) * eio(prog(t, 66.4, 69.8));
+    let jx = 0, op = 1, blur = 0;
+    if (late > 30) { const k = Math.floor(t * 7); jx = (hash(k) - 0.5) * 16; op = hash(k + 3) > 0.45 ? 1 : 0.25; blur = late / 22; }
+    H.face.style.transform = `translate(${jx}px,0)`; H.face.style.opacity = op; H.face.style.filter = `blur(${blur}px)`;
+  }
+}
+
+/* ---------- S1 background ---------- */
+const S1 = { streams: [] };
+function buildS1() {
+  const svg = document.getElementById('s1bg');
+  for (let k = 0; k < 14; k++) {
+    const y = 60 + k * 74;
+    el(svg, 'line', { x1: 0, y1: y, x2: 1920, y2: y, stroke: '#2e3b5c', 'stroke-width': 1.5 });
+    S1.streams.push(new Stream(svg, [[-20, y], [1940, y]], { n: 10, period: 0.9 + hash(k) * 0.8, speed: 160 + hash(k + 9) * 220, r: k % 4 === 1 ? 6 : 4, fill: k % 4 === 1 ? '#9c8ff0' : '#3d4a6e', t0: -20 + hash(k + 2) * 8 }));
+  }
+}
+
+/* ---------- S3 header and gauge ---------- */
+const S3 = {};
+function buildS3() {
+  const svg = document.getElementById('hdr');
+  const g = el(svg, 'g', { 'data-in': 27.4 });
+  const fields = [['src', 120], ['dst', 120], ['ports', 140], ['proto', 120], ['DSCP', 200]];
+  let x = 96;
+  for (const [name, w] of fields) {
+    el(g, 'rect', { x, y: 470, width: w - 8, height: 96, rx: 10, fill: name === 'DSCP' ? '#eceaf9' : '#eef1f7', stroke: name === 'DSCP' ? '#6250d6' : '#b8bdc9', 'stroke-width': name === 'DSCP' ? 3 : 2 });
+    el(g, 'text', { x: x + (w - 8) / 2, y: 506, 'text-anchor': 'middle', 'font-size': 20, fill: '#4a5568' }, name);
+    x += w;
+  }
+  el(g, 'text', { x: 96, y: 450, 'font-size': 22, 'font-weight': 700, fill: '#14213d' }, 'a packet header');
+  S3.mark = el(g, 'text', { x: 96 + 500 + 96, y: 548, 'text-anchor': 'middle', 'font-size': 34, 'font-weight': 700, fill: '#6250d6' }, 'voice');
+  S3.strike = el(g, 'line', { x1: 652, y1: 538, x2: 652, y2: 538, stroke: '#d64545', 'stroke-width': 5, 'stroke-linecap': 'round' });
+  S3.none = el(g, 'text', { x: 692, y: 548, 'text-anchor': 'middle', 'font-size': 34, 'font-weight': 700, fill: '#9aa1b2', opacity: 0 }, 'none');
+  S3.lbl = el(g, 'text', { x: 96, y: 620, 'font-size': 24, fill: '#d64545', 'font-weight': 700, opacity: 0 }, 'never set, or stripped on the way');
+  el(g, 'text', { x: 96, y: 700, 'font-size': 26, fill: '#14213d' }, 'No mark: the call and the download look the same,');
+  el(g, 'text', { x: 96, y: 736, 'font-size': 26, fill: '#14213d' }, 'and both land in Best Effort.');
+  /* gauge */
+  const G = el(svg, 'g', { 'data-in': 30.2 });
+  const x0 = 1020, x1 = 1800, y = 560;
+  el(G, 'line', { x1: x0, y1: y, x2: x1, y2: y, stroke: '#14213d', 'stroke-width': 4 });
+  for (let v = 0; v <= 1200; v += 200) { const xx = x0 + (x1 - x0) * v / 1200; el(G, 'line', { x1: xx, y1: y - 10, x2: xx, y2: y + 10, stroke: '#14213d', 'stroke-width': 2 }); el(G, 'text', { x: xx, y: y + 40, 'text-anchor': 'middle', 'font-size': 20, fill: '#4a5568' }, v); }
+  el(G, 'text', { x: x1, y: y + 72, 'text-anchor': 'end', 'font-size': 20, fill: '#4a5568' }, 'packets per second');
+  const bx = x0 + (x1 - x0) * 200 / 1200;
+  el(G, 'rect', { x: bx, y: y - 120, width: x1 - bx, height: 110, fill: '#eb6834', opacity: 0.1 });
+  el(G, 'line', { x1: bx, y1: y - 130, x2: bx, y2: y, stroke: '#eb6834', 'stroke-width': 3, 'stroke-dasharray': '8 6' });
+  el(G, 'text', { x: bx + 12, y: y - 96, 'font-size': 22, 'font-weight': 700, fill: '#eb6834' }, '"bulk" above 200 packets/s (qosify default)');
+  S3.call = el(G, 'g', {}); el(S3.call, 'circle', { cx: 0, cy: y, r: 14, fill: '#6250d6' }); el(S3.call, 'text', { x: 0, y: y - 30, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: '#14213d' }, 'HD call');
+  S3.game = el(G, 'g', {}); el(S3.game, 'circle', { cx: 0, cy: y, r: 14, fill: '#1d3557' }); el(S3.game, 'text', { x: 0, y: y - 30, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: '#14213d' }, 'cloud game');
+  S3.x0 = x0; S3.x1 = x1;
+  S3.stamp = el(G, 'text', { x: 1560, y: 700, 'text-anchor': 'middle', 'font-size': 64, 'font-weight': 700, fill: '#d64545', opacity: 0, transform: 'rotate(-8 1560 700)' }, 'BULK?!');
+}
+function updS3(t) {
+  const p = eo(prog(t, 28.4, 29.0));
+  S3.strike.setAttribute('x1', 652 - 60 * p + 0); S3.strike.setAttribute('x2', 652 + 60 * p);
+  S3.strike.setAttribute('x1', 692 - 62 * p); S3.strike.setAttribute('x2', 692 + 62 * p);
+  S3.mark.setAttribute('opacity', 1 - prog(t, 29.0, 29.4));
+  S3.none.setAttribute('opacity', prog(t, 29.2, 29.6)); S3.strike.setAttribute('opacity', 1 - prog(t, 29.0, 29.4));
+  S3.lbl.setAttribute('opacity', prog(t, 29.4, 29.9));
+  const xc = S3.x0 + (S3.x1 - S3.x0) * (500 * eo(prog(t, 31.0, 32.2))) / 1200;
+  const xg = S3.x0 + (S3.x1 - S3.x0) * (1050 * eo(prog(t, 31.4, 32.6))) / 1200;
+  S3.call.setAttribute('transform', `translate(${xc},0)`); S3.game.setAttribute('transform', `translate(${xg},0)`);
+  S3.call.style.opacity = prog(t, 30.8, 31.1); S3.game.style.opacity = prog(t, 31.2, 31.5);
+  const s = eo(prog(t, 32.8, 33.2)); S3.stamp.setAttribute('opacity', s);
+}
+
+/* ---------- S4 how it works ---------- */
+const S4 = {};
+const SIZES = [1200, 90, 1200, 1200, 620, 90, 1200, 420];
+function buildS4() {
+  const svg = document.getElementById('how');
+  /* 4a: packets */
+  S4.a = el(svg, 'g', {});
+  el(S4.a, 'line', { x1: 60, y1: 380, x2: 1100, y2: 380, stroke: '#d9dce3', 'stroke-width': 3 });
+  el(S4.a, 'text', { x: 96, y: 300, 'font-size': 24, 'font-weight': 700, fill: '#14213d' }, 'a new connection');
+  S4.pk = []; S4.bars = [];
+  for (let k = 0; k < 14; k++) {
+    const g = el(S4.a, 'g', {});
+    el(g, 'rect', { x: -22, y: -22, width: 44, height: 44, rx: 8, fill: k < 8 ? '#6250d6' : '#c9cde0' });
+    el(g, 'text', { x: 0, y: 8, 'text-anchor': 'middle', 'font-size': 20, 'font-weight': 700, fill: k < 8 ? '#ffffff' : '#4a5568' }, k + 1);
+    S4.pk.push(g);
+  }
+  S4.rest = el(S4.a, 'text', { x: 860, y: 446, 'text-anchor': 'middle', 'font-size': 22, fill: '#4a5568', opacity: 0 }, 'the rest: never inspected');
+  for (let k = 0; k < 8; k++) {
+    const h = SIZES[k] / 1200 * 220;
+    S4.bars.push(el(S4.a, 'rect', { x: 120 + k * 112, y: 820 - h, width: 64, height: h, rx: 6, fill: '#6250d6', opacity: 0 }));
+    if (k < 7) { const gl = el(S4.a, 'text', { x: 120 + k * 112 + 88, y: 852, 'text-anchor': 'middle', 'font-size': 18, fill: '#4a5568', opacity: 0 }, 'gap'); S4.bars.push(gl); }
+  }
+  S4.base = el(S4.a, 'line', { x1: 100, y1: 820, x2: 1020, y2: 820, stroke: '#14213d', 'stroke-width': 2, opacity: 0 });
+  S4.blab = el(S4.a, 'text', { x: 100, y: 560, 'font-size': 24, 'font-weight': 700, fill: '#14213d', opacity: 0 }, 'packet sizes and the gaps between them');
+  /* 4b: trees */
+  S4.b = el(svg, 'g', {});
+  S4.edges = [];
+  const tx = [220, 480, 740, 1000];
+  for (let k = 0; k < 4; k++) {
+    const cx = tx[k], top = 320, nodes = [[cx, top]];
+    const lv = [[cx - 70, top + 110], [cx + 70, top + 110]], lv2 = [[cx - 105, top + 220], [cx - 35, top + 220], [cx + 35, top + 220], [cx + 105, top + 220]];
+    const pathPick = [hash(k * 7) > 0.5 ? 1 : 0, Math.floor(hash(k * 11) * 2)];
+    const e = [];
+    for (let i = 0; i < 2; i++) e.push([el(S4.b, 'line', { x1: cx, y1: top, x2: lv[i][0], y2: lv[i][1], stroke: '#c9cde0', 'stroke-width': 4 }), i === pathPick[0]]);
+    for (let i = 0; i < 4; i++) { const p = Math.floor(i / 2); e.push([el(S4.b, 'line', { x1: lv[p][0], y1: lv[p][1], x2: lv2[i][0], y2: lv2[i][1], stroke: '#c9cde0', 'stroke-width': 4 }), p === pathPick[0] && (i % 2) === pathPick[1]]); }
+    for (const [x, y] of [nodes[0], ...lv]) el(S4.b, 'circle', { cx: x, cy: y, r: 16, fill: '#14213d' });
+    for (const [x, y] of lv2) el(S4.b, 'rect', { x: x - 16, y: y - 16, width: 32, height: 32, rx: 6, fill: '#eceaf9', stroke: '#6250d6', 'stroke-width': 2 });
+    S4.edges.push(e);
+  }
+  el(S4.b, 'text', { x: 1100, y: 600, 'font-size': 44, 'font-weight': 700, fill: '#14213d' }, '… × 259');
+  S4.odds = [];
+  const cls = ['voice call', 'game', 'video call', 'streaming', 'web', 'download', 'backup'];
+  for (let i = 0; i < 7; i++) {
+    el(S4.b, 'text', { x: 150, y: 680 + i * 0, 'font-size': 0 }, '');
+    const x = 100 + i * 150;
+    el(S4.b, 'text', { x: x + 50, y: 860, 'text-anchor': 'middle', 'font-size': 20, fill: '#4a5568' }, cls[i]);
+    S4.odds.push(el(S4.b, 'rect', { x, y: 830, width: 100, height: 0, rx: 4, fill: '#6250d6' }));
+  }
+  S4.oddsH = [20, 30, 120, 40, 15, 25, 10];
+  el(S4.b, 'text', { x: 100, y: 640, 'font-size': 24, 'font-weight': 700, fill: '#14213d' }, 'odds for 7 kinds of traffic');
+  /* 4c: harm */
+  S4.c = el(svg, 'g', {});
+  el(S4.c, 'text', { x: 96, y: 300, 'font-size': 26, 'font-weight': 700, fill: '#14213d' }, 'The model says:');
+  S4.ob = [el(S4.c, 'rect', { x: 330, y: 330, width: 0, height: 52, rx: 6, fill: '#5f6b85' }), el(S4.c, 'rect', { x: 330, y: 400, width: 0, height: 52, rx: 6, fill: '#6250d6' })];
+  el(S4.c, 'text', { x: 96, y: 366, 'font-size': 28, fill: '#14213d' }, 'backup');
+  el(S4.c, 'text', { x: 96, y: 436, 'font-size': 28, fill: '#14213d' }, 'game');
+  S4.ot = [el(S4.c, 'text', { x: 0, y: 366, 'font-size': 28, 'font-weight': 700, fill: '#14213d' }, '55%'), el(S4.c, 'text', { x: 0, y: 436, 'font-size': 28, 'font-weight': 700, fill: '#14213d' }, '45%')];
+  el(S4.c, 'text', { x: 96, y: 540, 'font-size': 26, 'font-weight': 700, fill: '#14213d' }, 'Expected harm in each CAKE lane = odds × harm measured in 240 testbed runs');
+  S4.lanes = []; const vals = ['barred', '1.10', '1.95', '2.70'];
+  for (let i = 0; i < 4; i++) {
+    const [name, fill, tc] = LANES[i], x = 96 + i * 300;
+    const g = el(S4.c, 'g', {});
+    el(g, 'rect', { x, y: 570, width: 270, height: 170, rx: 14, fill });
+    el(g, 'text', { x: x + 135, y: 616, 'text-anchor': 'middle', 'font-size': 24, 'font-weight': 700, fill: tc }, name);
+    el(g, 'text', { x: x + 135, y: 690, 'text-anchor': 'middle', 'font-size': i === 0 ? 40 : 56, 'font-weight': 700, fill: tc }, vals[i]);
+    if (i === 0) el(g, 'text', { x: x + 135, y: 726, 'text-anchor': 'middle', 'font-size': 18, fill: tc }, 'under 50% call or game');
+    S4.lanes.push(g);
+  }
+  S4.ring = el(S4.c, 'rect', { x: 386, y: 560, width: 290, height: 190, rx: 18, fill: 'none', stroke: '#6250d6', 'stroke-width': 7, opacity: 0 });
+  S4.pick = el(S4.c, 'text', { x: 1330, y: 640, 'font-size': 34, 'font-weight': 700, fill: '#6250d6', opacity: 0 }, '→ Video: least harm');
+  S4.top = el(S4.c, 'text', { x: 1330, y: 700, 'font-size': 26, fill: '#4a5568', opacity: 0 }, 'The top guess alone (backup)');
+  S4.top2 = el(S4.c, 'text', { x: 1330, y: 736, 'font-size': 26, fill: '#4a5568', opacity: 0 }, 'would pick Bulk, where a game breaks.');
+  /* 4d: label */
+  S4.d = el(svg, 'g', {});
+  el(S4.d, 'rect', { x: 900, y: 300, width: 920, height: 120, rx: 16, fill: '#eef1f7', stroke: '#14213d', 'stroke-width': 2 });
+  el(S4.d, 'text', { x: 930, y: 345, 'font-size': 24, 'font-weight': 700, fill: '#14213d' }, 'kernel · connection tracker');
+  el(S4.d, 'text', { x: 930, y: 390, 'font-size': 22, fill: '#4a5568' }, 'this connection →');
+  S4.tag = el(S4.d, 'g', {});
+  el(S4.tag, 'rect', { x: 0, y: 0, width: 300, height: 56, rx: 28, fill: '#6250d6' });
+  el(S4.tag, 'text', { x: 150, y: 37, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 700, fill: '#ffffff' }, 'label: Video ✓');
+  for (let i = 0; i < 4; i++) {
+    const [name, fill, tc] = LANES[i], y = 520 + i * 80;
+    el(S4.d, 'rect', { x: 900, y, width: 920, height: 66, rx: 10, fill });
+    el(S4.d, 'text', { x: 924, y: y + 42, 'font-size': 24, 'font-weight': 700, fill: tc }, name);
+  }
+  el(S4.d, 'text', { x: 1820, y: 500, 'text-anchor': 'end', 'font-size': 22, fill: '#4a5568' }, "CAKE's four lanes");
+  S4.dpk = new Stream(S4.d, [[1100, 433], [1100, 560], [1820, 633]].length ? [[1080, 633], [1820, 633]] : [], { n: 26, period: 0.12, speed: 320, r: 9, fill: '#ffffff', t0: 60.4 });
+  S4.dpk2 = new Stream(S4.d, [[1080, 633], [1820, 633]], { n: 26, period: 0.12, speed: 320, r: 9, fill: 'none', t0: 60.4 });
+  S4.dpk2.c.forEach(c => { c.setAttribute('stroke', '#6250d6'); c.setAttribute('stroke-width', 3); });
+}
+function updS4(t) {
+  /* 4a */
+  const aOn = 1 - prog(t, 43.8, 44.3); S4.a.style.opacity = aOn;
+  for (let k = 0; k < 14; k++) {
+    const arrive = 38.2 + k * 0.16, p = eo(prog(t, arrive, arrive + 0.6));
+    const x = -60 + (110 + k * 70 + 60) * p;
+    let y = 380, sc = 1;
+    if (k < 8) { const up = eo(prog(t, 40.0 + k * 0.05, 40.5 + k * 0.05)); sc = 1 + 0.12 * up; y = 380 - 12 * up; }
+    S4.pk[k].setAttribute('transform', `translate(${x},${y}) scale(${sc})`);
+    S4.pk[k].style.opacity = (k >= 8 ? 1 - 0.55 * prog(t, 40.2, 40.6) : 1) * prog(t, arrive - 0.05, arrive + 0.15);
+  }
+  S4.rest.setAttribute('opacity', prog(t, 40.4, 40.9));
+  S4.bars.forEach((b, i) => b.setAttribute('opacity', prog(t, 40.8 + i * 0.05, 41.2 + i * 0.05)));
+  S4.base.setAttribute('opacity', prog(t, 40.8, 41.2)); S4.blab.setAttribute('opacity', prog(t, 40.8, 41.2));
+  /* 4b */
+  S4.b.style.opacity = prog(t, 44.4, 44.9) * (1 - prog(t, 49.8, 50.3));
+  S4.edges.forEach((e, k) => e.forEach(([ln, on], i) => {
+    const lit = on && t > 45.0 + k * 0.4 + (i >= 2 ? 0.2 : 0);
+    ln.setAttribute('stroke', lit ? '#6250d6' : '#c9cde0'); ln.setAttribute('stroke-width', lit ? 7 : 4);
+  }));
+  S4.odds.forEach((r, i) => { const h = S4.oddsH[i] * eo(prog(t, 46.8 + i * 0.06, 47.4 + i * 0.06)); r.setAttribute('y', 830 - h); r.setAttribute('height', h); });
+  /* 4c */
+  S4.c.style.opacity = prog(t, 50.4, 50.9) * (1 - prog(t, 57.5, 58.0));
+  const w1 = 660 * 0.55 * eo(prog(t, 51.0, 51.8)), w2 = 660 * 0.45 * eo(prog(t, 51.2, 52.0));
+  S4.ob[0].setAttribute('width', w1); S4.ob[1].setAttribute('width', w2);
+  S4.ot[0].setAttribute('x', 344 + w1); S4.ot[1].setAttribute('x', 344 + w2);
+  S4.ot.forEach(e => e.setAttribute('opacity', prog(t, 51.6, 52.0)));
+  S4.lanes.forEach((g, i) => { const p = eo(prog(t, 52.6 + i * 0.25, 53.1 + i * 0.25)); g.style.opacity = p; g.style.transform = `translate(0px,${(1 - p) * 30}px)`; });
+  S4.ring.setAttribute('opacity', prog(t, 54.2, 54.6));
+  S4.pick.setAttribute('opacity', prog(t, 54.4, 54.8));
+  S4.top.setAttribute('opacity', prog(t, 54.9, 55.3)); S4.top2.setAttribute('opacity', prog(t, 54.9, 55.3));
+  /* 4d */
+  S4.d.style.opacity = prog(t, 58.0, 58.5);
+  const tp = eo(prog(t, 58.6, 59.5));
+  S4.tag.setAttribute('transform', `translate(${1500 - 0 * tp},${150 + (334 - 150) * tp})`);
+  S4.tag.style.opacity = prog(t, 58.6, 58.9);
+  S4.dpk.update(t); S4.dpk2.update(t);
+}
+
+/* ---------- S6 watch ---------- */
+const S6 = {};
+function buildS6() {
+  const svg = document.getElementById('watch');
+  el(svg, 'text', { x: 96, y: 300, 'font-size': 26, 'font-weight': 700, fill: '#14213d' }, 'one connection, checked every second');
+  el(svg, 'line', { x1: 96, y1: 420, x2: 920, y2: 420, stroke: '#d9dce3', 'stroke-width': 3 });
+  S6.d = [];
+  for (let i = 0; i < 16; i++) {
+    const out = i === 10 || i === 11 || i === 12, x = 120 + i * 52;
+    const g = el(svg, 'g', {});
+    el(g, 'circle', { cx: x, cy: 420, r: 18, fill: out ? '#eb6834' : '#6250d6' });
+    el(g, 'text', { x, y: 428, 'text-anchor': 'middle', 'font-size': 20, 'font-weight': 700, fill: '#ffffff' }, out ? '!' : '✓');
+    S6.d.push(g);
+  }
+  S6.lbl = el(svg, 'text', { x: 120 + 11 * 52, y: 486, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 700, fill: '#eb6834', opacity: 0 }, 'out of range → classify again');
+  S6.arc = el(svg, 'path', { d: 'M640 396 Q692 330 744 396', fill: 'none', stroke: '#eb6834', 'stroke-width': 4, opacity: 0 });
+  el(svg, 'text', { x: 96, y: 540, 'font-size': 22, fill: '#4a5568' }, 'in range: nothing to do');
+}
+function updS6(t) {
+  S6.d.forEach((g, i) => { const p = eo(prog(t, 77.6 + i * 0.22, 77.9 + i * 0.22)); g.style.opacity = p; g.style.transform = `translate(0px,${(1 - p) * -20}px)`; });
+  S6.lbl.setAttribute('opacity', prog(t, 80.4, 80.8)); S6.arc.setAttribute('opacity', prog(t, 80.4, 80.8));
+}
+
+/* ---------- S7 results ---------- */
+const S7 = {};
+const RES = [['HD call, laptop sharing files', 94.3, 0.6], ['Work call, backup running', 93.3, 0.1], ['Cloud game, PC updating', 83.2, 1.0], ['Line drops to a fifth', 55.5, 0.9], ['Real WhatsApp call, replayed', 57.0, 2.4]];
+function buildS7() {
+  const svg = document.getElementById('res');
+  el(svg, 'rect', { x: 96, y: 262, width: 18, height: 18, rx: 3, fill: '#7fa8e0' }); el(svg, 'text', { x: 124, y: 279, 'font-size': 22, fill: '#c9cde0' }, 'Plain CAKE');
+  el(svg, 'rect', { x: 280, y: 262, width: 18, height: 18, rx: 3, fill: '#b7acff' }); el(svg, 'text', { x: 308, y: 279, 'font-size': 22, 'font-weight': 700, fill: '#f4f3ef' }, 'AQoSE');
+  el(svg, 'text', { x: 1230, y: 279, 'text-anchor': 'end', 'font-size': 22, fill: '#c9cde0' }, 'late frames');
+  S7.rows = [];
+  RES.forEach(([name, a, b], i) => {
+    const y = 330 + i * 120;
+    el(svg, 'text', { x: 96, y: y + 24, 'font-size': 26, fill: '#f4f3ef' }, name);
+    const ra = el(svg, 'rect', { x: 500, y, width: 0, height: 30, rx: 4, fill: '#7fa8e0' });
+    const rb = el(svg, 'rect', { x: 500, y: y + 40, width: 0, height: 30, rx: 4, fill: '#b7acff' });
+    const ta = el(svg, 'text', { x: 0, y: y + 24, 'font-size': 24, fill: '#c9cde0' }, a.toFixed(1) + '%');
+    const tb = el(svg, 'text', { x: 0, y: y + 64, 'font-size': 30, 'font-weight': 700, fill: '#f4f3ef' }, b.toFixed(1) + '%');
+    S7.rows.push({ ra, rb, ta, tb, a, b, i });
+  });
+}
+function updS7(t) {
+  for (const r of S7.rows) {
+    const wa = 6.6 * r.a * eo(prog(t, 89.6 + r.i * 0.3, 90.6 + r.i * 0.3));
+    const wb = Math.max(3, 6.6 * r.b) * eo(prog(t, 92.0 + r.i * 0.3, 92.8 + r.i * 0.3));
+    r.ra.setAttribute('width', wa); r.rb.setAttribute('width', wb);
+    r.ta.setAttribute('x', 512 + wa); r.tb.setAttribute('x', 512 + wb);
+    r.ta.setAttribute('opacity', prog(t, 90.4 + r.i * 0.3, 90.8 + r.i * 0.3)); r.tb.setAttribute('opacity', prog(t, 92.6 + r.i * 0.3, 93.0 + r.i * 0.3));
+  }
+}
+
+/* ---------- main ---------- */
+const SC = [...document.querySelectorAll('.scene')].map(e => ({ e, a: +e.dataset.a, b: +e.dataset.b }));
+function init() {
+  buildS1(); buildHome(document.getElementById('home1'), H1, false); buildHome(document.getElementById('home2'), H2, true);
+  buildS3(); buildS4(); buildS6(); buildS7(); scan();
+}
+window.render = function (t) {
+  for (const s of SC) {
+    const o = Math.min(clamp((t - s.a) / 0.5 + (s.a === 0 ? 1 : 0)), clamp((s.b - t) / 0.5));
+    s.e.style.opacity = o; s.e.style.display = o > 0 ? 'block' : 'none';
+  }
+  generic(t);
+  if (t < 7.5) S1.streams.forEach(s => s.update(t));
+  if (t > 6.5 && t < 26) updHome(H1, t, false);
+  if (t > 25 && t < 38) updS3(t);
+  if (t > 37 && t < 65) updS4(t);
+  if (t > 64 && t < 77) updHome(H2, t, true);
+  if (t > 76 && t < 89) updS6(t);
+  if (t > 88 && t < 103) updS7(t);
+  document.getElementById('progress').style.width = (1920 * t / DUR) + 'px';
+};
+window.DUR = DUR;
+init();
+window.render(0);
+</script>
+</body></html>

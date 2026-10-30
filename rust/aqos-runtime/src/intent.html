@@ -1,0 +1,40 @@
+<!doctype html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Priority for a device</title>
+<style>
+ body { font: 16px/1.5 system-ui, sans-serif; max-width: 34rem; margin: 2rem auto; padding: 0 1rem; }
+ input, button { font: inherit; padding: .4rem .6rem; } label { display: block; margin: .8rem 0 .2rem; }
+ li { margin: .4rem 0; } #said { color: #a40000; min-height: 1.5em; }
+</style>
+<h1>Priority for a device</h1>
+<p>Calls and games on the device are treated as more important until the time runs out.
+At most two devices at once, for at most two hours.</p>
+<form id="f">
+ <label for="host">Device address</label><input id="host" placeholder="10.77.0.10" required>
+ <label for="minutes">Minutes</label><input id="minutes" type="number" min="1" max="120" value="45" required>
+ <p><button>Give priority</button></p>
+</form>
+<p id="said" role="alert"></p>
+<h2>Active now</h2><ul id="list"></ul>
+<script>
+const said = document.getElementById('said'), list = document.getElementById('list');
+async function show() {
+  const leases = await (await fetch('/leases')).json();
+  list.replaceChildren(...leases.map(l => {
+    const li = document.createElement('li'), end = document.createElement('button');
+    li.textContent = l.host + ', ' + Math.ceil(l.seconds_left / 60) + ' min left ';
+    end.textContent = 'End now';
+    end.onclick = async () => { await fetch('/leases/' + l.id, {method: 'DELETE'}); show(); };
+    li.append(end); return li;
+  }));
+  if (!leases.length) list.innerHTML = '<li>None.</li>';
+}
+document.getElementById('f').onsubmit = async e => {
+  e.preventDefault();
+  const r = await fetch('/leases', {method: 'POST', body: JSON.stringify({
+    host: document.getElementById('host').value, minutes: Number(document.getElementById('minutes').value)})});
+  said.textContent = r.ok ? '' : (await r.json()).error;
+  show();
+};
+show(); setInterval(show, 15000);
+</script>

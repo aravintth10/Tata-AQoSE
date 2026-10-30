@@ -1,0 +1,47 @@
+{
+  "status": "release build and focused validation passed; six-hour retry launched, outcome pending",
+  "build_log": "reports/rust-resume-build.txt",
+  "build_verification": "reports/rust-resume-build-verification.json",
+  "rust_tests": {
+    "aqos-classify": {
+      "passed": 6,
+      "failed": 0,
+      "ignored": 0,
+      "log": "reports/rust-resume-aqos-classify-tests.txt"
+    },
+    "aqos-runtime": {
+      "passed": 27,
+      "failed": 0,
+      "ignored": 1,
+      "log": "reports/rust-resume-aqos-runtime-tests.txt"
+    },
+    "aqos-watchdog": {
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0,
+      "log": "reports/rust-resume-aqos-watchdog-tests.txt"
+    }
+  },
+  "harness_tests": {
+    "passed": 8,
+    "log": "reports/rust-resume-soak-tests.txt"
+  },
+  "previous_soak": {
+    "result": "results-rust-soak-6h/soak.json",
+    "outcome": "stopped at disk reserve; no completed six-hour validation"
+  },
+  "retry": {
+    "service": "aqos-rust-soak-retry.service",
+    "results": "results-rust-soak-6h-retry/soak.json",
+    "duration_s": 21600,
+    "reserve_mib": 1024,
+    "status_at_launch": "running"
+  },
+  "free_bytes_at_launch": 7659163648,
+  "limits": [
+    "Full Rust research scenario matrix and completed six-hour validation remain outstanding.",
+    "OpenWrt target selection and on-device testing still require the router model/version.",
+    "The ignored generative stress test was not rerun in this release test pass.",
+    "The host must remain awake; no power settings were changed."
+  ]
+}
